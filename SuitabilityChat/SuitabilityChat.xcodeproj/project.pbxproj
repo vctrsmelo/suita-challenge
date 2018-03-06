@@ -54,14 +54,54 @@
 		BEE21EC1204E1B62002464DE /* SuitabilityChat */ = {
 			isa = PBXGroup;
 			children = (
-				BEE21EC2204E1B62002464DE /* AppDelegate.swift */,
-				BEE21EC4204E1B62002464DE /* ViewController.swift */,
-				BEE21EC6204E1B63002464DE /* Main.storyboard */,
-				BEE21EC9204E1B63002464DE /* Assets.xcassets */,
-				BEE21ECB204E1B63002464DE /* LaunchScreen.storyboard */,
-				BEE21ECE204E1B63002464DE /* Info.plist */,
+				BEE21ED5204E23CE002464DE /* Application Delegate */,
+				BEE21ED6204E23D8002464DE /* View Controllers */,
+				BEE21ED7204E23FF002464DE /* Storyboards */,
+				BEE21ED9204E242D002464DE /* Resources */,
+				BEE21ED8204E241F002464DE /* Supporting Files */,
 			);
 			path = SuitabilityChat;
+			sourceTree = "<group>";
+		};
+		BEE21ED5204E23CE002464DE /* Application Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EC2204E1B62002464DE /* AppDelegate.swift */,
+			);
+			path = "Application Delegate";
+			sourceTree = "<group>";
+		};
+		BEE21ED6204E23D8002464DE /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EC4204E1B62002464DE /* ViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		BEE21ED7204E23FF002464DE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EC6204E1B63002464DE /* Main.storyboard */,
+				BEE21ECB204E1B63002464DE /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		BEE21ED8204E241F002464DE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21ECE204E1B63002464DE /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BEE21ED9204E242D002464DE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EC9204E1B63002464DE /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
