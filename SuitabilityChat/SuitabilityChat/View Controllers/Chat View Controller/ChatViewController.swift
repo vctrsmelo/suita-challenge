@@ -24,8 +24,16 @@ class ChatViewController: UIViewController {
         let msg = UserMessageView(text: "Oi Victor", font: UIFont.systemFont(ofSize: 16))
         
         chatStackView.addArrangedSubview(msg)
-        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+//        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do boensagem do boensagem do boensagem do boensagem do boensagem do boensagem do boensagem do bot", font: UIFont.systemFont(ofSize: 16)))
+
     }
     
     override func viewWillLayoutSubviews() {

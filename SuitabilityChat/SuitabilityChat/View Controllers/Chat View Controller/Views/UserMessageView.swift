@@ -23,6 +23,15 @@ class UserMessageView: UIView {
         return .right
     }
     
+    // MARK: - Properties for typewriting effect
+    
+    private var charCount: Int = 0
+    private var timer: Timer?
+    private var messageText: [String.Element] = []
+    private var timePerCharacter: TimeInterval = 0
+    
+    // MARK: -
+    
     /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
     
@@ -102,4 +111,29 @@ class UserMessageView: UIView {
         
     }
 
+}
+
+extension UserMessageView {
+    
+    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: () -> Void) {
+        
+        self.messageText = Array(message)
+        self.charCount = 0
+        self.timePerCharacter = timePerCharacter
+        
+        timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(UserMessageView.typeLetter), userInfo: nil, repeats: true)
+        
+    }
+    
+    @objc private func typeLetter() {
+        if charCount < messageText.count {
+            messageTextView.text = "\(messageTextView.text!)\(messageText[charCount])"
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(UserMessageView.typeLetter), userInfo: nil, repeats: false)
+        } else {
+            timer?.invalidate()
+        }
+        self.charCount += 1
+    }
+    
 }
