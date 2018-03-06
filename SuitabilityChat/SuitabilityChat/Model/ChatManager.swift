@@ -31,8 +31,13 @@ class ChatManager {
         - userAnswer: the user answer for the current state.
         - completion: the response received from API according to userAnswer and current state.
     */
-    func getResponse(userAnswer: String, completion: (_ response: APIResponse) -> Void) {
-        // TODO: - Implement
+    func getResponse(userAnswer: String, completion: @escaping (_ response: APIResponse) -> Void) {
+        
+        answers[currentState.rawValue] = userAnswer
+        
+        APICommunicator.request { response in
+            self.currentState = response.id
+            completion(response)
+        }
     }
-    
 }

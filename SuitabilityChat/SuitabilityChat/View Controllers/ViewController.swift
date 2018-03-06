@@ -13,10 +13,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        APICommunicator.request() { response in
-            
+        ChatManager.shared.getResponse(userAnswer: "Victor") { response in
+            print("id: \(response.id) - \(ChatManager.shared.currentState)")
+
+            ChatManager.shared.getResponse(userAnswer: "23") { response in
+                print("id: \(response.id) - \(ChatManager.shared.currentState)")
+                
+                ChatManager.shared.getResponse(userAnswer: "A") { response in
+                    print("id: \(response.id) - \(ChatManager.shared.currentState)")
+                }
+            }
         }
+        
     }
 
     override func didReceiveMemoryWarning() {

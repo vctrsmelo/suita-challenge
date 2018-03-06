@@ -9,5 +9,5 @@
 /// Represents the "button" key value of the JSON returned from the API.
 struct APIButton: Codable {
     let value: String
-    let label: String
+    let label: APILabel
 }

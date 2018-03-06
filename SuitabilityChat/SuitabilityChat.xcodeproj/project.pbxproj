@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
 		BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EC2204E1B62002464DE /* AppDelegate.swift */; };
 		BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EC4204E1B62002464DE /* ViewController.swift */; };
 		BEE21EC8204E1B63002464DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE21EC6204E1B63002464DE /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		BE487114204E3F0D0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
 		BE487115204E3F0D0067BE83 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		BE487116204E3F0D0067BE83 /* C78D6229-3294-30BC-9BAA-494DAD354457.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "C78D6229-3294-30BC-9BAA-494DAD354457.bcsymbolmap"; sourceTree = "<group>"; };
+		BE48711D204E486E0067BE83 /* APILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILabel.swift; sourceTree = "<group>"; };
 		BEE21EBF204E1B62002464DE /* SuitabilityChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuitabilityChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE21EC2204E1B62002464DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEE21EC4204E1B62002464DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				BEE21EE1204E29BA002464DE /* APIMessage.swift */,
 				BEE21EED204E32DD002464DE /* APIResponse.swift */,
 				BEE21EF1204E3613002464DE /* APIRequest.swift */,
+				BE48711D204E486E0067BE83 /* APILabel.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,

@@ -7,6 +7,8 @@
 //
 //swiftlint:disable identifier_name
 
+import Foundation
+
 /// APIPost is the interface used to send data to API
 struct APIRequest: Codable {
     
@@ -16,7 +18,7 @@ struct APIRequest: Codable {
         return ChatManager.shared.currentState
     }
     
-    var answers: [APIState.RawValue: String] {
+    var answers: [String: String] {
         return ChatManager.shared.answers
     }
     

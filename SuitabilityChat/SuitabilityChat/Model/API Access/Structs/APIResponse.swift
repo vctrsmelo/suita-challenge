@@ -8,7 +8,7 @@
 //swiftlint:disable identifier_name
 
 /// APIResponse is the interface used to receive data from API
-struct APIResponse: Codable {
+class APIResponse: Codable {
     
     let id: APIState
     let messages: [APIMessage]

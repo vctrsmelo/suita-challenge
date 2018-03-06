@@ -8,17 +8,24 @@
 
 import Alamofire
 
-struct APICommunicator {
+// APICommunicator shall be accessible only inside ChatManager.
+extension ChatManager {
     
-    static private let url = "https://dev-api.oiwarren.com/api/v2/conversation/message"
-    
-    static func request(completion: (_ response: APIResponse) -> Void) {
+    internal struct APICommunicator {
         
-        Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
-            if let json = response.result.value {
-                print("JSON \(json)")
+        static private let url = "https://dev-api.oiwarren.com/api/v2/conversation/message"
+        
+        static func request(completion: @escaping (_ response: APIResponse) -> Void) {
+            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+                guard let data = response.data else { return }
+                
+                do {
+                    let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
+                    completion(apiResponse)
+                } catch {
+                    print("Couldn't complete API request: \(error.localizedDescription)")
+                }
             }
         }
     }
-
 }
