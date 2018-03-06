@@ -12,12 +12,13 @@ protocol MessageView {
     var icon: UIImage! { get }
     var messageLabel: UILabel! { get }
     
-    func setupView(text: String, font: UIFont, messageLabelWidth: CGFloat)
+    var iconImageViewContainer: UIView! { get set }
+    var iconImageView: UIImageView! { get set }
+    var messageTextView: MessageTextView! { get set }
+    var stackView: UIStackView! { get set }
     
     var textAlignment: NSTextAlignment { get }
-    
-    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: () -> Void)
-    
+
 }
 
 extension MessageView {
@@ -36,7 +37,7 @@ extension MessageView {
     
     func setupMessageTextView(text: String, font: UIFont) {
         
-        messageTextView = UITextView()
+        messageTextView = MessageTextView()
         messageTextView.font = font
         messageTextView.text = text
         messageTextView.backgroundColor = UIColor.blue
@@ -44,9 +45,9 @@ extension MessageView {
         messageTextView.isEditable = false
         
         messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
-        
+        messageTextView.bubbleHeight = messageTextView.contentSize.height
         messageTextView.text = ""
-        typeWrite(text, timePerCharacter: 0.1) {
+        messageTextView.typeWrite(text, timePerCharacter: 0.05) {
             print("terminou de digitar")
         }
         
