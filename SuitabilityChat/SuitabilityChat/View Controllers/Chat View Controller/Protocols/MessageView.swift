@@ -8,9 +8,7 @@
 
 import UIKit
 
-protocol MessageView {
-    var icon: UIImage! { get }
-    var messageLabel: UILabel! { get }
+protocol MessageView: class {
     
     var iconImageViewContainer: UIView! { get set }
     var iconImageView: UIImageView! { get set }
@@ -18,7 +16,7 @@ protocol MessageView {
     var stackView: UIStackView! { get set }
     
     var textAlignment: NSTextAlignment { get }
-
+    
 }
 
 extension MessageView {

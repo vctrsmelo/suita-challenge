@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserMessageView: UIView {
+class UserMessageView: UIView, MessageView {
     
     // MARK: - Properties
     
@@ -74,17 +74,6 @@ class UserMessageView: UIView {
         iconImageViewContainer.addSubview(iconImageView)
         stackView.addArrangedSubview(iconImageViewContainer)
     }
-   
-    private func setupMessageTextView(text: String, font: UIFont) {
-        
-        messageTextView = UITextView(frame: CGRect(x: 0, y: 0, width: messageBubbleWidth, height: 0))
-        messageTextView.font = font
-        messageTextView.text = text
-        messageTextView.backgroundColor = UIColor.blue
-        messageTextView.textAlignment = .right
-
-        stackView.addArrangedSubview(messageTextView)
-    }
     
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.
     private func adjustStackView() {
@@ -96,8 +85,7 @@ class UserMessageView: UIView {
         
         var frame = CGRect(x: stackViewX, y: 0, width: stackViewWidth, height: messageTextView.bubbleHeight)
         frame.size.height = messageTextView.bubbleHeight
-        
-        print("heighttt: \(messageTextView.bubbleHeight)")
+    
         stackView.frame = frame
 
         // stack view should be aligned right (message sent by the user)
