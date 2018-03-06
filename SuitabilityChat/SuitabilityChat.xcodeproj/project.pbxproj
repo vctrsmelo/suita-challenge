@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE4870F6204E394F0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4870F5204E394F0067BE83 /* Alamofire.framework */; };
 		BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EC2204E1B62002464DE /* AppDelegate.swift */; };
 		BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EC4204E1B62002464DE /* ViewController.swift */; };
 		BEE21EC8204E1B63002464DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE21EC6204E1B63002464DE /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BEE21EBF204E1B62002464DE /* SuitabilityChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuitabilityChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE21EC2204E1B62002464DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEE21EC4204E1B62002464DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,17 +47,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE4870F6204E394F0067BE83 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE4870F4204E394F0067BE83 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE4870F5204E394F0067BE83 /* Alamofire.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BEE21EB6204E1B62002464DE = {
 			isa = PBXGroup;
 			children = (
 				BEE21EC1204E1B62002464DE /* SuitabilityChat */,
 				BEE21EC0204E1B62002464DE /* Products */,
+				BE4870F4204E394F0067BE83 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -397,6 +409,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y93HUJS49V;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "SuitabilityChat/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.victormelo.SuitabilityChat;
@@ -412,6 +428,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y93HUJS49V;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "SuitabilityChat/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.victormelo.SuitabilityChat;
