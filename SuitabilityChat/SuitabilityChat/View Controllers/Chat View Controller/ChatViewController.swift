@@ -18,6 +18,14 @@ class ChatViewController: UIViewController {
         super.viewDidLoad()
         
         setupStackView()
+        
+        //Test
+        
+        let msg = UserMessageView(text: "Oi Victor", font: UIFont.systemFont(ofSize: 16))
+        
+        chatStackView.addArrangedSubview(msg)
+        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
+        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
     }
     
     override func viewWillLayoutSubviews() {
@@ -38,11 +46,10 @@ class ChatViewController: UIViewController {
         
         chatStackView.translatesAutoresizingMaskIntoConstraints = false
         let topConstraint = NSLayoutConstraint(item: chatStackView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0.0)
-        let bottomConstraint = NSLayoutConstraint(item: chatStackView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0.0)
         let leadingConstraint = NSLayoutConstraint(item: chatStackView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 0.0)
         let trailingConstraint = NSLayoutConstraint(item: chatStackView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-        
-        self.view.addConstraints([topConstraint, bottomConstraint, leadingConstraint, trailingConstraint])
+
+        self.view.addConstraints([topConstraint, leadingConstraint, trailingConstraint])
     }
     
 }
