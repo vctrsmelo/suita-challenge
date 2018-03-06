@@ -12,6 +12,13 @@
 		BEE21EC8204E1B63002464DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE21EC6204E1B63002464DE /* Main.storyboard */; };
 		BEE21ECA204E1B63002464DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEE21EC9204E1B63002464DE /* Assets.xcassets */; };
 		BEE21ECD204E1B63002464DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE21ECB204E1B63002464DE /* LaunchScreen.storyboard */; };
+		BEE21EDF204E25CB002464DE /* APICommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EDE204E25CB002464DE /* APICommunicator.swift */; };
+		BEE21EE2204E29BA002464DE /* APIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE1204E29BA002464DE /* APIMessage.swift */; };
+		BEE21EE4204E2B54002464DE /* APIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE3204E2B54002464DE /* APIState.swift */; };
+		BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE5204E2F68002464DE /* ChatManager.swift */; };
+		BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE8204E31EE002464DE /* APIButton.swift */; };
+		BEE21EEB204E3239002464DE /* APIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EEA204E3239002464DE /* APIInput.swift */; };
+		BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EED204E32DD002464DE /* APIResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +29,13 @@
 		BEE21EC9204E1B63002464DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEE21ECC204E1B63002464DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEE21ECE204E1B63002464DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEE21EDE204E25CB002464DE /* APICommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICommunicator.swift; sourceTree = "<group>"; };
+		BEE21EE1204E29BA002464DE /* APIMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMessage.swift; sourceTree = "<group>"; };
+		BEE21EE3204E2B54002464DE /* APIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIState.swift; sourceTree = "<group>"; };
+		BEE21EE5204E2F68002464DE /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		BEE21EE8204E31EE002464DE /* APIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIButton.swift; sourceTree = "<group>"; };
+		BEE21EEA204E3239002464DE /* APIInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInput.swift; sourceTree = "<group>"; };
+		BEE21EED204E32DD002464DE /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,7 @@
 		BEE21EC1204E1B62002464DE /* SuitabilityChat */ = {
 			isa = PBXGroup;
 			children = (
+				BEE21EDA204E2588002464DE /* Model */,
 				BEE21ED5204E23CE002464DE /* Application Delegate */,
 				BEE21ED6204E23D8002464DE /* View Controllers */,
 				BEE21ED7204E23FF002464DE /* Storyboards */,
@@ -102,6 +117,44 @@
 				BEE21EC9204E1B63002464DE /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BEE21EDA204E2588002464DE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EE5204E2F68002464DE /* ChatManager.swift */,
+				BEE21EDB204E258E002464DE /* API Access */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BEE21EDB204E258E002464DE /* API Access */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EEC204E32A4002464DE /* Enums */,
+				BEE21EE7204E31E4002464DE /* Structs */,
+				BEE21EDE204E25CB002464DE /* APICommunicator.swift */,
+			);
+			path = "API Access";
+			sourceTree = "<group>";
+		};
+		BEE21EE7204E31E4002464DE /* Structs */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EE8204E31EE002464DE /* APIButton.swift */,
+				BEE21EEA204E3239002464DE /* APIInput.swift */,
+				BEE21EE1204E29BA002464DE /* APIMessage.swift */,
+				BEE21EED204E32DD002464DE /* APIResponse.swift */,
+			);
+			path = Structs;
+			sourceTree = "<group>";
+		};
+		BEE21EEC204E32A4002464DE /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				BEE21EE3204E2B54002464DE /* APIState.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,8 +246,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,
+				BEE21EE2204E29BA002464DE /* APIMessage.swift in Sources */,
+				BEE21EEB204E3239002464DE /* APIInput.swift in Sources */,
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
+				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
+				BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */,
+				BEE21EDF204E25CB002464DE /* APICommunicator.swift in Sources */,
+				BEE21EE4204E2B54002464DE /* APIState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +393,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y93HUJS49V;
-				INFOPLIST_FILE = SuitabilityChat/Info.plist;
+				INFOPLIST_FILE = "SuitabilityChat/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.victormelo.SuitabilityChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -348,7 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y93HUJS49V;
-				INFOPLIST_FILE = SuitabilityChat/Info.plist;
+				INFOPLIST_FILE = "SuitabilityChat/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.victormelo.SuitabilityChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
