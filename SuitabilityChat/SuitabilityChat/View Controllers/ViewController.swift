@@ -15,6 +15,8 @@ class ViewController: UIViewController {
         
         ChatManager.shared.getResponse(userAnswer: "Victor") { response in
             print("id: \(response.id) - \(ChatManager.shared.currentState)")
+            
+            MessageTextParser.parse(response.messages.first!.value)
 
             ChatManager.shared.getResponse(userAnswer: "23") { response in
                 print("id: \(response.id) - \(ChatManager.shared.currentState)")
