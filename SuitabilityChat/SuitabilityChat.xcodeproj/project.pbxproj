@@ -23,6 +23,8 @@
 		BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EED204E32DD002464DE /* APIResponse.swift */; };
 		BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EF1204E3613002464DE /* APIRequest.swift */; };
 		EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */; };
+		EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D2204EE04100235DC2 /* MessageView.swift */; };
+		EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D5204EE26900235DC2 /* UserMessageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +72,8 @@
 		BEE21EED204E32DD002464DE /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		BEE21EF1204E3613002464DE /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		EE93B0D2204EE04100235DC2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		EE93B0D5204EE26900235DC2 /* UserMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,8 +191,8 @@
 		BEE21ED6204E23D8002464DE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EE93B0D0204EE01D00235DC2 /* Chat View Controller */,
 				BEE21EC4204E1B62002464DE /* ViewController.swift */,
-				EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -263,6 +267,32 @@
 				BEE21EE5204E2F68002464DE /* ChatManager.swift */,
 			);
 			path = Singletons;
+			sourceTree = "<group>";
+		};
+		EE93B0D0204EE01D00235DC2 /* Chat View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EE93B0D4204EE25D00235DC2 /* Views */,
+				EE93B0D1204EE02800235DC2 /* Protocols */,
+				EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */,
+			);
+			path = "Chat View Controller";
+			sourceTree = "<group>";
+		};
+		EE93B0D1204EE02800235DC2 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				EE93B0D2204EE04100235DC2 /* MessageView.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		EE93B0D4204EE25D00235DC2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EE93B0D5204EE26900235DC2 /* UserMessageView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */,
 				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */,
@@ -364,6 +395,7 @@
 				BEE21EEB204E3239002464DE /* APIInput.swift in Sources */,
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
 				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
+				EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */,
 				BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */,
 				BEE21EE4204E2B54002464DE /* APIState.swift in Sources */,
 			);
