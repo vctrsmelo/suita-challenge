@@ -17,6 +17,8 @@ protocol MessageView: class {
     
     var textAlignment: NSTextAlignment { get }
     
+    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: () -> Void)
+    
 }
 
 extension MessageView {
@@ -44,7 +46,12 @@ extension MessageView {
         
         messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
         
+        messageTextView.text = ""
+        typeWrite(text, timePerCharacter: 0.1) {
+            print("terminou de digitar")
+        }
+        
         stackView.addArrangedSubview(messageTextView)
     }
-    
+
 }
