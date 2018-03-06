@@ -7,7 +7,7 @@
 //
 //swiftlint:disable identifier_name
 
-/// Represents the JSON returned from API.
+/// APIResponse is the interface used to receive data from API
 struct APIResponse: Codable {
     
     let id: APIState
@@ -15,5 +15,4 @@ struct APIResponse: Codable {
     let buttons: [APIButton]
     let inputs: [APIInput]
     let responses: [String]
-    
 }

@@ -6,13 +6,14 @@
 //  Copyright © 2018 Victor Melo. All rights reserved.
 //
 
-/// A singleton class that keeps the chat information, including user's response and a state machine.
+/* A singleton class that keeps the chat information, including user's response and a state machine. It's accessed by API to get current state information.
+*/
 class ChatManager {
     
     // MARK: - Properties
     
     /// The singleton instance
-    let shared = ChatManager()
+    static let shared = ChatManager()
     
     /// The chat current state
     private(set) var currentState: APIState = .name

@@ -19,6 +19,7 @@
 		BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE8204E31EE002464DE /* APIButton.swift */; };
 		BEE21EEB204E3239002464DE /* APIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EEA204E3239002464DE /* APIInput.swift */; };
 		BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EED204E32DD002464DE /* APIResponse.swift */; };
+		BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EF1204E3613002464DE /* APIRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		BEE21EE8204E31EE002464DE /* APIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIButton.swift; sourceTree = "<group>"; };
 		BEE21EEA204E3239002464DE /* APIInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInput.swift; sourceTree = "<group>"; };
 		BEE21EED204E32DD002464DE /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		BEE21EF1204E3613002464DE /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				BEE21EEA204E3239002464DE /* APIInput.swift */,
 				BEE21EE1204E29BA002464DE /* APIMessage.swift */,
 				BEE21EED204E32DD002464DE /* APIResponse.swift */,
+				BEE21EF1204E3613002464DE /* APIRequest.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,
 				BEE21EE2204E29BA002464DE /* APIMessage.swift in Sources */,

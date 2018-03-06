@@ -6,10 +6,10 @@
 //  Copyright © 2018 Victor Melo. All rights reserved.
 //
 
-import Foundation
-
-protocol APICommunicator {
+struct APICommunicator {
     
-    func post()
+    func request(_ apiRequest: APIRequest, completion: (_ response: APIResponse) -> Void) {
+        
+    }
     
 }
