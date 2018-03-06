@@ -1,5 +1,5 @@
 //
-//  UserMessageView.swift
+//  BotMessageView.swift
 //  SuitabilityChat
 //
 //  Created by Victor S Melo on 06/03/18.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class UserMessageView: UIView, MessageView {
+class BotMessageView: UIView, MessageView {
     
     // MARK: - Properties
-
+    
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
     var messageTextView: UITextView!
@@ -34,16 +34,16 @@ class UserMessageView: UIView, MessageView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Setup Views
     
     func setupView(text: String, font: UIFont) {
         self.backgroundColor = UIColor.orange
         
         setupStackView()
-        setupMessageTextView(text: text, font: font, textAlignment: NSTextAlignment.right)
         setupIcon()
-
+        setupMessageTextView(text: text, font: font, textAlignment: .left)
+        
         adjustStackView()
     }
     
@@ -68,18 +68,16 @@ class UserMessageView: UIView, MessageView {
     
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.
     private func adjustStackView() {
-        let stackViewX = self.frame.width - stackViewWidth
-        
+
         // update stack view according to the text length
         
-        var frame = CGRect(x: stackViewX, y: 0, width: stackViewWidth, height: messageTextView.contentSize.height)
+        var frame = CGRect(x: 0, y: 0, width: stackViewWidth, height: messageTextView.contentSize.height)
         frame.size.height = messageTextView.contentSize.height
         stackView.frame = frame
-
+        
         // stack view should be aligned right (message sent by the user)
         
-        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
         
     }
-
 }
