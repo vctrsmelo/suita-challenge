@@ -10,14 +10,20 @@ import UIKit
 
 class BotMessageView: UIView, MessageView {
     
-    // MARK: - Properties
+    // MARK: - Views Properties
     
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
     var messageTextView: UITextView!
-    
-    /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
+    
+    // MARK: - Properties
+    
+    var textAlignment: NSTextAlignment {
+        return .left
+    }
+    
+    // MARK: -
     
     init(text: String, font: UIFont) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
@@ -42,7 +48,7 @@ class BotMessageView: UIView, MessageView {
         
         setupStackView()
         setupIcon()
-        setupMessageTextView(text: text, font: font, textAlignment: .left)
+        setupMessageTextView(text: text, font: font)
         
         adjustStackView()
     }

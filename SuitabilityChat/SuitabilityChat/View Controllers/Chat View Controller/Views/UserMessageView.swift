@@ -16,6 +16,10 @@ class UserMessageView: UIView, MessageView {
     var iconImageView: UIImageView!
     var messageTextView: UITextView!
     
+    var textAlignment: NSTextAlignment {
+        return .right
+    }
+    
     /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
     
@@ -41,7 +45,7 @@ class UserMessageView: UIView, MessageView {
         self.backgroundColor = UIColor.orange
         
         setupStackView()
-        setupMessageTextView(text: text, font: font, textAlignment: NSTextAlignment.right)
+        setupMessageTextView(text: text, font: font)
         setupIcon()
 
         adjustStackView()

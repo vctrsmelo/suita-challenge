@@ -44,7 +44,6 @@ class ChatManager {
     }
 }
 
-
 extension ChatManager {
 
     /// APICommunicator shall not be used out of ChatManager

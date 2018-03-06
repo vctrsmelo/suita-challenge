@@ -15,6 +15,8 @@ protocol MessageView: class {
     var messageTextView: UITextView! { get set }
     var stackView: UIStackView! { get set }
     
+    var textAlignment: NSTextAlignment { get }
+    
 }
 
 extension MessageView {
@@ -31,7 +33,7 @@ extension MessageView {
         return messageBubbleWidth+iconContainerWidth
     }
     
-    func setupMessageTextView(text: String, font: UIFont, textAlignment: NSTextAlignment) {
+    func setupMessageTextView(text: String, font: UIFont) {
         
         messageTextView = UITextView()
         messageTextView.font = font

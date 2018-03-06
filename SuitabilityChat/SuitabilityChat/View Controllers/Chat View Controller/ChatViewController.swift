@@ -60,7 +60,6 @@ class ChatViewController: UIViewController {
 
     }
     
-    
     private func setupStackView() {
         
         chatStackView = UIStackView(frame: self.view.frame)
@@ -75,15 +74,5 @@ class ChatViewController: UIViewController {
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
 
     }
-    
-//    private func addStackViewConstraints() {
-//
-//        chatStackView.translatesAutoresizingMaskIntoConstraints = false
-//        let topConstraint = NSLayoutConstraint(item: chatStackView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0.0)
-//        let leadingConstraint = NSLayoutConstraint(item: chatStackView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 0.0)
-//        let trailingConstraint = NSLayoutConstraint(item: chatStackView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-//
-//        self.view.addConstraints([topConstraint, leadingConstraint, trailingConstraint])
-//    }
     
 }
