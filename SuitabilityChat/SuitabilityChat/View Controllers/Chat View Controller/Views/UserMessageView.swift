@@ -14,19 +14,12 @@ class UserMessageView: UIView, MessageView {
 
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
-    var messageTextView: UITextView!
+    var messageTextView: MessageTextView!
     
     var textAlignment: NSTextAlignment {
         return .right
     }
-    
-    // MARK: - Properties for typewriting effect
-    
-    private var charCount: Int = 0
-    private var timer: Timer?
-    private var messageText: [String.Element] = []
-    private var timePerCharacter: TimeInterval = 0
-    
+
     // MARK: -
     
     /// horizontal stack view, used to add text bubble side by side with the icon image.
@@ -85,8 +78,10 @@ class UserMessageView: UIView, MessageView {
         
         // update stack view according to the text length
         
-        var frame = CGRect(x: stackViewX, y: 0, width: stackViewWidth, height: messageTextView.contentSize.height)
-        frame.size.height = messageTextView.contentSize.height
+        var frame = CGRect(x: stackViewX, y: 0, width: stackViewWidth, height: messageTextView.bubbleHeight)
+        frame.size.height = messageTextView.bubbleHeight
+        
+        print("heighttt: \(messageTextView.bubbleHeight)")
         stackView.frame = frame
 
         // stack view should be aligned right (message sent by the user)
@@ -95,29 +90,4 @@ class UserMessageView: UIView, MessageView {
         
     }
 
-}
-
-extension UserMessageView {
-    
-    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: () -> Void) {
-        
-        self.messageText = Array(message)
-        self.charCount = 0
-        self.timePerCharacter = timePerCharacter
-        
-        timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(UserMessageView.typeLetter), userInfo: nil, repeats: true)
-        
-    }
-    
-    @objc private func typeLetter() {
-        if charCount < messageText.count {
-            messageTextView.text = "\(messageTextView.text!)\(messageText[charCount])"
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(UserMessageView.typeLetter), userInfo: nil, repeats: false)
-        } else {
-            timer?.invalidate()
-        }
-        self.charCount += 1
-    }
-    
 }

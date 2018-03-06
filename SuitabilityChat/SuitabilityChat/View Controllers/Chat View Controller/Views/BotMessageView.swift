@@ -14,7 +14,7 @@ class BotMessageView: UIView, MessageView {
     
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
-    var messageTextView: UITextView!
+    var messageTextView: MessageTextView!
     var stackView: UIStackView!
     
     // MARK: - Properties
@@ -23,13 +23,6 @@ class BotMessageView: UIView, MessageView {
         return .left
     }
     
-    // MARK: - Properties for typewriting effect
-    
-    private var charCount: Int = 0
-    private var timer: Timer?
-    private var messageText: [String.Element] = []
-    private var timePerCharacter: TimeInterval = 0
-
     // MARK: -
     
     init(text: String, font: UIFont) {
@@ -94,30 +87,3 @@ class BotMessageView: UIView, MessageView {
         
     }
 }
-
-extension BotMessageView {
-    
-    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: () -> Void) {
-        
-        self.messageText = Array(message)
-        self.charCount = 0
-        self.timePerCharacter = timePerCharacter
-        
-        timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(BotMessageView.typeLetter), userInfo: nil, repeats: true)
-        
-    }
-    
-    @objc private func typeLetter() {
-        if charCount < messageText.count {
-            messageTextView.text = "\(messageTextView.text!)\(messageText[charCount])"
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(BotMessageView.typeLetter), userInfo: nil, repeats: false)
-        } else {
-            timer?.invalidate()
-        }
-        self.charCount += charCount
-        
-    }
-    
-}
-
