@@ -10,7 +10,7 @@
 /// APIResponse is the interface used to receive data from API
 class APIResponse: Codable {
     
-    let id: APIState
+    let id: String
     let messages: [APIMessage]
     let buttons: [APIButton]
     let inputs: [APIInput]

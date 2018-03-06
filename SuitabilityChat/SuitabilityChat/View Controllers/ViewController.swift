@@ -13,16 +13,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ChatManager.shared.getResponse(userAnswer: "Victor") { response in
-            print("id: \(response.id) - \(ChatManager.shared.currentState)")
+        ChatManager.shared.startChat { response in
 
-            ChatManager.shared.getResponse(userAnswer: "23") { response in
-                print("id: \(response.id) - \(ChatManager.shared.currentState)")
-                
-                ChatManager.shared.getResponse(userAnswer: "A") { response in
-                    print("id: \(response.id) - \(ChatManager.shared.currentState)")
+            ChatManager.shared.getResponse(userAnswer: "Victor", completion: { response in
+                for message in response.messages {
+                    print(message.value)
                 }
-            }
+                
+                ChatManager.shared.getResponse(userAnswer: "23", completion: { response in
+                    for message in response.messages {
+                        print(message.value)
+                    }
+                })
+                
+            })
         }
         
     }

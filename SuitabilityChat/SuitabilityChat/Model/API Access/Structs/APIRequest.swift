@@ -14,8 +14,8 @@ struct APIRequest: Codable {
     
     let context = "suitability"
 
-    var id: APIState {
-        return ChatManager.shared.currentState
+    var id: String? {
+        return ChatManager.shared.currentId
     }
     
     var answers: [String: String] {
@@ -25,7 +25,7 @@ struct APIRequest: Codable {
     var parameters: [String: Any] {
         return [
             "context": context,
-            "id": id.rawValue,
+            "id": id,
             "answers": answers
         ]
     }

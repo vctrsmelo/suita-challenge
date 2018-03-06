@@ -8,7 +8,7 @@
 
 import Alamofire
 
-/* A singleton class that keeps the chat information, including user's response and a state machine. It's accessed by API to get current state information.
+/** A singleton class that keeps the chat information, including user's response and a state machine. It's accessed by API to get current state information.
 */
 class ChatManager {
     
@@ -18,32 +18,44 @@ class ChatManager {
     static let shared = ChatManager()
     
     /// The chat current state
-    private(set) var currentState: APIState = .name
+    private(set) var currentId: String? = nil
     
     /// The user's answer for each chat state.
-    private(set) var answers: [APIState.RawValue: String] = [:]
+    private(set) var answers: [String: String] = [:]
     
     private init() { }
     
     // MARK: - Methods
     
-    /*
+    /// Start chat with bot, making the first API request to get the bot first message.
+    func startChat(completion: @escaping (_ response: APIResponse) -> Void) {
+        APICommunicator.request { response in
+            self.currentId = response.id
+            completion(response)
+        }
+    }
+    
+    /**
      Get the bot response according to the user answer parameter.
+     - Precondition: use startChat before using getResponse.
      - Parameters:
         - userAnswer: the user answer for the current state.
         - completion: the response received from API according to userAnswer and current state.
     */
     func getResponse(userAnswer: String, completion: @escaping (_ response: APIResponse) -> Void) {
         
-        answers[currentState.rawValue] = userAnswer
+        guard let currentId = currentId else {
+            fatalError("Need to start chat before use getResponse")
+        }
+        
+        self.answers[currentId] = userAnswer
         
         APICommunicator.request { response in
-            self.currentState = response.id
+            self.currentId = response.id
             completion(response)
         }
     }
 }
-
 
 extension ChatManager {
 
@@ -55,7 +67,7 @@ extension ChatManager {
         
         static func request(completion: @escaping (_ response: APIResponse) -> Void) {
             
-            let url = (ChatManager.shared.currentState == .final) ? urlFinish : urlMessage
+            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
             
             Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }

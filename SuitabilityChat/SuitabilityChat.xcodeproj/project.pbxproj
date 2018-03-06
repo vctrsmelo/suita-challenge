@@ -16,7 +16,6 @@
 		BEE21ECA204E1B63002464DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEE21EC9204E1B63002464DE /* Assets.xcassets */; };
 		BEE21ECD204E1B63002464DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE21ECB204E1B63002464DE /* LaunchScreen.storyboard */; };
 		BEE21EE2204E29BA002464DE /* APIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE1204E29BA002464DE /* APIMessage.swift */; };
-		BEE21EE4204E2B54002464DE /* APIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE3204E2B54002464DE /* APIState.swift */; };
 		BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE5204E2F68002464DE /* ChatManager.swift */; };
 		BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EE8204E31EE002464DE /* APIButton.swift */; };
 		BEE21EEB204E3239002464DE /* APIInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE21EEA204E3239002464DE /* APIInput.swift */; };
@@ -62,7 +61,6 @@
 		BEE21ECC204E1B63002464DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEE21ECE204E1B63002464DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEE21EE1204E29BA002464DE /* APIMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMessage.swift; sourceTree = "<group>"; };
-		BEE21EE3204E2B54002464DE /* APIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIState.swift; sourceTree = "<group>"; };
 		BEE21EE5204E2F68002464DE /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		BEE21EE8204E31EE002464DE /* APIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIButton.swift; sourceTree = "<group>"; };
 		BEE21EEA204E3239002464DE /* APIInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInput.swift; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 		BEE21EDB204E258E002464DE /* API Access */ = {
 			isa = PBXGroup;
 			children = (
-				BEE21EEC204E32A4002464DE /* Enums */,
 				BEE21EE7204E31E4002464DE /* Structs */,
 			);
 			path = "API Access";
@@ -244,14 +241,6 @@
 				BE48711D204E486E0067BE83 /* APILabel.swift */,
 			);
 			path = Structs;
-			sourceTree = "<group>";
-		};
-		BEE21EEC204E32A4002464DE /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				BEE21EE3204E2B54002464DE /* APIState.swift */,
-			);
-			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -353,7 +342,6 @@
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
 				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
 				BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */,
-				BEE21EE4204E2B54002464DE /* APIState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
