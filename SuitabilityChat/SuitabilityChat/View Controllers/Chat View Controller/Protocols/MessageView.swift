@@ -14,8 +14,36 @@ protocol MessageView {
     
     func setupView(text: String, font: UIFont, messageLabelWidth: CGFloat)
     
+    var textAlignment: NSTextAlignment { get }
+    
 }
 
 extension MessageView {
+    
+    var messageBubbleWidth: CGFloat {
+        return 200.0
+    }
+    
+    var iconContainerWidth: CGFloat {
+        return 60.0
+    }
+    
+    var stackViewWidth: CGFloat {
+        return messageBubbleWidth+iconContainerWidth
+    }
+    
+    func setupMessageTextView(text: String, font: UIFont) {
+        
+        messageTextView = UITextView()
+        messageTextView.font = font
+        messageTextView.text = text
+        messageTextView.backgroundColor = UIColor.blue
+        messageTextView.textAlignment = textAlignment
+        messageTextView.isEditable = false
+        
+        messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
+        
+        stackView.addArrangedSubview(messageTextView)
+    }
     
 }

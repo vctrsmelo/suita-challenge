@@ -34,6 +34,17 @@ class ChatViewController: UIViewController {
     }
     
     // MARK: - View Setups
+    
+    private func setupScrollView() {
+        chatScrollView = UIScrollView(frame: self.view.frame)
+        chatScrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chatScrollView)
+        
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+
+    }
+    
     private func setupStackView() {
         
         chatStackView = UIStackView(frame: self.view.frame)
