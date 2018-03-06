@@ -14,21 +14,42 @@ class MessageTextView: UITextView {
     
     private var charCount: Int = 0
     private var timer: Timer?
-    private var messageText: [String.Element] = []
-    private var timePerCharacter: TimeInterval = 0
+    private var currentSentence: [String.Element] = []
+    private var nextSentences: [Sentence] = []
+    private let timePerCharacter: TimeInterval = 0.05
     
     var bubbleHeight: CGFloat = 0.0
     
-    func typeWrite(_ message: String, timePerCharacter: TimeInterval, completionHandler: @escaping () -> Void) {
+    /// Write each sentence, waiting for the corresponding waitingTime between each sentence writing.
+    func typeWrite(_ sentences: [Sentence], completionHandler: @escaping () -> Void) {
+
+        //if there are no sentences left, return
+        guard let firstSentence = sentences.first else {
+            completionHandler()
+            return
+        }
         
-        self.messageText = Array(message)
+        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime, repeats: false) { timer in
+            self.typeWriteSentence(firstSentence.text, completionHandler: {
+
+                let nextSentences = Array(sentences.dropFirst())
+                self.text = "\(self.text!) "
+                self.typeWrite(nextSentences, completionHandler: { })
+                
+            })
+        }
+        
+    }
+    
+    private func typeWriteSentence(_ message: String, completionHandler: @escaping () -> Void) {
+        
+        self.currentSentence = Array(message)
         self.charCount = 0
-        self.timePerCharacter = timePerCharacter
         
         Timer.scheduledTimer(withTimeInterval: timePerCharacter, repeats: true) { timer in
             
-            if self.charCount < self.messageText.count {
-                self.text = "\(self.text!)\(self.messageText[self.charCount])"
+            if self.charCount < self.currentSentence.count {
+                self.text = "\(self.text!)\(self.currentSentence[self.charCount])"
 //                timer.invalidate()
 //                timer = Timer.scheduledTimer(timeInterval: timePerCharacter, target: self, selector: #selector(UserMessageView.typeLetter), userInfo: nil, repeats: false)
             } else {

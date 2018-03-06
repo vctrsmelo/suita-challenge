@@ -21,7 +21,13 @@ class ChatViewController: UIViewController {
         
         //Test
         
-        let msg = UserMessageView(text: "Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor Oi Victor ", font: UIFont.systemFont(ofSize: 16))
+        let sentences: [Sentence] = [
+            (waitingTime:1, text:"Oi Victor!"),
+            (waitingTime:2, text:"Esta é a segunda sentença!"),
+            (waitingTime:3, text:"Esta é a terceira sentença!"),
+        ]
+        
+        let msg = UserMessageView(sentences: sentences, font: UIFont.systemFont(ofSize: 16))
         
         chatStackView.addArrangedSubview(msg)
 //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))

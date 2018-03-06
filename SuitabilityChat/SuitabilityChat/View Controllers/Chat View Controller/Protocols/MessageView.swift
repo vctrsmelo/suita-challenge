@@ -35,7 +35,16 @@ extension MessageView {
         return messageBubbleWidth+iconContainerWidth
     }
     
-    func setupMessageTextView(text: String, font: UIFont) {
+    /// Setup the text view, to adjust its height according to the content.
+    func setupMessageTextView(sentences: [Sentence], font: UIFont) {
+        
+        //Get the text from the sentences array
+        
+        let textArray = sentences.map({ (_, text) -> String in
+            return text
+        })
+        
+        let text = textArray.joined(separator: " ")
         
         messageTextView = MessageTextView()
         messageTextView.font = font
@@ -47,9 +56,9 @@ extension MessageView {
         messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
         messageTextView.bubbleHeight = messageTextView.contentSize.height
         messageTextView.text = ""
-        messageTextView.typeWrite(text, timePerCharacter: 0.05) {
+        messageTextView.typeWrite(sentences, completionHandler: {
             print("terminou de digitar")
-        }
+        })
         
         stackView.addArrangedSubview(messageTextView)
     }

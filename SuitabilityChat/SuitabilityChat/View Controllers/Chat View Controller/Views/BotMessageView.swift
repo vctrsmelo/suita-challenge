@@ -25,10 +25,10 @@ class BotMessageView: UIView, MessageView {
     
     // MARK: -
     
-    init(text: String, font: UIFont) {
+    init(sentences: [Sentence], font: UIFont) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
         
-        setupView(text: text, font: font)
+        setupView(sentences: sentences, font: font)
         
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
         // The frame height must be greater or equal to the icon height
@@ -43,12 +43,12 @@ class BotMessageView: UIView, MessageView {
     
     // MARK: - Setup Views
     
-    func setupView(text: String, font: UIFont) {
+    func setupView(sentences: [Sentence], font: UIFont) {
         self.backgroundColor = UIColor.orange
         
         setupStackView()
         setupIcon()
-        setupMessageTextView(text: text, font: font)
+        setupMessageTextView(sentences: sentences, font: font)
         
         adjustStackView()
     }

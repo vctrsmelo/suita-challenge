@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias Sentence = (waitingTime: TimeInterval, text: String)
+
 /// A struct with one static method to parse the text received from API to an array of tuples that will be sent to the interface.
 struct MessageTextParser {
     
@@ -16,7 +18,7 @@ struct MessageTextParser {
      - Parameters:
         - text: received from API request
      */
-    static func parse(_ text: String) -> [(waitingTime: TimeInterval, text: String)] {
+    static func parse(_ text: String) -> [Sentence] {
     
         let timeSensibleSentences = text.components(separatedBy: "^")
         

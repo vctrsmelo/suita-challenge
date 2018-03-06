@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE01C710204F55C900989475 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C70F204F55C900989475 /* Sentence.swift */; };
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BE01C70F204F55C900989475 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BE487106204E3F0D0067BE83 /* .Alamofire.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .Alamofire.version; sourceTree = "<group>"; };
 		BE487108204E3F0D0067BE83 /* 0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap"; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE01C70E204F55BE00989475 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BE01C70F204F55C900989475 /* Sentence.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BE4870F4204E394F0067BE83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +239,7 @@
 		BEE21EDA204E2588002464DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BE01C70E204F55BE00989475 /* Extensions */,
 				EE93B0CF204ED35A00235DC2 /* Singletons */,
 				BEE21EDB204E258E002464DE /* API Access */,
 			);
@@ -391,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */,
+				BE01C710204F55C900989475 /* Sentence.swift in Sources */,
 				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */,
