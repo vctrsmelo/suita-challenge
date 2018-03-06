@@ -19,7 +19,7 @@ class ChatManager {
     private(set) var currentState: APIState = .name
     
     /// The user's answer for each chat state.
-    private(set) var answers: [APIState: String] = [:]
+    private(set) var answers: [APIState.RawValue: String] = [:]
     
     private init() { }
     

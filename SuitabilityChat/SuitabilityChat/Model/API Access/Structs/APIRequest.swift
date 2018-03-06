@@ -16,8 +16,16 @@ struct APIRequest: Codable {
         return ChatManager.shared.currentState
     }
     
-    var answers: [APIState: String] {
+    var answers: [APIState.RawValue: String] {
         return ChatManager.shared.answers
+    }
+    
+    var parameters: [String: Any] {
+        return [
+            "context": context,
+            "id": id.rawValue,
+            "answers": answers
+        ]
     }
     
 }
