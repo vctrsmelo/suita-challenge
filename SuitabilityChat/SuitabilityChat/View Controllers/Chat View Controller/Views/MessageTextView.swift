@@ -28,8 +28,8 @@ class MessageTextView: UITextView {
             completionHandler()
             return
         }
-        
-        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime, repeats: false) { timer in
+
+        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime/1000, repeats: false) { timer in
             self.typeWriteSentence(firstSentence.text, completionHandler: {
 
                 let nextSentences = Array(sentences.dropFirst())

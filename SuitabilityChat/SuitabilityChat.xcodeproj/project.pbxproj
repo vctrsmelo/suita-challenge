@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE01C710204F55C900989475 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C70F204F55C900989475 /* Sentence.swift */; };
+		BE01C712204F664A00989475 /* BotMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C711204F664A00989475 /* BotMessageView.swift */; };
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
@@ -25,7 +26,6 @@
 		EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */; };
 		EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D2204EE04100235DC2 /* MessageView.swift */; };
 		EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D5204EE26900235DC2 /* UserMessageView.swift */; };
-		EE93B0D8204EFE9000235DC2 /* BotMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D7204EFE9000235DC2 /* BotMessageView.swift */; };
 		EE93B0DD204F062800235DC2 /* MessageTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0DC204F062800235DC2 /* MessageTextParser.swift */; };
 		EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0E1204F286400235DC2 /* MessageTextView.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		BE01C70F204F55C900989475 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
+		BE01C711204F664A00989475 /* BotMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BotMessageView.swift; sourceTree = "<group>"; };
 		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BE487106204E3F0D0067BE83 /* .Alamofire.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .Alamofire.version; sourceTree = "<group>"; };
 		BE487108204E3F0D0067BE83 /* 0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap"; sourceTree = "<group>"; };
@@ -77,7 +78,6 @@
 		EE93B0CC204ED2AC00235DC2 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		EE93B0D2204EE04100235DC2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		EE93B0D5204EE26900235DC2 /* UserMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageView.swift; sourceTree = "<group>"; };
-		EE93B0D7204EFE9000235DC2 /* BotMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotMessageView.swift; sourceTree = "<group>"; };
 		EE93B0DC204F062800235DC2 /* MessageTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextParser.swift; sourceTree = "<group>"; };
 		EE93B0E1204F286400235DC2 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -267,14 +267,6 @@
 			path = Structs;
 			sourceTree = "<group>";
 		};
-		BEE21EEC204E32A4002464DE /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				BEE21EE3204E2B54002464DE /* APIState.swift */,
-			);
-			path = Enums;
-			sourceTree = "<group>";
-		};
 		EE93B0CF204ED35A00235DC2 /* Singletons */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				EE93B0E1204F286400235DC2 /* MessageTextView.swift */,
+				BE01C711204F664A00989475 /* BotMessageView.swift */,
 				EE93B0D5204EE26900235DC2 /* UserMessageView.swift */,
 			);
 			path = Views;
@@ -405,6 +398,7 @@
 				BE01C710204F55C900989475 /* Sentence.swift in Sources */,
 				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
+				BE01C712204F664A00989475 /* BotMessageView.swift in Sources */,
 				EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */,
 				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,

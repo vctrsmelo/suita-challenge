@@ -10,7 +10,7 @@ import UIKit
 
 class BotMessageView: UIView, MessageView {
     
-    // MARK: - Views Properties
+    // MARK: - Properties
     
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
@@ -29,12 +29,10 @@ class BotMessageView: UIView, MessageView {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
         
         setupView(sentences: sentences, font: font)
-        
+
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
-        // The frame height must be greater or equal to the icon height
-        
-        let frameHeight = (stackView.frame.height > iconImageView.frame.height) ? stackView.frame.height : iconImageView.frame.height
-        self.heightAnchor.constraint(equalToConstant: frameHeight).isActive = true
+        self.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: stackView.frame.height)
+        self.heightAnchor.constraint(equalToConstant: stackView.frame.height+20).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,8 +42,6 @@ class BotMessageView: UIView, MessageView {
     // MARK: - Setup Views
     
     func setupView(sentences: [Sentence], font: UIFont) {
-        self.backgroundColor = UIColor.orange
-        
         setupStackView()
         setupIcon()
         setupMessageTextView(sentences: sentences, font: font)
@@ -77,8 +73,8 @@ class BotMessageView: UIView, MessageView {
 
         // update stack view according to the text length
         
-        var frame = CGRect(x: 0, y: 0, width: stackViewWidth, height: messageTextView.contentSize.height)
-        frame.size.height = messageTextView.contentSize.height
+        var frame = CGRect(x: 0, y: 0, width: stackViewWidth, height: messageTextView.bubbleHeight)
+        frame.size.height = messageTextView.bubbleHeight
         stackView.frame = frame
         
         // stack view should be aligned right (message sent by the user)

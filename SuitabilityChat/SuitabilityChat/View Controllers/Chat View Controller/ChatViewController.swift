@@ -23,15 +23,26 @@ class ChatViewController: UIViewController {
         
         //Test
         
-        let sentences: [Sentence] = [
-            (waitingTime:1, text:"Oi Victor!"),
-            (waitingTime:2, text:"Esta é a segunda sentença!"),
-            (waitingTime:3, text:"Esta é a terceira sentença!"),
-            ]
+//        let sentences: [Sentence] = [
+//            (waitingTime:1, text:"Oi Victor!"),
+//            (waitingTime:2, text:"Esta é a segunda sentença!"),
+//            (waitingTime:3, text:"Esta é a terceira sentença!"),
+//            ]
+//
+//        let msg = UserMessageView(sentences: sentences, font: UIFont.systemFont(ofSize: 16))
         
-        let msg = UserMessageView(sentences: sentences, font: UIFont.systemFont(ofSize: 16))
+        ChatManager.shared.startChat { (response) in
+
+            let sentences = response.messages.map({ (message) -> [Sentence] in
+                return MessageTextParser.parse(message.value)
+            })
+            
+            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16))
+            self.chatStackView.addArrangedSubview(msg)
+            
+        }
         
-        chatStackView.addArrangedSubview(msg)
+//        chatStackView.addArrangedSubview(msg)
         //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
         //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
         //        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))

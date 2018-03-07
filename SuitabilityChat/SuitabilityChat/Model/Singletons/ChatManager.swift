@@ -18,7 +18,7 @@ class ChatManager {
     static let shared = ChatManager()
     
     /// The chat current state
-    private(set) var currentId: String? = nil
+    private(set) var currentId: String?
     
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]

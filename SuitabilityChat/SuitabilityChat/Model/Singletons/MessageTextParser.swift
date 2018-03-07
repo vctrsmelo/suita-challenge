@@ -31,13 +31,13 @@ struct MessageTextParser {
         timeSensibleSentences.forEach { sentence in
             
             if sentence == timeSensibleSentences.first { return }
-            let splittedSentence = sentence.split(separator: " ")
+            let splittedSentence = sentence.split(separator: " ", maxSplits: 1, omittingEmptySubsequences: false)
             
             guard let timeAsSubstring = splittedSentence.first, let time = TimeInterval(timeAsSubstring) else {
                 fatalError("Error while parsing into MessageTextParser")
             }
             
-            let text = String(splittedSentence[1])
+            let text = (splittedSentence.count > 1) ? String(splittedSentence[1]) : ""
             
             parsedText.append((waitingTime: time, text: text))
         }

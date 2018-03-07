@@ -12,9 +12,6 @@ class UserMessageView: UIView, MessageView {
     
     // MARK: - Properties
     
-    let messageBubbleWidth: CGFloat = 200.0
-    let iconContainerWidth: CGFloat = 60.0
-    
     var iconImageViewContainer: UIView!
     var iconImageView: UIImageView!
     var messageTextView: MessageTextView!
@@ -34,7 +31,6 @@ class UserMessageView: UIView, MessageView {
         setupView(sentences: sentences, font: font)
         
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
-        self.sizeToFit()
         self.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: stackView.frame.height)
         self.heightAnchor.constraint(equalToConstant: stackView.frame.height+20).isActive = true
     }
@@ -78,7 +74,6 @@ class UserMessageView: UIView, MessageView {
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.
     private func adjustStackView() {
         
-        let stackViewWidth = messageBubbleWidth+iconContainerWidth
         let stackViewX = self.frame.width - stackViewWidth
         
         // update stack view according to the text length
