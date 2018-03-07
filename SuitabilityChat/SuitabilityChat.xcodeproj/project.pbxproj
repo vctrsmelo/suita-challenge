@@ -28,6 +28,7 @@
 		EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0D5204EE26900235DC2 /* UserMessageView.swift */; };
 		EE93B0DD204F062800235DC2 /* MessageTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0DC204F062800235DC2 /* MessageTextParser.swift */; };
 		EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0E1204F286400235DC2 /* MessageTextView.swift */; };
+		EEA138B020504D050008EF01 /* UserInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA138AF20504D050008EF01 /* UserInputTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +81,7 @@
 		EE93B0D5204EE26900235DC2 /* UserMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageView.swift; sourceTree = "<group>"; };
 		EE93B0DC204F062800235DC2 /* MessageTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextParser.swift; sourceTree = "<group>"; };
 		EE93B0E1204F286400235DC2 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
+		EEA138AF20504D050008EF01 /* UserInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,11 +299,20 @@
 		EE93B0D4204EE25D00235DC2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EEA138AE20504CF20008EF01 /* Message Views */,
+				EEA138AF20504D050008EF01 /* UserInputTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EEA138AE20504CF20008EF01 /* Message Views */ = {
+			isa = PBXGroup;
+			children = (
 				EE93B0E1204F286400235DC2 /* MessageTextView.swift */,
 				BE01C711204F664A00989475 /* BotMessageView.swift */,
 				EE93B0D5204EE26900235DC2 /* UserMessageView.swift */,
 			);
-			path = Views;
+			path = "Message Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,6 +419,7 @@
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
 				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
 				EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */,
+				EEA138B020504D050008EF01 /* UserInputTextField.swift in Sources */,
 				EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */,
 				BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */,
 			);
