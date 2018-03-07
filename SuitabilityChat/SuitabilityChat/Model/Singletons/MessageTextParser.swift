@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias Sentence = (waitingTime: TimeInterval, text: String)
+typealias BubbleMessage = [Sentence]
 
 /// A struct with one static method to parse the text received from API to an array of tuples that will be sent to the interface.
 struct MessageTextParser {

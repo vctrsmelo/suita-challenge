@@ -37,7 +37,7 @@ class ChatViewController: UIViewController {
                 return MessageTextParser.parse(message.value)
             })
             
-            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16))
+            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16), delegate: self)
             self.chatStackView.addArrangedSubview(msg)
             
         }
@@ -90,5 +90,18 @@ class ChatViewController: UIViewController {
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         
+    }
+}
+
+extension ChatViewController: MessageViewDelegate {
+    func didFinishTyping() {
+        ChatManager.shared.getResponse(userAnswer: "Victor") { response in
+            let sentences = response.messages.map({ (message) -> [Sentence] in
+                return MessageTextParser.parse(message.value)
+            })
+            
+            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16), delegate: self)
+            self.chatStackView.addArrangedSubview(msg)
+        }
     }
 }

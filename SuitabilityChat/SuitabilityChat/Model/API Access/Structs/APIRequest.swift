@@ -25,7 +25,7 @@ struct APIRequest: Codable {
     var parameters: [String: Any] {
         return [
             "context": context,
-            "id": id,
+            "id": id as Any,
             "answers": answers
         ]
     }

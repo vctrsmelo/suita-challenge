@@ -8,15 +8,17 @@
 
 import UIKit
 
+protocol MessageViewDelegate: class {
+    func didFinishTyping()
+}
+
 protocol MessageView: class {
     
     var iconImageViewContainer: UIView! { get set }
     var iconImageView: UIImageView! { get set }
     var messageTextView: MessageTextView! { get set }
     var stackView: UIStackView! { get set }
-    
     var textAlignment: NSTextAlignment { get }
-    
 }
 
 extension MessageView {
@@ -34,19 +36,11 @@ extension MessageView {
     }
     
     /// Setup the text view, to adjust its height according to the content.
-    func setupMessageTextView(sentences: [Sentence], font: UIFont) {
-        
-        //Get the text from the sentences array
-        
-        let textArray = sentences.map({ (_, text) -> String in
-            return text
-        })
-        
-        let text = textArray.joined(separator: " ")
-        
+    func setupMessageTextView(bubbleMessage: BubbleMessage, font: UIFont) {
+    
         messageTextView = MessageTextView()
         messageTextView.font = font
-        messageTextView.text = text
+        messageTextView.text = bubbleMessage.getText()
         messageTextView.backgroundColor = UIColor.blue
         messageTextView.textAlignment = textAlignment
         messageTextView.isEditable = false
@@ -54,9 +48,7 @@ extension MessageView {
         messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
         messageTextView.bubbleHeight = messageTextView.contentSize.height
         messageTextView.text = ""
-        messageTextView.typeWrite(sentences, completionHandler: {
-            print("terminou de digitar")
-        })
+        messageTextView.typeWrite(bubbleMessage)
         
         stackView.addArrangedSubview(messageTextView)
     }

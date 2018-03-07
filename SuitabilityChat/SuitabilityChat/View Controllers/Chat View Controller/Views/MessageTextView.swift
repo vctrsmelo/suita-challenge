@@ -18,23 +18,25 @@ class MessageTextView: UITextView {
     private var nextSentences: [Sentence] = []
     private let timePerCharacter: TimeInterval = 0.05
     
+    weak var messageViewDelegate: MessageViewDelegate?
+    
     var bubbleHeight: CGFloat = 0.0
     
     /// Write each sentence, waiting for the corresponding waitingTime between each sentence writing.
-    func typeWrite(_ sentences: [Sentence], completionHandler: @escaping () -> Void) {
+    func typeWrite(_ sentences: [Sentence]) {
 
         //if there are no sentences left, return
         guard let firstSentence = sentences.first else {
-            completionHandler()
+            messageViewDelegate?.didFinishTyping()
             return
         }
 
-        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime/1000, repeats: false) { timer in
+        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime/1000, repeats: false) { _ in
             self.typeWriteSentence(firstSentence.text, completionHandler: {
 
                 let nextSentences = Array(sentences.dropFirst())
                 self.text = "\(self.text!) "
-                self.typeWrite(nextSentences, completionHandler: { })
+                self.typeWrite(nextSentences)
                 
             })
         }

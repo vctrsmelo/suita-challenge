@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+typealias Sentence = (waitingTime: TimeInterval, text: String)
+
+extension Array where Element == Sentence {
+    func getText() -> String {
+        
+        let textArray = self.map({ (_, text) -> String in
+            return text
+        })
+        
+        return textArray.joined(separator: " ")
+    }
+}
