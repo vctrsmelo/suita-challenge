@@ -22,6 +22,8 @@ class ChatViewController: UIViewController {
                 let firstMessage = botMessagesList.first!
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
+            } else {
+                userInputView.isHidden = false
             }
         }
     }
@@ -60,6 +62,7 @@ class ChatViewController: UIViewController {
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputView": userInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@750-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
     }
     
     private func setupStackView() {
@@ -77,7 +80,7 @@ class ChatViewController: UIViewController {
     }
     
     private func setupUserInputView() {
-        userInputView = UserInputView()
+        userInputView = UserInputView(height: 70.0)
         userInputView.delegate = self
         self.view.addSubview(userInputView)
         
@@ -86,7 +89,10 @@ class ChatViewController: UIViewController {
         // constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputView]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputView(==50.0)]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputView]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
+        
+        userInputView.isHidden = true
+        
     }
 }
 
@@ -101,6 +107,7 @@ extension ChatViewController: MessageViewDelegate {
 extension ChatViewController: UserInputViewDelegate {
     
     func didSend(value: String) {
+        userInputView.isHidden = true
         ChatManager.shared.getResponse(userAnswer: value) {
             self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
         }
