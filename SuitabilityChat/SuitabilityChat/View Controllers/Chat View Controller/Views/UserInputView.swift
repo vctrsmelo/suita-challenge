@@ -8,12 +8,21 @@
 
 import UIKit
 
+protocol UserInputViewDelegate: class {
+    
+    /// Called when user touches send button
+    func didSend(value: String)
+    
+}
+
 class UserInputView: UIView {
     
     // MARK: - Properties
     
     var textField: UITextField!
     var sendButton: UIButton!
+    
+    weak var delegate: UserInputViewDelegate?
     
     // MARK: -
     
@@ -29,6 +38,11 @@ class UserInputView: UIView {
     
     // MARK: - Actions
     
+    @objc private func sendButtonTapped(_ sender: UIButton) {
+        guard let text = textField.text else { return }
+        delegate?.didSend(value: text)
+    }
+    
     // MARK: - View Setups
     
     private func setupView() {
@@ -41,10 +55,13 @@ class UserInputView: UIView {
     
     private func setupSendButton() {
         sendButton = UIButton(type: .custom)
-        
         sendButton.setTitle("Send", for: .normal)
         
+        sendButton.addTarget(self, action: #selector(self.sendButtonTapped(_:)), for: .touchUpInside)
+        
         addSubview(sendButton)
+        
+        // constraints
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
@@ -58,6 +75,8 @@ class UserInputView: UIView {
         textField = UITextField()
         
         addSubview(textField)
+        
+        //constraints
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor).isActive = true

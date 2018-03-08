@@ -15,6 +15,17 @@ class ChatViewController: UIViewController {
     var chatScrollView: UIScrollView!
     var userInputView: UserInputView!
     
+    /// It keeps the list of messages to be sent by the bot. It will keep sending the messages until it is empty.
+    private var botMessagesList: [[Sentence]] = [] {
+        didSet {
+            if !botMessagesList.isEmpty {
+                let firstMessage = botMessagesList.first!
+                let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
+                self.chatStackView.addArrangedSubview(msg)
+            }
+        }
+    }
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,38 +34,9 @@ class ChatViewController: UIViewController {
         setupStackView()
         setupUserInputView()
         
-        //Test
-        
-//        let sentences: [Sentence] = [
-//            (waitingTime:1, text:"Oi Victor!"),
-//            (waitingTime:2, text:"Esta é a segunda sentença!"),
-//            (waitingTime:3, text:"Esta é a terceira sentença!"),
-//            ]
-//
-//        let msg = UserMessageView(sentences: sentences, font: UIFont.systemFont(ofSize: 16))
-        
-        ChatManager.shared.startChat { (response) in
-
-            let sentences = response.messages.map({ (message) -> [Sentence] in
-                return MessageTextParser.parse(message.value)
-            })
-            
-            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16), delegate: self)
-            self.chatStackView.addArrangedSubview(msg)
-            
+        ChatManager.shared.startChat {
+            self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
         }
-        
-//        chatStackView.addArrangedSubview(msg)
-        //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do bot", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(UserMessageView(text: "Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2Oi Victor 2 Oi Victor 2 Oi Victor 2 Oi Victor 2", font: UIFont.systemFont(ofSize: 16)))
-        //        chatStackView.addArrangedSubview(BotMessageView(text: "Mensagem do boensagem do boensagem do boensagem do boensagem do boensagem do boensagem do boensagem do bot", font: UIFont.systemFont(ofSize: 16)))
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -74,6 +56,8 @@ class ChatViewController: UIViewController {
         chatScrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatScrollView)
         
+        //constraints
+        
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
         
@@ -84,10 +68,10 @@ class ChatViewController: UIViewController {
         chatStackView = UIStackView(frame: self.view.frame)
         chatStackView.translatesAutoresizingMaskIntoConstraints = false
         chatStackView.axis = .vertical
-        
         chatStackView.spacing = 20
-        
         chatScrollView.addSubview(chatStackView)
+        
+        // constraints
         
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
@@ -96,9 +80,12 @@ class ChatViewController: UIViewController {
     
     private func setupUserInputView() {
         userInputView = UserInputView()
+        userInputView.delegate = self
         self.view.addSubview(userInputView)
         
         userInputView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // constraints
         
         userInputView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
         userInputView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
@@ -108,13 +95,16 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: MessageViewDelegate {
     func didFinishTyping() {
-        ChatManager.shared.getResponse(userAnswer: "Victor") { response in
-            let sentences = response.messages.map({ (message) -> [Sentence] in
-                return MessageTextParser.parse(message.value)
-            })
-            
-            let msg = BotMessageView(sentences: sentences.first!, font: UIFont.systemFont(ofSize: 16), delegate: self)
-            self.chatStackView.addArrangedSubview(msg)
+        // removing the first message, already sent, will start sending the next one, if exists, in botMessagesList
+        botMessagesList.removeFirst()
+    }
+}
+
+extension ChatViewController: UserInputViewDelegate {
+    
+    func didSend(value: String) {
+        ChatManager.shared.getResponse(userAnswer: value) {
+            self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
         }
     }
 }

@@ -13,21 +13,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ChatManager.shared.startChat { response in
-
-            ChatManager.shared.getResponse(userAnswer: "Victor", completion: { response in
-                for message in response.messages {
-                    print(message.value)
-                }
-                
-                ChatManager.shared.getResponse(userAnswer: "23", completion: { response in
-                    for message in response.messages {
-                        print(message.value)
-                    }
-                })
-                
-            })
-        }
+//        ChatManager.shared.startChat { response in
+//
+//            ChatManager.shared.getResponse(userAnswer: "Victor", completion: { response in
+//                for message in response.messages {
+//                    print(message.value)
+//                }
+//                
+//                ChatManager.shared.getResponse(userAnswer: "23", completion: { response in
+//                    for message in response.messages {
+//                        print(message.value)
+//                    }
+//                })
+//                
+//            })
+//        }
     }
 
     override func didReceiveMemoryWarning() {
