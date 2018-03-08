@@ -13,6 +13,7 @@ class ChatViewController: UIViewController {
     // MARK: - Properties
     var chatStackView: UIStackView!
     var chatScrollView: UIScrollView!
+    var userInputView: UserInputView!
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -20,6 +21,7 @@ class ChatViewController: UIViewController {
         
         setupScrollView()
         setupStackView()
+        setupUserInputView()
         
         //Test
         
@@ -90,6 +92,17 @@ class ChatViewController: UIViewController {
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         
+    }
+    
+    private func setupUserInputView() {
+        userInputView = UserInputView()
+        self.view.addSubview(userInputView)
+        
+        userInputView.translatesAutoresizingMaskIntoConstraints = false
+        
+        userInputView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
+        userInputView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        userInputView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 }
 

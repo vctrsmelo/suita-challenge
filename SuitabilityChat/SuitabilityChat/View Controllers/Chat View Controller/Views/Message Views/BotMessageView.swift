@@ -33,6 +33,8 @@ class BotMessageView: UIView, MessageView {
         
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
         self.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: stackView.frame.height)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: stackView.frame.height+20).isActive = true
     }
     
