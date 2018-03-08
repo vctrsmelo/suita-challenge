@@ -1,21 +1,14 @@
 //
-//  UserInputView.swift
+//  TextUserInputView.swift
 //  SuitabilityChat
 //
-//  Created by Victor S Melo on 07/03/18.
+//  Created by Victor S Melo on 08/03/18.
 //  Copyright © 2018 Victor Melo. All rights reserved.
 //
 
 import UIKit
 
-protocol UserInputViewDelegate: class {
-    
-    /// Called when user touches send button
-    func didSend(value: String)
-    
-}
-
-class UserInputView: UIView {
+class TextUserInputView: UIView {
     
     // MARK: - Properties
     
@@ -57,7 +50,6 @@ class UserInputView: UIView {
     init(height: CGFloat) {
         _height = height
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: height))
-        
         setupView()
     }
     
@@ -70,6 +62,7 @@ class UserInputView: UIView {
     @objc private func sendButtonTapped(_ sender: UIButton) {
         guard let text = textField.text else { return }
         delegate?.didSend(value: text)
+        self.isHidden = true
     }
     
     // MARK: - View Setups
@@ -82,6 +75,8 @@ class UserInputView: UIView {
         
         setupSendButton()
         setupTextField()
+        
+        self.isHidden = true
     }
     
     private func setupSendButton() {
@@ -110,4 +105,10 @@ class UserInputView: UIView {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField][sendButton]", options: .alignAllBottom, metrics: nil, views: ["textField": textField, "sendButton": sendButton]))
     }
     
+    // MARK: -
+    
+    func present(with keyboardType: UIKeyboardType) {
+        self.textField.keyboardType = keyboardType
+        self.isHidden = false
+    }
 }

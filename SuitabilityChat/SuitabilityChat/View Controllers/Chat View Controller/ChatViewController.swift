@@ -13,7 +13,7 @@ class ChatViewController: UIViewController {
     // MARK: - Properties
     var chatStackView: UIStackView!
     var chatScrollView: UIScrollView!
-    var userInputView: UserInputView!
+    var textUserInputView: TextUserInputView!
     
     /// It keeps the list of messages to be sent by the bot. It will keep sending the messages until it is empty.
     private var botMessagesList: [[Sentence]] = [] {
@@ -23,7 +23,9 @@ class ChatViewController: UIViewController {
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
             } else {
-                userInputView.isHidden = false
+                
+                let keyboardType = UIKeyboardType.numberPad
+                textUserInputView.present(with: keyboardType)
             }
         }
     }
@@ -61,7 +63,7 @@ class ChatViewController: UIViewController {
         //constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputView": userInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][textUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "textUserInputView": textUserInputView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@750-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
     }
     
@@ -80,18 +82,16 @@ class ChatViewController: UIViewController {
     }
     
     private func setupUserInputView() {
-        userInputView = UserInputView(height: 70.0)
-        userInputView.delegate = self
-        self.view.addSubview(userInputView)
+        textUserInputView = TextUserInputView(height: 70.0)
+        textUserInputView.delegate = self
+        self.view.addSubview(textUserInputView)
         
-        userInputView.translatesAutoresizingMaskIntoConstraints = false
+        textUserInputView.translatesAutoresizingMaskIntoConstraints = false
         
         // constraints
         
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputView]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputView]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
-        
-        userInputView.isHidden = true
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
         
     }
 }
@@ -107,7 +107,6 @@ extension ChatViewController: MessageViewDelegate {
 extension ChatViewController: UserInputViewDelegate {
     
     func didSend(value: String) {
-        userInputView.isHidden = true
         ChatManager.shared.getResponse(userAnswer: value) {
             self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
         }
