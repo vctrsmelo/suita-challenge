@@ -60,7 +60,6 @@ class ChatViewController: UIViewController {
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputView": userInputView]))
-        
     }
     
     private func setupStackView() {
@@ -75,7 +74,6 @@ class ChatViewController: UIViewController {
         
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
-        
     }
     
     private func setupUserInputView() {
@@ -94,7 +92,8 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: MessageViewDelegate {
     func didFinishTyping() {
-        // removing the first message, already sent, will start sending the next one, if exists, in botMessagesList
+        
+        // removing the first message, that was already sent, will start sending the next one, if exists, in botMessagesList.
         botMessagesList.removeFirst()
     }
 }
