@@ -6,7 +6,8 @@
 //  Copyright © 2018 Victor Melo. All rights reserved.
 //
 
-enum UserInputType {
-    case text(APIInput)
-    case buttons([APIButton])
-}
+//enum UserInputType {
+//    case text(APIInput)
+//    case buttons([APIButton])
+//}
+

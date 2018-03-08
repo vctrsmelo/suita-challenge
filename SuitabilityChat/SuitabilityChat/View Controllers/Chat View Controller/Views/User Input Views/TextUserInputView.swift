@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextUserInputView: UIView, UserInputView {
+final class TextUserInputView: UIView, UserInputView {
     
     // MARK: - Properties
     
@@ -75,8 +75,7 @@ class TextUserInputView: UIView, UserInputView {
         
         setupSendButton()
         setupTextField()
-        
-        self.isHidden = true
+
     }
     
     private func setupSendButton() {

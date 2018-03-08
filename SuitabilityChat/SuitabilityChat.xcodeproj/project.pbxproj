@@ -30,7 +30,6 @@
 		EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0E1204F286400235DC2 /* MessageTextView.swift */; };
 		EECE30DC2051772D00AF665B /* TextUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DB2051772D00AF665B /* TextUserInputView.swift */; };
 		EECE30E0205184DE00AF665B /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DF205184DE00AF665B /* UserInputView.swift */; };
-		EECE30E22051851F00AF665B /* UserInputViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E12051851F00AF665B /* UserInputViewFactory.swift */; };
 		EECE30E52051865C00AF665B /* UserInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E42051865C00AF665B /* UserInputType.swift */; };
 		EECE30E72051888500AF665B /* ButtonsUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E62051888500AF665B /* ButtonsUserInputView.swift */; };
 /* End PBXBuildFile section */
@@ -87,7 +86,6 @@
 		EE93B0E1204F286400235DC2 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 		EECE30DB2051772D00AF665B /* TextUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextUserInputView.swift; sourceTree = "<group>"; };
 		EECE30DF205184DE00AF665B /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
-		EECE30E12051851F00AF665B /* UserInputViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputViewFactory.swift; sourceTree = "<group>"; };
 		EECE30E42051865C00AF665B /* UserInputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputType.swift; sourceTree = "<group>"; };
 		EECE30E62051888500AF665B /* ButtonsUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsUserInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -330,7 +328,6 @@
 				EECE30DF205184DE00AF665B /* UserInputView.swift */,
 				EECE30DB2051772D00AF665B /* TextUserInputView.swift */,
 				EECE30E62051888500AF665B /* ButtonsUserInputView.swift */,
-				EECE30E12051851F00AF665B /* UserInputViewFactory.swift */,
 			);
 			path = "User Input Views";
 			sourceTree = "<group>";
@@ -433,7 +430,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EECE30E22051851F00AF665B /* UserInputViewFactory.swift in Sources */,
 				EECE30E0205184DE00AF665B /* UserInputView.swift in Sources */,
 				EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */,
 				BE01C710204F55C900989475 /* Sentence.swift in Sources */,

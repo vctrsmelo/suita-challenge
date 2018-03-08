@@ -20,7 +20,7 @@ class ChatManager {
     /// The chat current state
     private(set) var currentId: String?
     
-    private(set) var currentUserInputType: UserInputType?
+//    private(set) var currentUserInputType: UserInputType?
     
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
@@ -57,9 +57,9 @@ class ChatManager {
             
             //define currentInput. If there's none, it's set to nil.
             
-            if response.inputs.count > 0 {
+            if response.inputs.count > 0, let firstInput = response.inputs.first {
                 
-                self.currentUserInputType = UserInputType.text(response.inputs)
+                self.currentUserInputType = UserInputType.text(firstInput)
                 
             } else if response.buttons.count > 0 {
                 
@@ -90,6 +90,8 @@ extension ChatManager {
             
             Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }
+                
+                print(response)
                 
                 do {
                     let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
