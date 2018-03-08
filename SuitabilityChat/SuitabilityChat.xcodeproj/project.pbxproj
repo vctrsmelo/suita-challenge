@@ -29,7 +29,10 @@
 		EE93B0DD204F062800235DC2 /* MessageTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0DC204F062800235DC2 /* MessageTextParser.swift */; };
 		EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0E1204F286400235DC2 /* MessageTextView.swift */; };
 		EECE30DC2051772D00AF665B /* TextUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DB2051772D00AF665B /* TextUserInputView.swift */; };
-		EECE30DE2051779D00AF665B /* UserInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DD2051779D00AF665B /* UserInputViewDelegate.swift */; };
+		EECE30E0205184DE00AF665B /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DF205184DE00AF665B /* UserInputView.swift */; };
+		EECE30E22051851F00AF665B /* UserInputViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E12051851F00AF665B /* UserInputViewFactory.swift */; };
+		EECE30E52051865C00AF665B /* UserInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E42051865C00AF665B /* UserInputType.swift */; };
+		EECE30E72051888500AF665B /* ButtonsUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E62051888500AF665B /* ButtonsUserInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,7 +86,10 @@
 		EE93B0DC204F062800235DC2 /* MessageTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextParser.swift; sourceTree = "<group>"; };
 		EE93B0E1204F286400235DC2 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 		EECE30DB2051772D00AF665B /* TextUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextUserInputView.swift; sourceTree = "<group>"; };
-		EECE30DD2051779D00AF665B /* UserInputViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputViewDelegate.swift; sourceTree = "<group>"; };
+		EECE30DF205184DE00AF665B /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
+		EECE30E12051851F00AF665B /* UserInputViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputViewFactory.swift; sourceTree = "<group>"; };
+		EECE30E42051865C00AF665B /* UserInputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputType.swift; sourceTree = "<group>"; };
+		EECE30E62051888500AF665B /* ButtonsUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsUserInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +249,7 @@
 		BEE21EDA204E2588002464DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EECE30E32051865000AF665B /* Enums */,
 				BE01C70E204F55BE00989475 /* Extensions */,
 				EE93B0CF204ED35A00235DC2 /* Singletons */,
 				BEE21EDB204E258E002464DE /* API Access */,
@@ -320,10 +327,20 @@
 		EECE30D9205176EF00AF665B /* User Input Views */ = {
 			isa = PBXGroup;
 			children = (
-				EECE30DD2051779D00AF665B /* UserInputViewDelegate.swift */,
+				EECE30DF205184DE00AF665B /* UserInputView.swift */,
 				EECE30DB2051772D00AF665B /* TextUserInputView.swift */,
+				EECE30E62051888500AF665B /* ButtonsUserInputView.swift */,
+				EECE30E12051851F00AF665B /* UserInputViewFactory.swift */,
 			);
 			path = "User Input Views";
+			sourceTree = "<group>";
+		};
+		EECE30E32051865000AF665B /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				EECE30E42051865C00AF665B /* UserInputType.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,11 +433,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EECE30E22051851F00AF665B /* UserInputViewFactory.swift in Sources */,
+				EECE30E0205184DE00AF665B /* UserInputView.swift in Sources */,
 				EE93B0D3204EE04100235DC2 /* MessageView.swift in Sources */,
 				BE01C710204F55C900989475 /* Sentence.swift in Sources */,
 				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				BE01C712204F664A00989475 /* BotMessageView.swift in Sources */,
+				EECE30E52051865C00AF665B /* UserInputType.swift in Sources */,
 				EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */,
 				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,
@@ -428,10 +448,10 @@
 				EE93B0DD204F062800235DC2 /* MessageTextParser.swift in Sources */,
 				BEE21EEB204E3239002464DE /* APIInput.swift in Sources */,
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
+				EECE30E72051888500AF665B /* ButtonsUserInputView.swift in Sources */,
 				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
 				EECE30DC2051772D00AF665B /* TextUserInputView.swift in Sources */,
 				EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */,
-				EECE30DE2051779D00AF665B /* UserInputViewDelegate.swift in Sources */,
 				EE93B0D6204EE26900235DC2 /* UserMessageView.swift in Sources */,
 				BEE21EE6204E2F68002464DE /* ChatManager.swift in Sources */,
 			);

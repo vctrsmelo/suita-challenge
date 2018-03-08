@@ -2,11 +2,11 @@
 //  UserInputView.swift
 //  SuitabilityChat
 //
-//  Created by Victor S Melo on 07/03/18.
+//  Created by Victor S Melo on 08/03/18.
 //  Copyright © 2018 Victor Melo. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 protocol UserInputViewDelegate: class {
     
@@ -16,7 +16,5 @@ protocol UserInputViewDelegate: class {
 }
 
 protocol UserInputView {
-    
-    
-    
+    var delegate: UserInputViewDelegate? { get set }
 }

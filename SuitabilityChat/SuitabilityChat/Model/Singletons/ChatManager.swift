@@ -20,6 +20,8 @@ class ChatManager {
     /// The chat current state
     private(set) var currentId: String?
     
+    private(set) var currentUserInputType: UserInputType?
+    
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
     
@@ -52,6 +54,23 @@ class ChatManager {
         
         APICommunicator.request { response in
             self.currentId = response.id
+            
+            //define currentInput. If there's none, it's set to nil.
+            
+            if response.inputs.count > 0 {
+                
+                self.currentUserInputType = UserInputType.text(response.inputs)
+                
+            } else if response.buttons.count > 0 {
+                
+                self.currentUserInputType = UserInputType.buttons(response.buttons)
+                
+            } else {
+                
+                self.currentUserInputType = nil
+                
+            }
+            
             completion(response)
         }
     }
