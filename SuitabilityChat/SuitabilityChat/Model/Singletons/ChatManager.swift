@@ -59,15 +59,15 @@ class ChatManager {
             
             if response.inputs.count > 0, let firstInput = response.inputs.first {
                 
-                self.currentUserInputType = UserInputType.text(firstInput)
+//                 self.currentUserInputType = UserInputType.text(firstInput)
                 
             } else if response.buttons.count > 0 {
                 
-                self.currentUserInputType = UserInputType.buttons(response.buttons)
+//                self.currentUserInputType = UserInputType.buttons(response.buttons)
                 
             } else {
                 
-                self.currentUserInputType = nil
+//                self.currentUserInputType = nil
                 
             }
             

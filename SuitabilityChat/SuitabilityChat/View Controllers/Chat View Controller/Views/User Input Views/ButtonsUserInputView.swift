@@ -11,14 +11,15 @@ import UIKit
 final class ButtonsUserInputView: UIView, UserInputView {
     
     // MARK: - Properties
-    var buttonA: UIButton!
-    var buttonP: UIButton!
+    var apiButtons: [APIButton] = []
+    var buttons: [UIButton] = []
+    
     var stackView: UIStackView!
     
     weak var delegate: UserInputViewDelegate?
     
     //keep the height defined by the frame on init
-    private var _height: CGFloat
+    private var _buttonHeight: CGFloat!
     
     private var _zeroHeightConstraint: NSLayoutConstraint!
     
@@ -38,17 +39,15 @@ final class ButtonsUserInputView: UIView, UserInputView {
         }
     }
     
-    
-    override init(frame: CGRect) {
-        _height = frame.height
+    ///should call init(height:,buttons:)
+    private override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupView()
     }
     
-    init(height: CGFloat) {
-        _height = height
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: height))
+    init(buttonHeight: CGFloat, buttons: [APIButton]) {
+        _buttonHeight = buttonHeight
+        apiButtons = buttons
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
     
@@ -65,11 +64,7 @@ final class ButtonsUserInputView: UIView, UserInputView {
         _zeroHeightConstraint?.priority = .required
         
         setupStackView()
-        setupButtonA()
-        setupButtonP()
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[buttonA(==buttonP)]|", options: .alignAllCenterY, metrics: nil, views: ["buttonA": buttonA, "buttonP": buttonP]))
-        
+        setupButtons()
     }
     
     private func setupStackView() {
@@ -77,21 +72,33 @@ final class ButtonsUserInputView: UIView, UserInputView {
         stackView.axis = .vertical
         addSubview(stackView)
         
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         //constraints
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: .alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: .alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
     }
     
-    private func setupButtonA() {
-        buttonA = UIButton()
-        buttonA.setTitle("Option A", for: .normal)
-        stackView.addArrangedSubview(buttonA)
-    }
-    
-    private func setupButtonP() {
-        buttonP = UIButton()
-        buttonP.setTitle("Option P", for: .normal)
-        stackView.addArrangedSubview(buttonP)
+    private func setupButtons() {
+        
+        var views: [String: UIView] = [:]
+        var visualFormat: String = "V:|"
+        
+        for i in 0 ..< apiButtons.count {
+            let button = UIButton()
+            button.setTitle(apiButtons[i].label.title, for: .normal)
+            
+            stackView.addArrangedSubview(button)
+            buttons.append(button)
+            
+            button.translatesAutoresizingMaskIntoConstraints = false
+            
+            views["button\(i)"] = button
+            visualFormat.append("[button\(i)(==\(_buttonHeight ?? 50.0))]")
+        }
+        
+        visualFormat.append("|")
+        stackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: visualFormat, options: .alignAllCenterX, metrics: nil, views: views))
     }
     
     // MARK: -

@@ -57,12 +57,12 @@ class ChatViewController: UIViewController {
     
     private func setupView() {
         setupTextUserInputView()
-        //setupButtonsUserInputView()
+        setupButtonsUserInputView()
         setupScrollView()
         setupStackView()
 
         textUserInputView.isHidden = true
-        //buttonsUserInputView.present()
+        buttonsUserInputView.present()
     }
     
     private func setupScrollView() {
@@ -73,8 +73,9 @@ class ChatViewController: UIViewController {
         //constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][textUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "textUserInputView": textUserInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@750-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]-0@500-[textUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "textUserInputView": textUserInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]-0@750-[buttonsUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "buttonsUserInputView": buttonsUserInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@250-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
     }
     
     private func setupStackView() {
@@ -106,7 +107,10 @@ class ChatViewController: UIViewController {
     }
     
     private func setupButtonsUserInputView() {
-        buttonsUserInputView = ButtonsUserInputView(height: 70.0)
+        let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
+        let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
+        let api3 = APIButton(value: "button2", label: APILabel(title: "Label title 3"))
+        buttonsUserInputView = ButtonsUserInputView(buttonHeight: 40.0, buttons: [api1, api2, api3])
         buttonsUserInputView.delegate = self
         self.view.addSubview(buttonsUserInputView)
         

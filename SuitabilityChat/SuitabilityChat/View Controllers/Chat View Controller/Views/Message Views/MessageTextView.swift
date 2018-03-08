@@ -61,6 +61,5 @@ class MessageTextView: UITextView {
             
         }
     }
-    
 
 }
