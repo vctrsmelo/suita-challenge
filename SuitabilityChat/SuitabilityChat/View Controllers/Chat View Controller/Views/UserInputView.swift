@@ -50,25 +50,20 @@ class UserInputView: UIView {
         
         setupSendButton()
         setupTextField()
-        
     }
     
     private func setupSendButton() {
         sendButton = UIButton(type: .custom)
         sendButton.setTitle("Send", for: .normal)
+        addSubview(sendButton)
         
         sendButton.addTarget(self, action: #selector(self.sendButtonTapped(_:)), for: .touchUpInside)
-        
-        addSubview(sendButton)
         
         // constraints
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
-        sendButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        sendButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[sendButton]|", options: .alignAllCenterX, metrics: nil, views: ["sendButton": sendButton]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[sendButton(==50.0)]|", options: .alignAllCenterX, metrics: nil, views: ["sendButton": sendButton]))
     }
     
     private func setupTextField() {
@@ -79,10 +74,8 @@ class UserInputView: UIView {
         //constraints
         
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor).isActive = true
-        textField.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        textField.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        textField.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField]|", options: .alignAllCenterX, metrics: nil, views: ["textField": textField]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField][sendButton]", options: .alignAllLastBaseline, metrics: nil, views: ["textField": textField, "sendButton": sendButton]))
     }
     
 }

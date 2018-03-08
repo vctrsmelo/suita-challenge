@@ -30,9 +30,9 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUserInputView()
         setupScrollView()
         setupStackView()
-        setupUserInputView()
         
         ChatManager.shared.startChat {
             self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
@@ -59,7 +59,7 @@ class ChatViewController: UIViewController {
         //constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputView": userInputView]))
         
     }
     
@@ -87,9 +87,8 @@ class ChatViewController: UIViewController {
         
         // constraints
         
-        userInputView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
-        userInputView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        userInputView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputView]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputView(==50.0)]|", options: .alignAllCenterX, metrics: nil, views: ["userInputView": userInputView]))
     }
 }
 
