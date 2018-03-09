@@ -80,7 +80,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
     }
     
     private func setupButtons() {
-
         // variables for constraints
         var views: [String: UIView] = [:]
         var visualFormat: String = "V:|"
@@ -99,7 +98,9 @@ final class ButtonsUserInputView: UIView, UserInputView {
         
         // add constraints to all buttons
         
-        buttonsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterX, metrics: nil, views: views))
+        if buttons.count > 0 {
+            buttonsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterX, metrics: nil, views: views))
+        }
     }
     
     // MARK: -

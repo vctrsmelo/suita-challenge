@@ -12,12 +12,13 @@ final class TextUserInputView: UIView, UserInputView {
     
     // MARK: - Properties
     
-    var textField: UITextField!
-    //var textInputs: [(api: APIInput, textField: UITextField)]!
+    var textInputs: [(api: APIInput, textField: UITextField)]!
     var sendButton: UIButton!
     
+    var textFieldsStackView: UIStackView!
+    
     //keep the height defined by the frame on init
-    private var _height: CGFloat
+    private var _textFieldHeight: CGFloat!
     
     private var _zeroHeightConstraint: NSLayoutConstraint!
     
@@ -41,16 +42,16 @@ final class TextUserInputView: UIView, UserInputView {
     
     // MARK: -
     
-    override init(frame: CGRect) {
-        _height = frame.height
+    private override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupView()
     }
     
-    init(height: CGFloat) {
-        _height = height
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: height))
+    init(textFieldHeight: CGFloat, inputs: [APIInput]) {
+        _textFieldHeight = textFieldHeight
+        textInputs = inputs.map { return (api: $0, textField: UITextField()) }
+        
+        // frame is unused. The size is defined through constraints.
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
     
@@ -61,7 +62,13 @@ final class TextUserInputView: UIView, UserInputView {
     // MARK: - Actions
     
     @objc private func sendButtonTapped(_ sender: UIButton) {
-        guard let text = textField.text else { return }
+
+        let token = " "
+        
+        // Define text as one string of all textField texts, concatenated by the token constant defined above.
+        // It ignores nil texts.
+        let text = textInputs.map { return $0.textField.text ?? "" }.joined(separator: token)
+        
         delegate?.didSend(value: text)
         self.isHidden = true
     }
@@ -75,7 +82,8 @@ final class TextUserInputView: UIView, UserInputView {
         _zeroHeightConstraint?.priority = .required
         
         setupSendButton()
-        setupTextField()
+        setupTextFieldsStackView()
+        setupTextFields()
 
     }
     
@@ -89,26 +97,55 @@ final class TextUserInputView: UIView, UserInputView {
         // constraints
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[sendButton(\(_height)@750)]|", options: .alignAllCenterX, metrics: nil, views: ["sendButton": sendButton]))
+    
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[sendButton(\(_textFieldHeight ?? 50.0)@750)]|", options: .alignAllCenterX, metrics: nil, views: ["sendButton": sendButton]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[sendButton(==50.0)]|", options: .alignAllCenterX, metrics: nil, views: ["sendButton": sendButton]))
     }
     
-    private func setupTextField() {
-        textField = UITextField()
+    private func setupTextFields() {
         
-        addSubview(textField)
+        // variables for constraints
         
-        //constraints
+        var views: [String: UIView] = [:]
+        var visualFormat: String = "V:|"
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField(\(_height)@750)]|", options: .alignAllCenterX, metrics: nil, views: ["textField": textField]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField][sendButton]", options: .alignAllBottom, metrics: nil, views: ["textField": textField, "sendButton": sendButton]))
+        //configure each UIButton
+        for i in 0 ..< textInputs.count {
+            let textField = textInputs[i].textField
+            
+            textFieldsStackView.addArrangedSubview(textField)
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            textField.backgroundColor = UIColor.brown
+            textField.placeholder = "Enter text here"
+            views["textField\(i)"] = textField
+            visualFormat.append("[textField\(i)(==\(_textFieldHeight ?? 50.0))]")
+        }
+        
+        // add constraints to all buttons
+        
+        textFieldsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterY, metrics: nil, views: views))
+    }
+    
+    private func setupTextFieldsStackView() {
+        textFieldsStackView = UIStackView()
+        textFieldsStackView.axis = .vertical
+        textFieldsStackView.alignment = .fill
+        addSubview(textFieldsStackView)
+        
+        textFieldsStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textFieldsStackView][sendButton]", options: .alignAllBottom, metrics: nil, views: ["textFieldsStackView": textFieldsStackView, "sendButton": sendButton]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[textFieldsStackView]|", options: .alignAllBottom, metrics: nil, views: ["textFieldsStackView": textFieldsStackView]))
     }
     
     // MARK: -
     
     func present(with keyboardType: UIKeyboardType) {
-        self.textField.keyboardType = keyboardType
+//        self.textField.keyboardType = keyboardType
         self.isHidden = false
     }
+}
+
+extension TextUserInputView: UITextFieldDelegate {
+    
 }

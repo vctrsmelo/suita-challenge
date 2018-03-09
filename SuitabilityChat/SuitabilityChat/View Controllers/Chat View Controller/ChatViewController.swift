@@ -10,10 +10,16 @@ import UIKit
 
 class ChatViewController: UIViewController {
     
+    enum InputViewType {
+        case text(keyboardType: UIKeyboardType)
+        case buttons
+    }
+    
     // MARK: - Properties
     var chatStackView: UIStackView!
     var chatScrollView: UIScrollView!
 
+    var userInputViewContainer: UIView!
     var textUserInputView: TextUserInputView!
     var buttonsUserInputView: ButtonsUserInputView!
     
@@ -52,17 +58,34 @@ class ChatViewController: UIViewController {
         chatScrollView.contentSize = CGSize(width: chatStackView.frame.width, height: chatStackView.frame.height)
         
     }
-    
+
     // MARK: - View Setups
     
     private func setupView() {
-        setupTextUserInputView()
-        setupButtonsUserInputView()
+        setupUserInputViews()
         setupScrollView()
         setupStackView()
 
-        textUserInputView.isHidden = true
-        buttonsUserInputView.present()
+        showInputView(type: .text(keyboardType: .default))
+    }
+    
+    private func setupUserInputViews() {
+        setupUserInputViewContainer()
+        setupTextUserInputView()
+        setupButtonsUserInputView()
+
+    }
+    
+    private func setupUserInputViewContainer() {
+        userInputViewContainer = UIView()
+        
+        view.addSubview(userInputViewContainer)
+        
+        userInputViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
+        
     }
     
     private func setupScrollView() {
@@ -73,9 +96,8 @@ class ChatViewController: UIViewController {
         //constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]-0@500-[textUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "textUserInputView": textUserInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]-0@750-[buttonsUserInputView]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "buttonsUserInputView": buttonsUserInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@250-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputViewContainer]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputViewContainer": userInputViewContainer]))
+        //view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@250-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
     }
     
     private func setupStackView() {
@@ -93,33 +115,50 @@ class ChatViewController: UIViewController {
     }
     
     private func setupTextUserInputView() {
-        textUserInputView = TextUserInputView(height: 70.0)
+        let api1 = APIInput(type: "string", mask: "name")
+//        let api2 = APIInput(type: "string", mask: "address")
+        textUserInputView = TextUserInputView(textFieldHeight: 150.0, inputs: [api1])
         textUserInputView.delegate = self
-        self.view.addSubview(textUserInputView)
+        
+        userInputViewContainer.addSubview(textUserInputView)
         
         textUserInputView.translatesAutoresizingMaskIntoConstraints = false
         
         // constraints
         
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
         
     }
     
     private func setupButtonsUserInputView() {
-        let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
-        let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
-        let api3 = APIButton(value: "button2", label: APILabel(title: "Label title 3"))
-        buttonsUserInputView = ButtonsUserInputView(buttonHeight: 40.0, buttons: [api1, api2, api3])
+//        let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
+//        let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
+//        let api3 = APIButton(value: "button2", label: APILabel(title: "Label title 3"))
+        buttonsUserInputView = ButtonsUserInputView(buttonHeight: 40.0, buttons: [])
         buttonsUserInputView.delegate = self
-        self.view.addSubview(buttonsUserInputView)
+        
+        userInputViewContainer.addSubview(buttonsUserInputView)
         
         buttonsUserInputView.translatesAutoresizingMaskIntoConstraints = false
         
         // constraints
         
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
+    }
+    
+    // MARK: -
+    
+    private func showInputView(type: InputViewType) {
+        switch type {
+        case .text(let keyboardType):
+            textUserInputView.present(with: keyboardType)
+            buttonsUserInputView.isHidden = true
+        case .buttons:
+            buttonsUserInputView.present()
+            textUserInputView.isHidden = true
+        }
     }
     
 }
