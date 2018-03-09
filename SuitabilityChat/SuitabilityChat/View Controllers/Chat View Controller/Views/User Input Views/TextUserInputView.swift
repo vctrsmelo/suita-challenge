@@ -21,6 +21,7 @@ final class TextUserInputView: UIView, UserInputView {
     private var _textFieldHeight: CGFloat!
     
     private var _zeroHeightConstraint: NSLayoutConstraint!
+    private var _fullHeightConstraint: NSLayoutConstraint?
     
     // overrides isHidden to, instead of default hide, remove the height.
     // it's important for chat constraint in ChatViewController, that adjust it's size according to UserInputView top.
@@ -30,6 +31,7 @@ final class TextUserInputView: UIView, UserInputView {
         }
         set {
             _zeroHeightConstraint.isActive = newValue
+            _fullHeightConstraint?.isActive = !newValue
             
             self.setNeedsDisplay()
             self.setNeedsLayout()
@@ -40,19 +42,18 @@ final class TextUserInputView: UIView, UserInputView {
     
     weak var delegate: UserInputViewDelegate?
     
-    // MARK: -
+    // MARK: - View Life Cycle
     
     private override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    init(textFieldHeight: CGFloat, inputs: [APIInput]) {
-        _textFieldHeight = textFieldHeight
-        textInputs = inputs.map { return (api: $0, textField: UITextField()) }
-        
+    init() {
         // frame is unused. The size is defined through constraints.
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        setupView()
+        
+        _zeroHeightConstraint = self.heightAnchor.constraint(equalToConstant: 0)
+        _zeroHeightConstraint?.priority = .required
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -107,7 +108,7 @@ final class TextUserInputView: UIView, UserInputView {
         // variables for constraints
         
         var views: [String: UIView] = [:]
-        var visualFormat: String = "V:|"
+        var verticalVisualFormat: String = "V:|"
         
         //configure each UIButton
         for i in 0 ..< textInputs.count {
@@ -118,12 +119,13 @@ final class TextUserInputView: UIView, UserInputView {
             textField.backgroundColor = UIColor.brown
             textField.placeholder = "Enter text here"
             views["textField\(i)"] = textField
-            visualFormat.append("[textField\(i)(==\(_textFieldHeight ?? 50.0))]")
+            verticalVisualFormat.append("[textField\(i)(==\(_textFieldHeight ?? 50.0))]")
         }
         
         // add constraints to all buttons
         
-        textFieldsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterY, metrics: nil, views: views))
+        textFieldsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(verticalVisualFormat)|", options: .alignAllCenterX, metrics: nil, views: views))
+        
     }
     
     private func setupTextFieldsStackView() {
@@ -140,12 +142,15 @@ final class TextUserInputView: UIView, UserInputView {
     
     // MARK: -
     
-    func present(with keyboardType: UIKeyboardType) {
-//        self.textField.keyboardType = keyboardType
+    /*
+     Present the TextUserInputView for the inputs parameter, using the textFieldHeight configuration.
+     */
+    func present(textFieldHeight: CGFloat, inputs: [APIInput]) {
+        _textFieldHeight = textFieldHeight
+        textInputs = inputs.map { return (api: $0, textField: UITextField()) }
         self.isHidden = false
+        self.heightAnchor.constraint(equalToConstant: textFieldHeight*CGFloat(inputs.count)).isActive = true
+        setupView()
     }
-}
 
-extension TextUserInputView: UITextFieldDelegate {
-    
 }

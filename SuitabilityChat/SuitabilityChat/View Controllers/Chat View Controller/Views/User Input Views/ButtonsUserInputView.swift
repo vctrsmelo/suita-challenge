@@ -44,11 +44,12 @@ final class ButtonsUserInputView: UIView, UserInputView {
         super.init(frame: frame)
     }
     
-    init(buttonHeight: CGFloat, buttons: [APIButton]) {
-        _buttonHeight = buttonHeight
-        self.buttons = buttons.map { return (api: $0,view: UIButton()) }
+    init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        setupView()
+        
+        _zeroHeightConstraint = self.heightAnchor.constraint(equalToConstant: 0)
+        _zeroHeightConstraint?.priority = .required
+    
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -59,9 +60,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
     
     private func setupView() {
         self.backgroundColor = UIColor.purple
-        
-        _zeroHeightConstraint = self.heightAnchor.constraint(equalToConstant: 0)
-        _zeroHeightConstraint?.priority = .required
         
         setupStackView()
         setupButtons()
@@ -84,6 +82,13 @@ final class ButtonsUserInputView: UIView, UserInputView {
         var views: [String: UIView] = [:]
         var visualFormat: String = "V:|"
         
+        
+        if buttons.count > 1 {
+            visualFormat.append("[button0(==button1)]")
+        } else {
+            visualFormat.append("[button0]")
+        }
+        
         //configure each UIButton
         for i in 0 ..< buttons.count {
             let button = buttons[i].view
@@ -93,20 +98,27 @@ final class ButtonsUserInputView: UIView, UserInputView {
             
             button.translatesAutoresizingMaskIntoConstraints = false
             views["button\(i)"] = button
-            visualFormat.append("[button\(i)(==\(_buttonHeight ?? 50.0))]")
+            
+            if i > 0 {
+                visualFormat.append("[button\(i)(==button0)]")
+            }
         }
         
         // add constraints to all buttons
         
-        if buttons.count > 0 {
-            buttonsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterX, metrics: nil, views: views))
-        }
+        buttonsStackView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "\(visualFormat)|", options: .alignAllCenterX, metrics: nil, views: views))
     }
     
     // MARK: -
     
-    func present() {
+    /*
+     Present the ButtonsUserInputView for the buttons parameter, using the buttonHeight configuration.
+    */
+    func present(buttonHeight: CGFloat, buttons: [APIButton]) {
+        self.buttons = buttons.map { return (api: $0, view: UIButton()) }
         self.isHidden = false
+        self.heightAnchor.constraint(equalToConstant: buttonHeight*CGFloat(buttons.count)).isActive = true
+        setupView()
     }
     
 }

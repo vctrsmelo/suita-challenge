@@ -11,7 +11,7 @@ import UIKit
 class ChatViewController: UIViewController {
     
     enum InputViewType {
-        case text(keyboardType: UIKeyboardType)
+        case text
         case buttons
     }
     
@@ -33,7 +33,7 @@ class ChatViewController: UIViewController {
             } else {
     
                 //buttonsUserInputView.present()
-                //textUserInputView.present(with: keyboardType)
+                //textUserInputView.present()
             }
         }
     }
@@ -66,7 +66,7 @@ class ChatViewController: UIViewController {
         setupScrollView()
         setupStackView()
 
-        showInputView(type: .text(keyboardType: .default))
+        showInputView(type: .buttons)
     }
     
     private func setupUserInputViews() {
@@ -115,9 +115,7 @@ class ChatViewController: UIViewController {
     }
     
     private func setupTextUserInputView() {
-        let api1 = APIInput(type: "string", mask: "name")
-//        let api2 = APIInput(type: "string", mask: "address")
-        textUserInputView = TextUserInputView(textFieldHeight: 150.0, inputs: [api1])
+        textUserInputView = TextUserInputView()
         textUserInputView.delegate = self
         
         userInputViewContainer.addSubview(textUserInputView)
@@ -127,15 +125,13 @@ class ChatViewController: UIViewController {
         // constraints
         
         userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
-        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
+        
         
     }
     
     private func setupButtonsUserInputView() {
-//        let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
-//        let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
-//        let api3 = APIButton(value: "button2", label: APILabel(title: "Label title 3"))
-        buttonsUserInputView = ButtonsUserInputView(buttonHeight: 40.0, buttons: [])
+        buttonsUserInputView = ButtonsUserInputView()
         buttonsUserInputView.delegate = self
         
         userInputViewContainer.addSubview(buttonsUserInputView)
@@ -145,18 +141,28 @@ class ChatViewController: UIViewController {
         // constraints
         
         userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
-        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
+        userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[buttonsUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["buttonsUserInputView": buttonsUserInputView]))
+
     }
     
     // MARK: -
     
+    /**
+     Display the input view according to the parameter. If other input is being presented, it will be hidden.
+    */
     private func showInputView(type: InputViewType) {
         switch type {
-        case .text(let keyboardType):
-            textUserInputView.present(with: keyboardType)
+        case .text:
+            let api1 = APIInput(type: "string", mask: "name")
+            let api2 = APIInput(type: "string", mask: "address")
+            textUserInputView.present(textFieldHeight: 80, inputs: [api1,api2])
+            userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
             buttonsUserInputView.isHidden = true
         case .buttons:
-            buttonsUserInputView.present()
+            let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
+            let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
+            buttonsUserInputView.present(buttonHeight: 50, buttons: [api1, api2])
+            userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
             textUserInputView.isHidden = true
         }
     }
