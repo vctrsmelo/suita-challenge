@@ -13,6 +13,7 @@ final class TextUserInputView: UIView, UserInputView {
     // MARK: - Properties
     
     var textField: UITextField!
+    //var textInputs: [(api: APIInput, textField: UITextField)]!
     var sendButton: UIButton!
     
     //keep the height defined by the frame on init

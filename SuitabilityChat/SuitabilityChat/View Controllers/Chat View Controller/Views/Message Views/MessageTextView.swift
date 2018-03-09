@@ -12,8 +12,7 @@ class MessageTextView: UITextView {
     
     // MARK: - Properties for typewriting effect
     
-    private var charCount: Int = 0
-    private var timer: Timer?
+    private var typedCharCount: Int = 0
     private var currentSentence: [String.Element] = []
     private var nextSentences: [Sentence] = []
     private let timePerCharacter: TimeInterval = 0.02
@@ -22,7 +21,7 @@ class MessageTextView: UITextView {
     
     var bubbleHeight: CGFloat = 0.0
     
-    /// Write each sentence, waiting for the corresponding waitingTime between each sentence.
+    /// Write each sentence, waiting for the corresponding waitingTime between each sentence. It's a recursive method.
     func typeWrite(_ sentences: [Sentence]) {
 
         //if there are no sentences left, return
@@ -31,35 +30,31 @@ class MessageTextView: UITextView {
             return
         }
 
+        //wait time between each sentence writing
         Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime/1000, repeats: false) { _ in
             self.typeWriteSentence(firstSentence.text, completionHandler: {
-
                 let nextSentences = Array(sentences.dropFirst())
                 self.text = "\(self.text!) "
                 self.typeWrite(nextSentences)
-                
             })
         }
-        
     }
     
     /// Writes each sentence in a message bubble, typing character by character.
     private func typeWriteSentence(_ message: String, completionHandler: @escaping () -> Void) {
         
         self.currentSentence = Array(message)
-        self.charCount = 0
+        self.typedCharCount = 0
         
         Timer.scheduledTimer(withTimeInterval: timePerCharacter, repeats: true) { timer in
             
-            if self.charCount < self.currentSentence.count {
-                self.text = "\(self.text!)\(self.currentSentence[self.charCount])"
+            if self.typedCharCount < self.currentSentence.count {
+                self.text = "\(self.text!)\(self.currentSentence[self.typedCharCount])"
             } else {
                 timer.invalidate()
                 completionHandler()
             }
-            self.charCount += 1
-            
+            self.typedCharCount += 1
         }
     }
-
 }

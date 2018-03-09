@@ -91,8 +91,6 @@ extension ChatManager {
             Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }
                 
-                print(response)
-                
                 do {
                     let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
                     completion(apiResponse)
