@@ -3,11 +3,22 @@
     "messages": [
         {
                  "type": "string",
-                 "value": "Essa é uma mensagem de teste"
-        }
+                 "value": "Essa é uma mensagem de teste <erase> Correção!!!"
+        },
+         {
+         "type": "string",
+         "value": "Segunda mensagem. Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão"
+         },
+         {
+         "type": "string",
+         "value": "Terceira mensagem. Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão Textão"
+         }
     ],
     "inputs": [
-
+    {
+               "type": "string",
+               "mask": "name"
+    }
     ],
     "buttons": [
         {

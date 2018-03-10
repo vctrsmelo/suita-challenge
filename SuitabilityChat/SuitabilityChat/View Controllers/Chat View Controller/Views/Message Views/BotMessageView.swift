@@ -25,16 +25,18 @@ class BotMessageView: UIView, MessageView {
     
     // MARK: -
     
-    init(sentences: [Sentence], font: UIFont, delegate: MessageViewDelegate? = nil) {
+    init(actions: [MessageAction], font: UIFont, delegate: MessageViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
         
-        setupView(sentences: sentences, font: font)
+        setupView(actions: actions, font: font)
         self.messageTextView.messageViewDelegate = delegate
         
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
         self.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: stackView.frame.height)
         
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        //the 20 below is the distance between message and next item. Useful to create space between message and input views.
         self.heightAnchor.constraint(equalToConstant: stackView.frame.height+20).isActive = true
     }
     
@@ -44,10 +46,10 @@ class BotMessageView: UIView, MessageView {
     
     // MARK: - Setup Views
     
-    func setupView(sentences: [Sentence], font: UIFont) {
+    func setupView(actions: [MessageAction], font: UIFont) {
         setupStackView()
         setupIcon()
-        setupMessageTextView(sentences: sentences, font: font)
+        setupMessageTextView(messageActions: actions, font: font)
         
         adjustStackView()
     }

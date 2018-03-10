@@ -28,18 +28,20 @@ class ChatViewController: UIViewController {
     var inputContainerHeight: NSLayoutConstraint?
     
     /// Keeps the list of messages to be sent by the bot, and the expected answer, by the user, for when all messages are sent. It will keep sending the messages until it is empty.
-    private var botMessagesInteraction: (messages: [[Sentence]], expectedAnswer: InputType?) = ([], nil) {
+    private var botMessagesInteraction: (messages: [[MessageAction]], expectedAnswer: InputType?) = ([], nil) {
         didSet {
             
             // send next bot message
             if !botMessagesInteraction.messages.isEmpty {
                 let firstMessage = botMessagesInteraction.messages.first!
-                let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
+                let msg = BotMessageView(actions: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
                 
-                //height size adjustment to show the message being typed. Otherwise it will not appear while being typed.
+                // adjust chatScrollView content size to show the last message while it is being typed
                 let lastMessageHeightOffset = msg.frame.height + chatStackView.spacing*2
-                chatScrollView.contentSize.height += lastMessageHeightOffset
+                if (chatScrollView.contentSize.height + lastMessageHeightOffset) > chatScrollView.bounds.size.height {
+                    chatScrollView.contentSize = CGSize(width: chatStackView.frame.width, height: chatStackView.frame.height + lastMessageHeightOffset)
+                }
                 
             //display user input view to answer bot
             } else {
@@ -74,13 +76,13 @@ class ChatViewController: UIViewController {
         
         ChatManager.shared.startChat {
             if $0.inputs.count > 0 {
-                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: .text($0.inputs))
+                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: .text($0.inputs))
                 
             } else if $0.buttons.count > 0 {
-                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: .buttons($0.buttons))
+                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: .buttons($0.buttons))
                 
             } else {
-                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: nil)
+                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: nil)
             }
         }
     }
@@ -254,13 +256,13 @@ extension ChatViewController: UserInputViewDelegate {
         
         ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
             if apiResponse.inputs.count > 0 {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
                                                expectedAnswer: .text(apiResponse.inputs))
             } else if apiResponse.buttons.count > 0 {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
                                                expectedAnswer: .buttons(apiResponse.buttons))
             } else {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
                                                expectedAnswer: nil)
             }
             

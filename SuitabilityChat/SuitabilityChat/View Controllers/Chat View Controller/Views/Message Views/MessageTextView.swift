@@ -22,7 +22,7 @@ class MessageTextView: UITextView {
     var bubbleHeight: CGFloat = 0.0
     
     /// Write the message, adjusting the bot behavior to the messageActions.
-    func typeWrite(_ messageActions: [MessageAction]) {
+    func typeWrite(messageActions: [MessageAction]) {
 
         //if there are no sentences left, return
         guard let firstAction = messageActions.first else {
@@ -32,13 +32,16 @@ class MessageTextView: UITextView {
         
         switch firstAction {
         case .eraseAll:
-            eraseAllTypedMessage()
+            eraseAllTypedMessage {
+                let nextActions = Array(messageActions.dropFirst())
+                self.typeWrite(messageActions: nextActions)
+            }
         case .write(let sentence):
             //wait time between each sentence writing
             typeWrite(sentence: sentence, completionHandler: {
                 
                 let nextActions = Array(messageActions.dropFirst())
-                self.typeWrite(nextActions)
+                self.typeWrite(messageActions: nextActions)
             })
         }
     }
@@ -74,11 +77,12 @@ class MessageTextView: UITextView {
     }
     
     /// Erase all characters already typed.
-    private func eraseAllTypedMessage() {
+    private func eraseAllTypedMessage( completionHandler: @escaping () -> Void) {
         Timer.scheduledTimer(withTimeInterval: timePerCharacter, repeats: true) { timer in
             
             if self.text.count == 0 {
                 timer.invalidate()
+                completionHandler()
             }
 
             self.text = "\(self.text.dropLast())"

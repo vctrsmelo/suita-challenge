@@ -16,10 +16,10 @@ struct APIResponse: Codable {
     let inputs: [APIInput]
     let responses: [String]
 
-    var messagesAsSentences: [[Sentence]] {
-        let sentences = messages.map({ (message) -> [Sentence] in
+    var messagesAsActions: [[MessageAction]] {
+        let actions = messages.map({ (message) -> [MessageAction] in
             return MessageTextParser.parse(message.value)
         })
-        return sentences
+        return actions
     }
 }

@@ -10,10 +10,22 @@ import Foundation
 
 typealias Sentence = (waitingTime: TimeInterval, text: String)
 
-extension Array where Element == Sentence {
+extension Array where Element == MessageAction {
     func getText() -> String {
         
-        let textArray = self.map({ (_, text) -> String in
+        var sentences: [Sentence] = []
+        
+        self.forEach { (messageAction) in
+            switch messageAction {
+            case .write(let sentence):
+                sentences.append(sentence)
+                
+            default:
+                break
+            }
+        }
+        
+        let textArray = sentences.map({ (_, text) -> String in
             return text
         })
         
