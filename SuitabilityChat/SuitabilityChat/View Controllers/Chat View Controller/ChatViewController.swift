@@ -24,6 +24,8 @@ class ChatViewController: UIViewController {
     var textUserInputView: TextUserInputView!
     var buttonsUserInputView: ButtonsUserInputView!
     
+    var bottomConstraint: NSLayoutConstraint?
+    
     /// It keeps the list of messages to be sent by the bot, and the expected answer for when all messages are sent. It will keep sending the messages until it is empty.
     private var botMessagesInteraction: (messages:[[Sentence]], expectedAnswer: InputType?) = ([], nil) {
         didSet {
@@ -36,13 +38,15 @@ class ChatViewController: UIViewController {
                 
                 switch expectedAnswer {
                 case .text(let inputs):
+                    let customView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 44))
+                    customView.backgroundColor = UIColor.red
                     textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
                     userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
-                    buttonsUserInputView.isHidden = true
+                    adjustBottomConstraint(constant: 0)
                 case .buttons(let buttons):
                     buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
                     userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
-                    textUserInputView.isHidden = true
+                    adjustBottomConstraint(constant: 0)
                 }
             }
         }
@@ -57,7 +61,7 @@ class ChatViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         setupView()
         
         ChatManager.shared.startChat {
@@ -94,7 +98,6 @@ class ChatViewController: UIViewController {
         setupUserInputViews()
         setupScrollView()
         setupStackView()
-
     }
     
     private func setupUserInputViews() {
@@ -111,9 +114,10 @@ class ChatViewController: UIViewController {
         
         userInputViewContainer.translatesAutoresizingMaskIntoConstraints = false
         
+        bottomConstraint = NSLayoutConstraint(item: userInputViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        view.addConstraint(bottomConstraint!)
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
-        
+
     }
     
     private func setupScrollView() {
@@ -173,24 +177,6 @@ class ChatViewController: UIViewController {
 
     }
     
-    // MARK: -
-    
-//    /**
-//     Display the input view according to the parameter. If other input is being presented, it will be hidden.
-//    */
-//    private func showInputView(type: InputType) {
-//        switch type {
-//        case .text:
-//            textUserInputView.present(textFieldHeight: 80, inputs: [api1,api2])
-//            userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
-//            buttonsUserInputView.isHidden = true
-//        case .buttons:
-//            buttonsUserInputView.present(buttonHeight: 50, buttons: [api1, api2])
-//            userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
-//            textUserInputView.isHidden = true
-//        }
-//    }
-    
     // MARK: - Keyboard handling
 
     func registerForKeyboardNotifications() {
@@ -206,16 +192,32 @@ class ChatViewController: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         let userInfo: NSDictionary = notification.userInfo! as NSDictionary
-        guard let keyboardInfo = userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        guard let keyboardInfo = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardSize = keyboardInfo.cgRectValue.size
         let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
         chatScrollView.contentInset = contentInsets
         chatScrollView.scrollIndicatorInsets = contentInsets
+        
+        adjustBottomConstraint(constant: -keyboardSize.height)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         chatScrollView.contentInset = .zero
         chatScrollView.scrollIndicatorInsets = .zero
+        adjustBottomConstraint(constant: userInputViewContainer.frame.height)
+    }
+    
+    private func adjustBottomConstraint(constant: CGFloat) {
+        
+        bottomConstraint?.constant = constant
+        
+        UIView.animate(withDuration: 0, delay: 0, options: .curveEaseOut, animations: {
+            
+            self.view.layoutIfNeeded()
+            
+        }) { _ in
+            
+        }
     }
 }
 
@@ -230,6 +232,7 @@ extension ChatViewController: MessageViewDelegate {
 extension ChatViewController: UserInputViewDelegate {
     
     func userDidAnswer(value: String) {
+        view.endEditing(true)
         
         ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
             if apiResponse.inputs.count > 0 {
