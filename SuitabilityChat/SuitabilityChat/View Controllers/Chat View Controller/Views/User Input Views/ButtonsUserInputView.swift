@@ -36,6 +36,8 @@ final class ButtonsUserInputView: UIView, UserInputView {
         }
     }
     
+    // MARK: - View Life Cycle
+    
     ///should call init(height:,buttons:)
     private override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +49,19 @@ final class ButtonsUserInputView: UIView, UserInputView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func buttonTouched(_ sender: UIButton) {
+        
+        guard let value = buttons.first(where: {$0.api.label.title == sender.titleLabel?.text })?.api.value else {
+            print("couldn't find button API to get value")
+            return
+        }
+        
+        self.isHidden = true
+        delegate?.userDidAnswer(value: value)
     }
     
     // MARK: - Views Setup
@@ -75,7 +90,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
         var views: [String: UIView] = [:]
         var visualFormat: String = "V:|"
         
-        
         if buttons.count > 1 {
             visualFormat.append("[button0(==button1)]")
         } else {
@@ -86,6 +100,8 @@ final class ButtonsUserInputView: UIView, UserInputView {
         for i in 0 ..< buttons.count {
             let button = buttons[i].view
             button.setTitle(buttons[i].api.label.title, for: .normal)
+            
+            button.addTarget(self, action: #selector(self.buttonTouched(_:)), for: .touchUpInside)
             
             buttonsStackView.addArrangedSubview(button)
             
@@ -110,7 +126,11 @@ final class ButtonsUserInputView: UIView, UserInputView {
     func present(buttonHeight: CGFloat, buttons: [APIButton]) {
         self.buttons = buttons.map { return (api: $0, view: UIButton()) }
         self.isHidden = false
-        self.heightAnchor.constraint(equalToConstant: buttonHeight*CGFloat(buttons.count)).isActive = true
+
+        let viewHeight = buttonHeight*CGFloat(buttons.count)
+        self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+
         setupView()
     }
     

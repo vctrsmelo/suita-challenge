@@ -1,0 +1,24 @@
+{
+    "id": "question_name",
+    "messages": [
+        {
+                 "type": "string",
+                 "value": "Essa é uma mensagem de teste"
+        }
+    ],
+    "inputs": [
+    ],
+    "buttons": [
+        {
+                "value": "A",
+                "label": { "title": "Resposta Alpha" }
+        },
+        {
+                "value": "B",
+                "label": { "title": "Resposta Bravo" }
+        }
+    ],
+    "responses": [
+        
+    ]
+}

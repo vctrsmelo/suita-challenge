@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BE01C710204F55C900989475 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C70F204F55C900989475 /* Sentence.swift */; };
 		BE01C712204F664A00989475 /* BotMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C711204F664A00989475 /* BotMessageView.swift */; };
+		BE0315AB2054029900119C9E /* responseTest.json in Resources */ = {isa = PBXBuildFile; fileRef = BE0315AA2054029900119C9E /* responseTest.json */; };
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		BE01C70F204F55C900989475 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		BE01C711204F664A00989475 /* BotMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BotMessageView.swift; sourceTree = "<group>"; };
+		BE0315AA2054029900119C9E /* responseTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = responseTest.json; sourceTree = "<group>"; };
 		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BE487106204E3F0D0067BE83 /* .Alamofire.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .Alamofire.version; sourceTree = "<group>"; };
 		BE487108204E3F0D0067BE83 /* 0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			children = (
 				BEE21EE5204E2F68002464DE /* ChatManager.swift */,
 				EE93B0DC204F062800235DC2 /* MessageTextParser.swift */,
+				BE0315AA2054029900119C9E /* responseTest.json */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0315AB2054029900119C9E /* responseTest.json in Resources */,
 				BEE21ECD204E1B63002464DE /* LaunchScreen.storyboard in Resources */,
 				BEE21ECA204E1B63002464DE /* Assets.xcassets in Resources */,
 				BEE21EC8204E1B63002464DE /* Main.storyboard in Resources */,

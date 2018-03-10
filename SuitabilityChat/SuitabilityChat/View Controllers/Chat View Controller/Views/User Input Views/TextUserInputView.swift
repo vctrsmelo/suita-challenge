@@ -29,8 +29,6 @@ final class TextUserInputView: UIView, UserInputView {
             return super.isHidden
         }
         set {
-            //_zeroHeightConstraint.isActive = newValue
-            
             self.setNeedsDisplay()
             self.setNeedsLayout()
             
@@ -57,7 +55,7 @@ final class TextUserInputView: UIView, UserInputView {
     
     // MARK: - Actions
     
-    @objc private func sendButtonTapped(_ sender: UIButton) {
+    @objc private func sendButtonTouched(_ sender: UIButton) {
 
         let token = " "
         
@@ -88,7 +86,7 @@ final class TextUserInputView: UIView, UserInputView {
         sendButton.setTitle("Send", for: .normal)
         addSubview(sendButton)
         
-        sendButton.addTarget(self, action: #selector(self.sendButtonTapped(_:)), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(self.sendButtonTouched(_:)), for: .touchUpInside)
         
         // constraints
         
@@ -146,7 +144,11 @@ final class TextUserInputView: UIView, UserInputView {
         _textFieldHeight = textFieldHeight
         textInputs = inputs.map { return (api: $0, textField: UITextField()) }
         self.isHidden = false
-        self.heightAnchor.constraint(equalToConstant: textFieldHeight*CGFloat(inputs.count)).isActive = true
+
+        let viewHeight = textFieldHeight*CGFloat(inputs.count)
+        self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        
         setupView()
     }
     

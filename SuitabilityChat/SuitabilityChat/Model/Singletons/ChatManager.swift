@@ -54,23 +54,6 @@ class ChatManager {
         
         APICommunicator.request { response in
             self.currentId = response.id
-            
-            //define currentInput. If there's none, it's set to nil.
-            
-            if response.inputs.count > 0, let firstInput = response.inputs.first {
-                
-//                 self.currentUserInputType = UserInputType.text(firstInput)
-                
-            } else if response.buttons.count > 0 {
-                
-//                self.currentUserInputType = UserInputType.buttons(response.buttons)
-                
-            } else {
-                
-//                self.currentUserInputType = nil
-                
-            }
-            
             completion(response)
         }
     }
@@ -86,18 +69,28 @@ extension ChatManager {
         
         static func request(completion: @escaping (_ response: APIResponse) -> Void) {
             
-            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
-            
-            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
-                guard let data = response.data else { return }
-                
+//            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
+//            
+//            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+//                guard let data = response.data else { return }
+//
+//                do {
+//                    let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
+//                    completion(apiResponse)
+//                } catch {
+//                    print("Couldn't complete API request: \(error.localizedDescription)")
+//                }
+//            }
+            if let path = Bundle.main.path(forResource: "responseTest", ofType: "json") {
                 do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                     let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
                     completion(apiResponse)
                 } catch {
-                    print("Couldn't complete API request: \(error.localizedDescription)")
+                    print("Couldn't fetch json: \(error.localizedDescription)")
                 }
             }
+
         }
     }
 

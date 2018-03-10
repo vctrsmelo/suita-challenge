@@ -25,33 +25,27 @@ class ChatViewController: UIViewController {
     var buttonsUserInputView: ButtonsUserInputView!
     
     var bottomConstraint: NSLayoutConstraint?
-    var heightAnchor: NSLayoutConstraint?
+    var inputContainerHeight: NSLayoutConstraint?
     
     /// It keeps the list of messages to be sent by the bot, and the expected answer for when all messages are sent. It will keep sending the messages until it is empty.
-    private var botMessagesInteraction: (messages:[[Sentence]], expectedAnswer: InputType?) = ([], nil) {
+    private var botMessagesInteraction: (messages: [[Sentence]], expectedAnswer: InputType?) = ([], nil) {
         didSet {
             if !botMessagesInteraction.messages.isEmpty {
                 let firstMessage = botMessagesInteraction.messages.first!
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
                 
-                let bottomOffset = CGPoint(x: 0, y: chatScrollView.contentSize.height - chatScrollView.bounds.size.height)
-                chatScrollView.setContentOffset(bottomOffset, animated: true)
+//                let bottomOffset = CGPoint(x: 0, y: chatScrollView.contentSize.height - chatScrollView.bounds.size.height)
+//                chatScrollView.setContentOffset(bottomOffset, animated: true)
             } else {
                 guard let expectedAnswer = botMessagesInteraction.expectedAnswer else { return }
                 
                 switch expectedAnswer {
                 case .text(let inputs):
-                    let customView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 44))
-                    customView.backgroundColor = UIColor.red
                     textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
-//                    userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
-                    heightAnchor?.constant = textUserInputView.frame.minY
                     adjustBottomConstraint(constant: 0)
                 case .buttons(let buttons):
                     buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
-//                    userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
-                    heightAnchor?.constant = buttonsUserInputView.frame.minY
                     adjustBottomConstraint(constant: 0)
                 }
             }
@@ -113,23 +107,6 @@ class ChatViewController: UIViewController {
 
     }
     
-    private func setupUserInputViewContainer() {
-        userInputViewContainer = UIView()
-        
-        view.addSubview(userInputViewContainer)
-        
-        userInputViewContainer.translatesAutoresizingMaskIntoConstraints = false
-        
-        heightAnchor = userInputViewContainer.heightAnchor.constraint(equalToConstant:0.0)
-        heightAnchor?.isActive = true
-
-        bottomConstraint = NSLayoutConstraint(item: userInputViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-        view.addConstraint(bottomConstraint!)
-        
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
-
-    }
-    
     private func setupScrollView() {
         chatScrollView = UIScrollView(frame: self.view.frame)
         chatScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -138,8 +115,8 @@ class ChatViewController: UIViewController {
         //constraints
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
+        
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputViewContainer]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputViewContainer": userInputViewContainer]))
-        //view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[scrollView]-0@250-|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
     }
     
     private func setupStackView() {
@@ -153,7 +130,23 @@ class ChatViewController: UIViewController {
         // constraints
         
         chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
-        chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
+        chatScrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": chatStackView]))
+    }
+    
+    private func setupUserInputViewContainer() {
+        userInputViewContainer = UIView()
+        
+        view.addSubview(userInputViewContainer)
+        
+        userInputViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        inputContainerHeight = userInputViewContainer.heightAnchor.constraint(equalToConstant: 0.0)
+        
+        bottomConstraint = NSLayoutConstraint(item: userInputViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        view.addConstraint(bottomConstraint!)
+        
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
+
     }
     
     private func setupTextUserInputView() {
@@ -168,7 +161,6 @@ class ChatViewController: UIViewController {
         
         userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
         userInputViewContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[textUserInputView]|", options: .alignAllCenterX, metrics: nil, views: ["textUserInputView": textUserInputView]))
-        
         
     }
     
@@ -214,7 +206,6 @@ class ChatViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         chatScrollView.contentInset = .zero
         chatScrollView.scrollIndicatorInsets = .zero
-        adjustBottomConstraint(constant: userInputViewContainer.frame.height)
     }
     
     private func adjustBottomConstraint(constant: CGFloat) {
@@ -241,7 +232,10 @@ extension ChatViewController: MessageViewDelegate {
 extension ChatViewController: UserInputViewDelegate {
     
     func userDidAnswer(value: String) {
+    
         view.endEditing(true)
+        
+        adjustBottomConstraint(constant: userInputViewContainer.frame.height)
         
         ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
             if apiResponse.inputs.count > 0 {
