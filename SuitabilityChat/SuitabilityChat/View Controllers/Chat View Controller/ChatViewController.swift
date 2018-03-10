@@ -27,16 +27,21 @@ class ChatViewController: UIViewController {
     var bottomConstraint: NSLayoutConstraint?
     var inputContainerHeight: NSLayoutConstraint?
     
-    /// It keeps the list of messages to be sent by the bot, and the expected answer for when all messages are sent. It will keep sending the messages until it is empty.
+    /// Keeps the list of messages to be sent by the bot, and the expected answer, by the user, for when all messages are sent. It will keep sending the messages until it is empty.
     private var botMessagesInteraction: (messages: [[Sentence]], expectedAnswer: InputType?) = ([], nil) {
         didSet {
+            
+            // send next bot message
             if !botMessagesInteraction.messages.isEmpty {
                 let firstMessage = botMessagesInteraction.messages.first!
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
                 
-//                let bottomOffset = CGPoint(x: 0, y: chatScrollView.contentSize.height - chatScrollView.bounds.size.height)
-//                chatScrollView.setContentOffset(bottomOffset, animated: true)
+                //height size adjustment to show the message being typed. Otherwise it will not appear while being typed.
+                let lastMessageHeightOffset = msg.frame.height + chatStackView.spacing*2
+                chatScrollView.contentSize.height += lastMessageHeightOffset
+                
+            //display user input view to answer bot
             } else {
                 guard let expectedAnswer = botMessagesInteraction.expectedAnswer else { return }
                 
@@ -47,8 +52,11 @@ class ChatViewController: UIViewController {
                 case .buttons(let buttons):
                     buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
                     adjustBottomConstraint(constant: 0)
+                    
                 }
             }
+            
+            showLastMessage()
         }
     }
     
@@ -196,18 +204,15 @@ class ChatViewController: UIViewController {
         let userInfo: NSDictionary = notification.userInfo! as NSDictionary
         guard let keyboardInfo = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardSize = keyboardInfo.cgRectValue.size
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        chatScrollView.contentInset = contentInsets
-        chatScrollView.scrollIndicatorInsets = contentInsets
-        
         adjustBottomConstraint(constant: -keyboardSize.height)
+        
+        showLastMessage()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        chatScrollView.contentInset = .zero
-        chatScrollView.scrollIndicatorInsets = .zero
     }
     
+    /// Adjust the scrollView bottom constraint to the parameter constant.
     private func adjustBottomConstraint(constant: CGFloat) {
         
         bottomConstraint?.constant = constant
@@ -218,6 +223,16 @@ class ChatViewController: UIViewController {
                 
         })
         
+    }
+    
+    // MARK: -
+
+    /// Will show to the user the last message added. If it's already being showed, does nothing.
+    private func showLastMessage() {
+        if chatScrollView.contentSize.height > chatScrollView.bounds.size.height {
+            let bottomOffset = CGPoint(x: 0, y: chatScrollView.contentSize.height - chatScrollView.bounds.size.height)
+            chatScrollView.setContentOffset(bottomOffset, animated: true)
+        }
     }
 }
 
