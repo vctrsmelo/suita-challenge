@@ -25,10 +25,18 @@ class UserMessageView: UIView, MessageView {
     /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
     
-    init(messageActions: [MessageAction], font: UIFont, delegate: MessageViewDelegate? = nil) {
+    /**
+     - Parameters:
+        - text: the core text to display. Should be the user answer.
+        - responseFormatting: It's a formatted context where text will be inserted. It comes from API.
+        - font: the font used to display the text.
+    */
+    init(text: String, responseFormatting: String?, font: UIFont, delegate: MessageViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
         
-        setupView(messageActions: messageActions, font: font)
+        let message = MessageAction.write((waitingTime: 0.0, text: text))
+        
+        setupView(message: message, font: font)
         self.messageTextView.messageViewDelegate = delegate
         
         //adjust view frame according to the stackview size. It's needed because the height depends on the text length.
@@ -42,11 +50,9 @@ class UserMessageView: UIView, MessageView {
 
     // MARK: - Setup Views
     
-    func setupView(messageActions: [MessageAction], font: UIFont) {
-        self.backgroundColor = UIColor.orange
-        
+    func setupView(message: MessageAction, font: UIFont) {
         setupStackView()
-        setupMessageTextView(messageActions: messageActions, font: font)
+        setupMessageTextView(messageActions: [message], font: font, typingWriting: false)
         setupIcon()
 
         adjustStackView()

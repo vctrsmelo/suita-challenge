@@ -35,13 +35,17 @@ extension MessageView {
         return messageBubbleWidth+iconContainerWidth
     }
     
-    /// Setup the text view, to adjust its height according to the content.
-    func setupMessageTextView(messageActions: [MessageAction], font: UIFont) {
+    /** Setup the text view, to adjust its height according to the content.
+     - Parameters:
+        - messageActions: the actions to occur in message, including writing sentences and erasing already typed texts.
+        - font: text font
+        - typingWriting: if true, will show message with typing writing effect.
+    */
+    func setupMessageTextView(messageActions: [MessageAction], font: UIFont, typingWriting: Bool) {
     
         messageTextView = MessageTextView()
         messageTextView.font = font
         messageTextView.text = messageActions.getText()
-        messageTextView.backgroundColor = UIColor.blue
         messageTextView.textAlignment = textAlignment
         messageTextView.isEditable = false
         
@@ -49,8 +53,11 @@ extension MessageView {
         messageTextView.bubbleHeight = messageTextView.contentSize.height
         messageTextView.text = ""
         
-//        let messageActions = messageActions.map { return MessageAction.write((waitingTime: $0.waitingTime, text: $0.text)) }
-        messageTextView.typeWrite(messageActions: messageActions)
+        if typingWriting {
+            messageTextView.typeWrite(messageActions: messageActions)
+        } else {
+            messageTextView.text = messageActions.getText()
+        }
         
         stackView.addArrangedSubview(messageTextView)
     }

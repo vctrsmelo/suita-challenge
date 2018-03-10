@@ -19,50 +19,16 @@ struct MessageTextParser {
         - text: received from API request
      */
     static func parse(_ text: String) -> [MessageAction] {
-
         
         // split text using the tokens
-        
         let splitTokens: [Character] = ["^","<",">"]
         let strings = splitByTokens(string: text, tokens: splitTokens)
         
         //create MessageActions
-        
         let messageActions = strings.map{ return getMessageAction(from: $0) }
         
         //return MessageActions
-        
         return messageActions
-        
-//        let timeSensibleSentences = text.components(separatedBy: "^")
-//        var messageActionsString: [String] = []
-//
-//        for sentenceStr in timeSensibleSentences {
-//            messageActionsString.append(contentsOf: sentenceStr.components(separatedBy: "<"))
-//        }
-//
-//        if messageActionsString.isEmpty {
-//            return []
-//        }
-//
-//        var parsedText: [(waitingTime: TimeInterval, text: String)] = [(waitingTime: 0.0, text: messageActionsString.first!)]
-//
-//        messageActionsString.forEach { sentence in
-//
-//            if action == messageActionsString.first { return }
-//
-//            let splittedSentence = sentence.split(separator: " ", maxSplits: 1, omittingEmptySubsequences: false)
-//
-//            guard let timeAsSubstring = splittedSentence.first, let time = TimeInterval(timeAsSubstring) else {
-//                fatalError("Error while parsing into MessageTextParser")
-//            }
-//
-//            let text = (splittedSentence.count > 1) ? String(splittedSentence[1]) : ""
-//
-//            parsedText.append((waitingTime: time, text: text))
-//        }
-//
-//        return parsedText
     }
     
     /// Split the string by the tokens parameter.
@@ -95,5 +61,4 @@ struct MessageTextParser {
         return MessageAction.write((waitingTime: waitingTime, text: text))
         
     }
-    
 }

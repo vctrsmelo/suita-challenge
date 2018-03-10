@@ -252,9 +252,13 @@ extension ChatViewController: UserInputViewDelegate {
     
         view.endEditing(true)
         
+        let userMsg = UserMessageView(text: value, responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
+        self.chatStackView.addArrangedSubview(userMsg)
+        
         adjustBottomConstraint(constant: userInputViewContainer.frame.height)
         
         ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
+            
             if apiResponse.inputs.count > 0 {
                 self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
                                                expectedAnswer: .text(apiResponse.inputs))

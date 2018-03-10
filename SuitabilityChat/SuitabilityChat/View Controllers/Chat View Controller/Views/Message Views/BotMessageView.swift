@@ -49,7 +49,7 @@ class BotMessageView: UIView, MessageView {
     func setupView(actions: [MessageAction], font: UIFont) {
         setupStackView()
         setupIcon()
-        setupMessageTextView(messageActions: actions, font: font)
+        setupMessageTextView(messageActions: actions, font: font, typingWriting: true)
         
         adjustStackView()
     }
