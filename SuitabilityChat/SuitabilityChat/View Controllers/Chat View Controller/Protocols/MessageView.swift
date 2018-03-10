@@ -24,7 +24,7 @@ protocol MessageView: class {
 extension MessageView {
     
     var messageBubbleWidth: CGFloat {
-        return 200.0
+        return UIScreen.main.bounds.width - 80.0
     }
     
     var iconContainerWidth: CGFloat {

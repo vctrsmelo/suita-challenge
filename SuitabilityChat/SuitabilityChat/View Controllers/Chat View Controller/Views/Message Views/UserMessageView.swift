@@ -19,11 +19,11 @@ class UserMessageView: UIView, MessageView {
     var textAlignment: NSTextAlignment {
         return .right
     }
-
-    // MARK: -
     
     /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
+    
+    // MARK: - View Life Cycle
     
     /**
      - Parameters:
@@ -33,8 +33,10 @@ class UserMessageView: UIView, MessageView {
     */
     init(text: String, responseFormatting: String?, font: UIFont, delegate: MessageViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
+    
         
-        let message = MessageAction.write((waitingTime: 0.0, text: text))
+        
+        let message = MessageAction.write((waitingTime: 0.0, text: getFancyText(text)))
         
         setupView(message: message, font: font)
         self.messageTextView.messageViewDelegate = delegate
@@ -95,5 +97,29 @@ class UserMessageView: UIView, MessageView {
         stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
         
     }
-
+    
+    
+    private func getFancyText(_ text: String) {
+    
+        let splittedString = fancyTextSplitTokens(text)
+        var userResponses = ChatManager.shared.userResponses
+        
+    }
+    
+    private func fancyTextSplitTokens(_ text: String) -> [String] {
+        
+        var preTextSplit = userResponses.split(separator: "{", maxSplits: 1, omittingEmptySubsequences: false)
+        var tokensStr: String?
+        var postTextSplit: String?
+        
+        var secondTextSplitted = preTextSplit[1]
+        
+        
+        for i in 1 ..< secondTextSplitted.count {
+            if secondTextSplitted[i] == secondTextSplitted[i-1] && secondTextSplitted[i] == "}" {
+                
+            }
+        }
+        
+    }
 }

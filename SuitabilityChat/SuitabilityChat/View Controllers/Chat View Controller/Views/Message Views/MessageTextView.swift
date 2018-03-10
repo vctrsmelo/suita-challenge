@@ -19,6 +19,7 @@ class MessageTextView: UITextView {
     
     weak var messageViewDelegate: MessageViewDelegate?
     
+    /// Keep the height of the bubble message, defined according to it's text content.
     var bubbleHeight: CGFloat = 0.0
     
     /// Write the message, adjusting the bot behavior to the messageActions.

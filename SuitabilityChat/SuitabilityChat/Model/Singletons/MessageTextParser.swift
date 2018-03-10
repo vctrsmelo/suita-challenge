@@ -8,7 +8,8 @@
 
 import Foundation
 
-/// A struct with one static method to parse the text received from API to an array of tuples that will be sent to the interface.
+/// A struct with static methods relating to parse API texts.
+
 struct MessageTextParser {
     
     private static let eraseToken  = "erase"
@@ -21,18 +22,18 @@ struct MessageTextParser {
     static func parse(_ text: String) -> [MessageAction] {
         
         // split text using the tokens
-        let splitTokens: [Character] = ["^","<",">"]
+        let splitTokens: [Character] = ["^", "<", ">"]
         let strings = splitByTokens(string: text, tokens: splitTokens)
         
         //create MessageActions
-        let messageActions = strings.map{ return getMessageAction(from: $0) }
+        let messageActions = strings.map { return getMessageAction(from: $0) }
         
         //return MessageActions
         return messageActions
     }
     
     /// Split the string by the tokens parameter.
-    static private func splitByTokens(string: String, tokens: [Character]) -> [String] {
+    static func splitByTokens(string: String, tokens: [Character]) -> [String] {
         
         let splittedSubstring = string.split(whereSeparator: { character -> Bool in
             return tokens.contains(character)

@@ -10,11 +10,6 @@ import UIKit
 
 class ChatViewController: UIViewController {
     
-    enum InputType {
-        case text([APIInput])
-        case buttons([APIButton])
-    }
-    
     // MARK: - Properties
     
     var chatStackView: UIStackView!
@@ -27,40 +22,7 @@ class ChatViewController: UIViewController {
     var bottomConstraint: NSLayoutConstraint?
     var inputContainerHeight: NSLayoutConstraint?
     
-    /// Keeps the list of messages to be sent by the bot, and the expected answer, by the user, for when all messages are sent. It will keep sending the messages until it is empty.
-    private var botMessagesInteraction: (messages: [[MessageAction]], expectedAnswer: InputType?) = ([], nil) {
-        didSet {
-            
-            // send next bot message
-            if !botMessagesInteraction.messages.isEmpty {
-                let firstMessage = botMessagesInteraction.messages.first!
-                let msg = BotMessageView(actions: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
-                self.chatStackView.addArrangedSubview(msg)
-                
-                // adjust chatScrollView content size to show the last message while it is being typed
-                let lastMessageHeightOffset = msg.frame.height + chatStackView.spacing*2
-                if (chatScrollView.contentSize.height + lastMessageHeightOffset) > chatScrollView.bounds.size.height {
-                    chatScrollView.contentSize = CGSize(width: chatStackView.frame.width, height: chatStackView.frame.height + lastMessageHeightOffset)
-                }
-                
-            //display user input view to answer bot
-            } else {
-                guard let expectedAnswer = botMessagesInteraction.expectedAnswer else { return }
-                
-                switch expectedAnswer {
-                case .text(let inputs):
-                    textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
-                    adjustBottomConstraint(constant: 0)
-                case .buttons(let buttons):
-                    buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
-                    adjustBottomConstraint(constant: 0)
-                    
-                }
-            }
-            
-            showLastMessage()
-        }
-    }
+    var messagesManager: MessagesDisplayManager!
     
     // MARK: - Init & Deinit
     
@@ -72,17 +34,18 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        messagesManager = MessagesDisplayManager(delegate: self)
+
         setupView()
         
         ChatManager.shared.startChat {
             if $0.inputs.count > 0 {
-                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: .text($0.inputs))
-                
+                self.messagesManager.sendMessages($0.messagesAsActions, expectedAnswer: .text(apiInputs: $0.inputs))
             } else if $0.buttons.count > 0 {
-                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: .buttons($0.buttons))
-                
+                self.messagesManager.sendMessages($0.messagesAsActions, expectedAnswer: .buttons($0.buttons))
             } else {
-                self.botMessagesInteraction = (messages: $0.messagesAsActions, expectedAnswer: nil)
+                
+                self.messagesManager.sendMessages($0.messagesAsActions, expectedAnswer: nil)
             }
         }
     }
@@ -238,14 +201,6 @@ class ChatViewController: UIViewController {
     }
 }
 
-extension ChatViewController: MessageViewDelegate {
-    func didFinishTyping() {
-        
-        // removing the first message, that was already sent, will start sending the next one, if exists, in botMessagesList.
-        botMessagesInteraction.messages.removeFirst()
-    }
-}
-
 extension ChatViewController: UserInputViewDelegate {
     
     func userDidAnswer(value: String) {
@@ -258,18 +213,50 @@ extension ChatViewController: UserInputViewDelegate {
         adjustBottomConstraint(constant: userInputViewContainer.frame.height)
         
         ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
-            
+
             if apiResponse.inputs.count > 0 {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
-                                               expectedAnswer: .text(apiResponse.inputs))
+                self.messagesManager.sendMessages(apiResponse.messagesAsActions, expectedAnswer: .text(apiInputs: apiResponse.inputs))
             } else if apiResponse.buttons.count > 0 {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
-                                               expectedAnswer: .buttons(apiResponse.buttons))
+                self.messagesManager.sendMessages(apiResponse.messagesAsActions, expectedAnswer: .buttons(apiResponse.buttons))
             } else {
-                self.botMessagesInteraction = (messages: apiResponse.messagesAsActions,
-                                               expectedAnswer: nil)
+                self.messagesManager.sendMessages(apiResponse.messagesAsActions, expectedAnswer: nil)
             }
-            
         }
     }
+}
+
+extension ChatViewController: MessagesDisplayManagerDelegate {
+    
+    func addMessageToView(_ messageView: UIView) {
+        guard let msgBot = messageView as? BotMessageView else {
+            print("[ChatViewController] Couldn't get BotMessageView")
+            return
+        }
+        
+        self.chatStackView.addArrangedSubview(msgBot)
+        
+        // adjust chatScrollView content size to show the last message while it is being typed
+        let lastMessageHeightOffset = msgBot.frame.height + chatStackView.spacing*2
+        if (chatScrollView.contentSize.height + lastMessageHeightOffset) > chatScrollView.bounds.size.height {
+            chatScrollView.contentSize = CGSize(width: chatStackView.frame.width, height: chatStackView.frame.height + lastMessageHeightOffset)
+        }
+        
+        showLastMessage()
+    }
+    
+    func needToGetAnswer(_ inputType: InputType) {
+        switch inputType {
+        case .text(let inputs):
+            textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
+            adjustBottomConstraint(constant: 0)
+            
+        case .buttons(let buttons):
+            buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
+            adjustBottomConstraint(constant: 0)
+            
+        }
+        
+        showLastMessage()
+    }
+    
 }

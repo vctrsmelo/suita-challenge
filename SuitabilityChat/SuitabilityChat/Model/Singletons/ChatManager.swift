@@ -24,6 +24,9 @@ class ChatManager {
     
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
+
+    /// Keep the container for user response. Need to be parsed
+    private(set) var userResponses : [String] = []
     
     private init() { }
     
@@ -54,6 +57,7 @@ class ChatManager {
         
         APICommunicator.request { response in
             self.currentId = response.id
+            self.userResponses = response.responses
             completion(response)
         }
     }
