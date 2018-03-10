@@ -21,8 +21,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
     //keep the height defined by the frame on init
     private var _buttonHeight: CGFloat!
     
-    private var _zeroHeightConstraint: NSLayoutConstraint!
-    
     // overrides isHidden to, instead of default hide, remove the height.
     // it's important for chat constraint in ChatViewController, that adjust it's size according to UserInputView top.
     override var isHidden: Bool {
@@ -30,7 +28,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
             return super.isHidden
         }
         set {
-            _zeroHeightConstraint.isActive = newValue
             
             self.setNeedsDisplay()
             self.setNeedsLayout()
@@ -46,10 +43,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
     
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        
-        _zeroHeightConstraint = self.heightAnchor.constraint(equalToConstant: 0)
-        _zeroHeightConstraint?.priority = .required
-    
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -25,6 +25,7 @@ class ChatViewController: UIViewController {
     var buttonsUserInputView: ButtonsUserInputView!
     
     var bottomConstraint: NSLayoutConstraint?
+    var heightAnchor: NSLayoutConstraint?
     
     /// It keeps the list of messages to be sent by the bot, and the expected answer for when all messages are sent. It will keep sending the messages until it is empty.
     private var botMessagesInteraction: (messages:[[Sentence]], expectedAnswer: InputType?) = ([], nil) {
@@ -33,6 +34,9 @@ class ChatViewController: UIViewController {
                 let firstMessage = botMessagesInteraction.messages.first!
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
+                
+                let bottomOffset = CGPoint(x: 0, y: chatScrollView.contentSize.height - chatScrollView.bounds.size.height)
+                chatScrollView.setContentOffset(bottomOffset, animated: true)
             } else {
                 guard let expectedAnswer = botMessagesInteraction.expectedAnswer else { return }
                 
@@ -41,11 +45,13 @@ class ChatViewController: UIViewController {
                     let customView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 44))
                     customView.backgroundColor = UIColor.red
                     textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
-                    userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
+//                    userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
+                    heightAnchor?.constant = textUserInputView.frame.minY
                     adjustBottomConstraint(constant: 0)
                 case .buttons(let buttons):
                     buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
-                    userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
+//                    userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
+                    heightAnchor?.constant = buttonsUserInputView.frame.minY
                     adjustBottomConstraint(constant: 0)
                 }
             }
@@ -114,8 +120,12 @@ class ChatViewController: UIViewController {
         
         userInputViewContainer.translatesAutoresizingMaskIntoConstraints = false
         
+        heightAnchor = userInputViewContainer.heightAnchor.constraint(equalToConstant:0.0)
+        heightAnchor?.isActive = true
+
         bottomConstraint = NSLayoutConstraint(item: userInputViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
         view.addConstraint(bottomConstraint!)
+        
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[userInputViewContainer]|", options: .alignAllCenterX, metrics: nil, views: ["userInputViewContainer": userInputViewContainer]))
 
     }
