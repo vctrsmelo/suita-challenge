@@ -11,7 +11,7 @@ import UIKit
 protocol UserInputViewDelegate: class {
     
     /// Called when user touches send button
-    func didSend(value: String)
+    func userDidAnswer(value: String)
     
 }
 

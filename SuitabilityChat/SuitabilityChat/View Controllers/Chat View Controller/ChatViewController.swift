@@ -10,12 +10,13 @@ import UIKit
 
 class ChatViewController: UIViewController {
     
-    enum InputViewType {
-        case text
-        case buttons
+    enum InputType {
+        case text([APIInput])
+        case buttons([APIButton])
     }
     
     // MARK: - Properties
+    
     var chatStackView: UIStackView!
     var chatScrollView: UIScrollView!
 
@@ -23,19 +24,34 @@ class ChatViewController: UIViewController {
     var textUserInputView: TextUserInputView!
     var buttonsUserInputView: ButtonsUserInputView!
     
-    /// It keeps the list of messages to be sent by the bot. It will keep sending the messages until it is empty.
-    private var botMessagesList: [[Sentence]] = [] {
+    /// It keeps the list of messages to be sent by the bot, and the expected answer for when all messages are sent. It will keep sending the messages until it is empty.
+    private var botMessagesInteraction: (messages:[[Sentence]], expectedAnswer: InputType?) = ([], nil) {
         didSet {
-            if !botMessagesList.isEmpty {
-                let firstMessage = botMessagesList.first!
+            if !botMessagesInteraction.messages.isEmpty {
+                let firstMessage = botMessagesInteraction.messages.first!
                 let msg = BotMessageView(sentences: firstMessage, font: UIFont.systemFont(ofSize: 16), delegate: self)
                 self.chatStackView.addArrangedSubview(msg)
             } else {
-    
-                //buttonsUserInputView.present()
-                //textUserInputView.present()
+                guard let expectedAnswer = botMessagesInteraction.expectedAnswer else { return }
+                
+                switch expectedAnswer {
+                case .text(let inputs):
+                    textUserInputView.present(textFieldHeight: 50.0, inputs: inputs)
+                    userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
+                    buttonsUserInputView.isHidden = true
+                case .buttons(let buttons):
+                    buttonsUserInputView.present(buttonHeight: 50.0, buttons: buttons)
+                    userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
+                    textUserInputView.isHidden = true
+                }
             }
         }
+    }
+    
+    // MARK: - Init & Deinit
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Life Cycle
@@ -45,8 +61,21 @@ class ChatViewController: UIViewController {
         setupView()
         
         ChatManager.shared.startChat {
-            self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
+            if $0.inputs.count > 0 {
+                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: .text($0.inputs))
+                
+            } else if $0.buttons.count > 0 {
+                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: .buttons($0.buttons))
+                
+            } else {
+                self.botMessagesInteraction = (messages: $0.messagesAsSentences, expectedAnswer: nil)
+            }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotifications()
     }
     
     override func viewWillLayoutSubviews() {
@@ -66,7 +95,6 @@ class ChatViewController: UIViewController {
         setupScrollView()
         setupStackView()
 
-        showInputView(type: .buttons)
     }
     
     private func setupUserInputViews() {
@@ -147,41 +175,74 @@ class ChatViewController: UIViewController {
     
     // MARK: -
     
-    /**
-     Display the input view according to the parameter. If other input is being presented, it will be hidden.
-    */
-    private func showInputView(type: InputViewType) {
-        switch type {
-        case .text:
-            let api1 = APIInput(type: "string", mask: "name")
-            let api2 = APIInput(type: "string", mask: "address")
-            textUserInputView.present(textFieldHeight: 80, inputs: [api1,api2])
-            userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
-            buttonsUserInputView.isHidden = true
-        case .buttons:
-            let api1 = APIButton(value: "button1", label: APILabel(title: "Label title 1"))
-            let api2 = APIButton(value: "button2", label: APILabel(title: "Label title 2"))
-            buttonsUserInputView.present(buttonHeight: 50, buttons: [api1, api2])
-            userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
-            textUserInputView.isHidden = true
-        }
+//    /**
+//     Display the input view according to the parameter. If other input is being presented, it will be hidden.
+//    */
+//    private func showInputView(type: InputType) {
+//        switch type {
+//        case .text:
+//            textUserInputView.present(textFieldHeight: 80, inputs: [api1,api2])
+//            userInputViewContainer.heightAnchor.constraint(equalTo: textUserInputView.heightAnchor, multiplier: 1).isActive = true
+//            buttonsUserInputView.isHidden = true
+//        case .buttons:
+//            buttonsUserInputView.present(buttonHeight: 50, buttons: [api1, api2])
+//            userInputViewContainer.heightAnchor.constraint(equalTo: buttonsUserInputView.heightAnchor, multiplier: 1).isActive = true
+//            textUserInputView.isHidden = true
+//        }
+//    }
+    
+    // MARK: - Keyboard handling
+
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        guard let keyboardInfo = userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        let keyboardSize = keyboardInfo.cgRectValue.size
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        chatScrollView.contentInset = contentInsets
+        chatScrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        chatScrollView.contentInset = .zero
+        chatScrollView.scrollIndicatorInsets = .zero
+    }
 }
 
 extension ChatViewController: MessageViewDelegate {
     func didFinishTyping() {
         
         // removing the first message, that was already sent, will start sending the next one, if exists, in botMessagesList.
-        botMessagesList.removeFirst()
+        botMessagesInteraction.messages.removeFirst()
     }
 }
 
 extension ChatViewController: UserInputViewDelegate {
     
-    func didSend(value: String) {
-        ChatManager.shared.getResponse(userAnswer: value) {
-            self.botMessagesList.append(contentsOf: $0.messagesAsSentences)
+    func userDidAnswer(value: String) {
+        
+        ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
+            if apiResponse.inputs.count > 0 {
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                                               expectedAnswer: .text(apiResponse.inputs))
+            } else if apiResponse.buttons.count > 0 {
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                                               expectedAnswer: .buttons(apiResponse.buttons))
+            } else {
+                self.botMessagesInteraction = (messages: apiResponse.messagesAsSentences,
+                                               expectedAnswer: nil)
+            }
+            
         }
     }
 }
