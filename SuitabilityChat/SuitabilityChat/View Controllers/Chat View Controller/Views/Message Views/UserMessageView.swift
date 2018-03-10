@@ -46,7 +46,7 @@ class UserMessageView: UIView, MessageView {
         self.backgroundColor = UIColor.orange
         
         setupStackView()
-        setupMessageTextView(bubbleMessage: sentences, font: font)
+        setupMessageTextView(sentences: sentences, font: font)
         setupIcon()
 
         adjustStackView()

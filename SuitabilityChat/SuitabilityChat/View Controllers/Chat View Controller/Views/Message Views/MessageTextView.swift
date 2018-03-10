@@ -21,26 +21,41 @@ class MessageTextView: UITextView {
     
     var bubbleHeight: CGFloat = 0.0
     
-    /// Write each sentence, waiting for the corresponding waitingTime between each sentence. It's a recursive method.
-    func typeWrite(_ sentences: [Sentence]) {
+    /// Write the message, adjusting the bot behavior to the messageActions.
+    func typeWrite(_ messageActions: [MessageAction]) {
 
         //if there are no sentences left, return
-        guard let firstSentence = sentences.first else {
+        guard let firstAction = messageActions.first else {
             messageViewDelegate?.didFinishTyping()
             return
         }
-
-        //wait time between each sentence writing
-        Timer.scheduledTimer(withTimeInterval: firstSentence.waitingTime/1000, repeats: false) { _ in
-            self.typeWriteSentence(firstSentence.text, completionHandler: {
-                let nextSentences = Array(sentences.dropFirst())
-                self.text = "\(self.text!) "
-                self.typeWrite(nextSentences)
+        
+        switch firstAction {
+        case .eraseAll:
+            eraseAllTypedMessage()
+        case .write(let sentence):
+            //wait time between each sentence writing
+            typeWrite(sentence: sentence, completionHandler: {
+                
+                let nextActions = Array(messageActions.dropFirst())
+                self.typeWrite(nextActions)
             })
         }
     }
     
-    /// Writes each sentence in a message bubble, typing character by character.
+    /// Write the sentences defined into parameter. When all sentences were writed, will call the completionHandler.
+    private func typeWrite(sentence: Sentence, completionHandler: @escaping () -> Void) {
+        
+        Timer.scheduledTimer(withTimeInterval: sentence.waitingTime/1000, repeats: false) { _ in
+            self.typeWriteSentence(sentence.text, completionHandler: {
+                self.text = "\(self.text!) "
+                completionHandler()
+            })
+        }
+        
+    }
+    
+    /// Writes the message parameter. It's one sentence that will be typed character by character. The completionHandler is called when all characters were typed.
     private func typeWriteSentence(_ message: String, completionHandler: @escaping () -> Void) {
         
         self.currentSentence = Array(message)
@@ -55,6 +70,18 @@ class MessageTextView: UITextView {
                 completionHandler()
             }
             self.typedCharCount += 1
+        }
+    }
+    
+    /// Erase all characters already typed.
+    private func eraseAllTypedMessage() {
+        Timer.scheduledTimer(withTimeInterval: timePerCharacter, repeats: true) { timer in
+            
+            if self.text.count == 0 {
+                timer.invalidate()
+            }
+
+            self.text = "\(self.text.dropLast())"
         }
     }
 }

@@ -36,11 +36,11 @@ extension MessageView {
     }
     
     /// Setup the text view, to adjust its height according to the content.
-    func setupMessageTextView(bubbleMessage: BubbleMessage, font: UIFont) {
+    func setupMessageTextView(sentences: [Sentence], font: UIFont) {
     
         messageTextView = MessageTextView()
         messageTextView.font = font
-        messageTextView.text = bubbleMessage.getText()
+        messageTextView.text = sentences.getText()
         messageTextView.backgroundColor = UIColor.blue
         messageTextView.textAlignment = textAlignment
         messageTextView.isEditable = false
@@ -48,7 +48,9 @@ extension MessageView {
         messageTextView.frame = CGRect(x: 0, y: 0, width: messageBubbleWidth, height: messageTextView.contentSize.height)
         messageTextView.bubbleHeight = messageTextView.contentSize.height
         messageTextView.text = ""
-        messageTextView.typeWrite(bubbleMessage)
+        
+        let messageActions = sentences.map { return MessageAction.write((waitingTime: $0.waitingTime, text: $0.text)) }
+        messageTextView.typeWrite(messageActions)
         
         stackView.addArrangedSubview(messageTextView)
     }

@@ -10,6 +10,7 @@
 		BE01C710204F55C900989475 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C70F204F55C900989475 /* Sentence.swift */; };
 		BE01C712204F664A00989475 /* BotMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01C711204F664A00989475 /* BotMessageView.swift */; };
 		BE0315AB2054029900119C9E /* responseTest.json in Resources */ = {isa = PBXBuildFile; fileRef = BE0315AA2054029900119C9E /* responseTest.json */; };
+		BE0315AD20542B3C00119C9E /* MessageAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0315AC20542B3C00119C9E /* MessageAction.swift */; };
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
@@ -31,7 +32,6 @@
 		EE93B0E2204F286400235DC2 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93B0E1204F286400235DC2 /* MessageTextView.swift */; };
 		EECE30DC2051772D00AF665B /* TextUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DB2051772D00AF665B /* TextUserInputView.swift */; };
 		EECE30E0205184DE00AF665B /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30DF205184DE00AF665B /* UserInputView.swift */; };
-		EECE30E52051865C00AF665B /* UserInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E42051865C00AF665B /* UserInputType.swift */; };
 		EECE30E72051888500AF665B /* ButtonsUserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE30E62051888500AF665B /* ButtonsUserInputView.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +53,7 @@
 		BE01C70F204F55C900989475 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		BE01C711204F664A00989475 /* BotMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BotMessageView.swift; sourceTree = "<group>"; };
 		BE0315AA2054029900119C9E /* responseTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = responseTest.json; sourceTree = "<group>"; };
+		BE0315AC20542B3C00119C9E /* MessageAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAction.swift; sourceTree = "<group>"; };
 		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BE487106204E3F0D0067BE83 /* .Alamofire.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .Alamofire.version; sourceTree = "<group>"; };
 		BE487108204E3F0D0067BE83 /* 0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap"; sourceTree = "<group>"; };
@@ -88,7 +89,6 @@
 		EE93B0E1204F286400235DC2 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 		EECE30DB2051772D00AF665B /* TextUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextUserInputView.swift; sourceTree = "<group>"; };
 		EECE30DF205184DE00AF665B /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
-		EECE30E42051865C00AF665B /* UserInputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputType.swift; sourceTree = "<group>"; };
 		EECE30E62051888500AF665B /* ButtonsUserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsUserInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -338,7 +338,7 @@
 		EECE30E32051865000AF665B /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				EECE30E42051865C00AF665B /* UserInputType.swift */,
+				BE0315AC20542B3C00119C9E /* MessageAction.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -440,13 +440,13 @@
 				BE48711E204E486E0067BE83 /* APILabel.swift in Sources */,
 				BEE21EF2204E3613002464DE /* APIRequest.swift in Sources */,
 				BE01C712204F664A00989475 /* BotMessageView.swift in Sources */,
-				EECE30E52051865C00AF665B /* UserInputType.swift in Sources */,
 				EE93B0CD204ED2AC00235DC2 /* ChatViewController.swift in Sources */,
 				BEE21EE9204E31EE002464DE /* APIButton.swift in Sources */,
 				BEE21EC5204E1B62002464DE /* ViewController.swift in Sources */,
 				BEE21EE2204E29BA002464DE /* APIMessage.swift in Sources */,
 				EE93B0DD204F062800235DC2 /* MessageTextParser.swift in Sources */,
 				BEE21EEB204E3239002464DE /* APIInput.swift in Sources */,
+				BE0315AD20542B3C00119C9E /* MessageAction.swift in Sources */,
 				BEE21EC3204E1B62002464DE /* AppDelegate.swift in Sources */,
 				EECE30E72051888500AF665B /* ButtonsUserInputView.swift in Sources */,
 				BEE21EEE204E32DD002464DE /* APIResponse.swift in Sources */,
