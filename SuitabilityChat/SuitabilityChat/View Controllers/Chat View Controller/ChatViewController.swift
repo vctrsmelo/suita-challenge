@@ -212,12 +212,11 @@ class ChatViewController: UIViewController {
         bottomConstraint?.constant = constant
         
         UIView.animate(withDuration: 0, delay: 0, options: .curveEaseOut, animations: {
-            
             self.view.layoutIfNeeded()
-            
-        }) { _ in
-            
-        }
+        }, completion: { (_) in
+                
+        })
+        
     }
 }
 
