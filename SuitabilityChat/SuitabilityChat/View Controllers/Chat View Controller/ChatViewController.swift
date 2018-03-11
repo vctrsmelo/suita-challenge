@@ -19,6 +19,8 @@ class ChatViewController: UIViewController {
     var textUserInputView: TextUserInputView!
     var buttonsUserInputView: ButtonsUserInputView!
     
+    var activityIndicatorView: UIActivityIndicatorView!
+    
     var bottomConstraint: NSLayoutConstraint?
     var inputContainerHeight: NSLayoutConstraint?
     
@@ -31,6 +33,7 @@ class ChatViewController: UIViewController {
     }
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -39,6 +42,9 @@ class ChatViewController: UIViewController {
         setupView()
         
         ChatManager.shared.startChat {
+            
+            self.activityIndicatorView.stopAnimating()
+            
             if $0.inputs.count > 0 {
                 self.messagesManager.sendMessages($0.messagesAsActions, expectedAnswer: .text(apiInputs: $0.inputs))
             } else if $0.buttons.count > 0 {
@@ -71,9 +77,18 @@ class ChatViewController: UIViewController {
         
         view.backgroundColor = UIColor.white
         
+        setupActivityIndicator()
         setupUserInputViews()
         setupScrollView()
         setupStackView()
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.center = self.view.center
+        activityIndicatorView.color = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        activityIndicatorView.startAnimating()
+        view.addSubview(activityIndicatorView)
     }
     
     private func setupUserInputViews() {
