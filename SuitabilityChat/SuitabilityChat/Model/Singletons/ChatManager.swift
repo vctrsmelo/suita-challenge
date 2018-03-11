@@ -25,7 +25,7 @@ class ChatManager {
     private(set) var answers: [String: String] = [:]
 
     /// Keep the container for user response that comes from API. Need to be parsed
-    private(set) var userResponses : [String] = []
+    private(set) var userResponses: [String] = []
     
     private init() { }
     
@@ -125,7 +125,7 @@ extension ChatManager {
                 guard let data = response.data else { return }
                 
                 do {
-                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any]
                     
                     let user = jsonResult!["user"] as? [String: Any]
                     let profile = user!["investmentProfile"]! as? [String: Any]

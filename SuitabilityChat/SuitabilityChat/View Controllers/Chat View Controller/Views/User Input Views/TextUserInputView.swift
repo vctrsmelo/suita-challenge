@@ -49,7 +49,7 @@ final class TextUserInputView: UIView, UserInputView {
         // It ignores nil texts.
         let text = textInputs.map { return $0.textField.text ?? "" }.joined(separator: token)
 
-        if text.isEmpty {des
+        if text.isEmpty {
             return
         }
         

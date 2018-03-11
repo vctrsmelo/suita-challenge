@@ -22,8 +22,7 @@ struct MessageTextParser {
     static func parse(_ text: String) -> [MessageAction] {
         
         // split text using the tokens
-        let splitTokens: [Character] = ["^", "<", ">"]
-        let strings = splitByTokens(string: text, tokens: splitTokens)
+        let strings = splitByTokens(string: text)
         
         //create MessageActions
         let messageActions = strings.map { return getMessageAction(from: $0) }
@@ -32,8 +31,8 @@ struct MessageTextParser {
         return messageActions
     }
     
-    /// Split the string by the tokens parameter.
-    static func splitByTokens(string: String, tokens: [Character]) -> [String] {
+    /// Split the string by the tokens predetermined (^, < and >).
+    static func splitByTokens(string: String) -> [String] {
     
         // parse the string character by character
         // if the character is ^, adds next non integer character to splitIndexes
@@ -41,44 +40,14 @@ struct MessageTextParser {
         // split the string by the indexes into splitIndexes
         // return the splitted string array
 
-        var splitIndexes: [String.Index] = [string.startIndex]
-        
-        var i = 0
-        while i < string.count {
-            
-            var index = string.index(string.startIndex, offsetBy: i)
-            
-            //if found time token
-            if string[index] == "^" {
-                index = string.index(after: index)
-                //get next non int character or end of string
-
-                while index < string.index(before: string.endIndex) && String(string[index]).isInt {
-                    
-                    //increment index
-                    index = string.index(after: index)
-                }
-                
-                //found blank space. Add it to splitIndexes
-                splitIndexes.append(index)
-                i += 1
-                continue
-            }
-            
-            if string[index] == "<" || string[index] == ">"{
-                splitIndexes.append(index)
-                
-            }
-            
-            i += 1
-        }
-
-        var splittedString: [String] = []
+        var splitIndexes = getSplitIndexes(string: string)
         
         //there is no split index. Should return all string as one element.
         if splitIndexes.count == 1 {
             return ["\(string) ^0"]
         }
+        
+        var splittedString: [String] = []
         
         //get the splitted strings
         while !(splitIndexes.count == 0) {
@@ -123,6 +92,44 @@ struct MessageTextParser {
         
     }
     
+    ///Get the indexes of split tokens (^, < and >). Should be used
+    static private func getSplitIndexes(string: String) -> [String.Index] {
+        
+        var splitIndexes: [String.Index] = [string.startIndex]
+        
+        var i = 0
+        while i < string.count {
+            
+            var index = string.index(string.startIndex, offsetBy: i)
+            
+            //if found time token
+            if string[index] == "^" {
+                index = string.index(after: index)
+                //get next non int character or end of string
+                
+                while index < string.index(before: string.endIndex) && String(string[index]).isInt {
+                    
+                    //increment index
+                    index = string.index(after: index)
+                }
+                
+                //found blank space. Add it to splitIndexes
+                splitIndexes.append(index)
+                i += 1
+                continue
+            }
+            
+            if string[index] == "<" || string[index] == ">"{
+                splitIndexes.append(index)
+                
+            }
+            
+            i += 1
+        }
+        
+        return splitIndexes
+    }
+    
     static private func getMessageAction(from messageString: String) -> MessageAction {
         
         // detect if it is sentence or erase action
@@ -150,4 +157,3 @@ extension String {
         return Int(self) != nil
     }
 }
-
