@@ -34,6 +34,7 @@ class ChatManager {
     func startChat(completion: @escaping (_ response: APIResponse) -> Void) {
         APICommunicator.request { response in
             self.currentId = response.id
+            self.userResponses = response.responses
             completion(response)
         }
     }

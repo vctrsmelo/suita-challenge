@@ -203,23 +203,83 @@ class ChatViewController: UIViewController {
     /// Returns the current user answer formatted according to userResponses received from API.
     private func getUserAnswerFormatted(answer: String) -> String {
         
-//        let response = ChatManager.shared.userResponses.first!
-//
-//        let reversedResponse = "\(response.reversed())"
-//        guard let startingIndex = response.index(of: "{"), let endingIndex = reversedResponse.index(of: "}") else {
-//            return "Message"
-//        }
-//
-        return answer
-        //        let inputPart = "\(userResponse[startingIndex ... endingIndex])"
+        guard let response = ChatManager.shared.userResponses.first else {
+            return answer
+        }
+
+        var startingIndex: String.Index = response.startIndex
+        var endingIndex: String.Index = response.endIndex
+        for i in 0 ..< response.count {
+            let index = response.index(response.startIndex, offsetBy: i)
+            
+            if response[startingIndex] != "{" {
+                
+                if response[index] == "{" {
+                    startingIndex = index
+                }
+                
+            }
+            
+            if response[index] == "}" {
+                endingIndex = index
+            }
+            
+        }
         
-        // separar os "subelementos" (ex: {answers.question_name})
+        if response[startingIndex] != "{" || endingIndex == response.endIndex {
+            return answer
+        }
         
-        // para cada "subelemento", mapear o valor já informado dele (ex: no caso acima, precisa pegar o nome do usuário)
+        let inputElements = String(response[startingIndex...endingIndex])
         
-        // injetar o valor real de cada "subelemento" no local devido
+        let elementsKeys = parseToGetKeys(elements: inputElements)
         
-        // retornar string
+        let elements: [String] = elementsKeys.map { return ChatManager.shared.answers[$0]! }
+        
+        let prefix = response.prefix(upTo: startingIndex)
+
+        if endingIndex != response.index(before: response.endIndex) {
+            let suffix = response.suffix(from: endingIndex)
+            return "\(prefix) \(elements.joined(separator: " ")) \(suffix)"
+        }
+        
+        return "\(prefix) \(elements.joined(separator: " "))"
+    }
+    
+    /// Receives a string with response elements (e.g., "{{answers.question_id},{answers.question_age}}" and returns array with these elements (e.g., [question_id,  question_age]
+    private func parseToGetKeys(elements: String) -> [String] {
+        
+        let secondChar = elements.index(after: elements.startIndex)
+        let lastButOneChar = elements.index(before: elements.index(before: elements.endIndex))
+        let elementsWithoutOuterBrackets = String(elements[secondChar...lastButOneChar])
+        
+        var elementsKeys: [String] = []
+        
+        //current element being parsed
+        var currentElement: String = ""
+        var isGettingElement: Bool = false
+        
+        for i in 0 ..< elementsWithoutOuterBrackets.count {
+            let index = elementsWithoutOuterBrackets.index(elements.startIndex, offsetBy: i)
+            
+            if elementsWithoutOuterBrackets[index] == "." {
+                isGettingElement = true
+                continue
+            }
+            
+            if elementsWithoutOuterBrackets[index] == "}" {
+                isGettingElement = false
+                elementsKeys.append(currentElement)
+                currentElement = ""
+                continue
+            }
+            
+            if isGettingElement {
+                currentElement.append(elementsWithoutOuterBrackets[index])
+            }
+        }
+        
+        return elementsKeys
         
     }
 }
@@ -231,13 +291,13 @@ extension ChatViewController: UserInputViewDelegate {
         // hide keyboard
         view.endEditing(true)
         
+        ChatManager.shared.addAnswer(userAnswer: value)
+        
         //add user message bubble
         let userMsg = UserMessageView(text: getUserAnswerFormatted(answer: answer), responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
         self.chatStackView.addArrangedSubview(userMsg)
         
         adjustBottomConstraint(constant: userInputViewContainer.frame.height)
-        
-        ChatManager.shared.addAnswer(userAnswer: value)
         
         ChatManager.shared.getResponse { apiResponse in
 
