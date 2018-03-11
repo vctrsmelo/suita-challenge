@@ -114,12 +114,14 @@ final class ButtonsUserInputView: UIView, UserInputView {
         self.isHidden = false
 
         let viewHeight = buttonHeight*CGFloat(buttons.count)
+
         self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
         
         //remove old constraint for superview height and add the new one
-        superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
-        superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
 
+        self.superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
+        self.superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        
         setupView()
     }
     

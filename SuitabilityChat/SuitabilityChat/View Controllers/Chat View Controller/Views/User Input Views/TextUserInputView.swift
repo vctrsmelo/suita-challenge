@@ -48,7 +48,7 @@ final class TextUserInputView: UIView, UserInputView {
         // Define text as one string of all textField texts, concatenated by the token constant defined above.
         // It ignores nil texts.
         let text = textInputs.map { return $0.textField.text ?? "" }.joined(separator: token)
-        
+
         self.isHidden = true
         delegate?.userDidAnswer(value: text, answer: text)
     }
@@ -65,13 +65,14 @@ final class TextUserInputView: UIView, UserInputView {
         setupTextFieldsStackView()
         setupTextFields()
         
-//        sendButton.isEnabled = false
-
+        sendButton.isEnabled = false
     }
     
     private func setupSendButton() {
         sendButton = UIButton(type: .custom)
         sendButton.setTitle("Send", for: .normal)
+        sendButton.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
+        sendButton.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .disabled)
         addSubview(sendButton)
         
         sendButton.addTarget(self, action: #selector(self.sendButtonTouched(_:)), for: .touchUpInside)
@@ -99,7 +100,7 @@ final class TextUserInputView: UIView, UserInputView {
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             textField.keyboardType = getKeyboardType(type: textInputs[i].api.type, mask: textInputs[i].api.mask)
-            
+            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             views["textField\(i)"] = textField
             verticalVisualFormat.append("[textField\(i)(==\(_textFieldHeight ?? 50.0))]")
             
@@ -125,6 +126,11 @@ final class TextUserInputView: UIView, UserInputView {
     
     // MARK: -
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        sendButton.isEnabled = !(text.isEmpty)
+    }
+    
     /*
      Present the TextUserInputView for the inputs parameter, using the textFieldHeight configuration.
      */
@@ -134,12 +140,13 @@ final class TextUserInputView: UIView, UserInputView {
         self.isHidden = false
 
         let viewHeight = textFieldHeight*CGFloat(inputs.count)
+        
         self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
-        
+    
         //remove old constraint for superview height and add the new one
-        superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
-        superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
-        
+        self.superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
+        self.superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+
         setupView()
     }
     
