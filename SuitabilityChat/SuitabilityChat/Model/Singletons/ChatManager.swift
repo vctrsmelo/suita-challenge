@@ -19,13 +19,11 @@ class ChatManager {
     
     /// The chat current state
     private(set) var currentId: String?
-    
-//    private(set) var currentUserInputType: UserInputType?
-    
+
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
 
-    /// Keep the container for user response. Need to be parsed
+    /// Keep the container for user response that comes from API. Need to be parsed
     private(set) var userResponses : [String] = []
     
     private init() { }
@@ -40,20 +38,32 @@ class ChatManager {
         }
     }
     
-    /**
-     Get the bot response according to the user answer parameter.
-     - Precondition: use startChat before using getResponse.
-     - Parameters:
-        - userAnswer: the user answer for the current state.
-        - completion: the response received from API according to userAnswer and current state.
-    */
-    func getResponse(userAnswer: String, completion: @escaping (_ response: APIResponse) -> Void) {
-        
-        guard let currentId = currentId else {
-            fatalError("Need to start chat before use getResponse")
+    /// Add the answer parameter to the answerId key. If answerId is nil, it will add the answer to currentId.
+    func addAnswer(userAnswer: String, answerId: String? = nil) {
+        guard let answerId = answerId else {
+            guard let currentId = currentId else {
+                fatalError("[ChatManager] addAnswer(userAnswer:,answerId:) couldn't find chat ID")
+                return
+            }
+            
+            answers[currentId] = userAnswer
+            return
         }
         
-        self.answers[currentId] = userAnswer
+        answers[answerId] = userAnswer
+    }
+    
+    /**
+     Get the bot response, considering the currentId and it's answer received from the user.
+     - Precondition: use startChat before using getResponse.
+     - Parameters:
+        - completion: the response received from API according to userAnswer and current state.
+    */
+    func getResponse(completion: @escaping (_ response: APIResponse) -> Void) {
+        
+        guard currentId != nil else {
+            fatalError("Need to start chat before use getResponse")
+        }
         
         APICommunicator.request { response in
             self.currentId = response.id
@@ -73,27 +83,27 @@ extension ChatManager {
         
         static func request(completion: @escaping (_ response: APIResponse) -> Void) {
             
-//            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
-//            
-//            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
-//                guard let data = response.data else { return }
-//
-//                do {
-//                    let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-//                    completion(apiResponse)
-//                } catch {
-//                    print("Couldn't complete API request: \(error.localizedDescription)")
-//                }
-//            }
-            if let path = Bundle.main.path(forResource: "responseTest", ofType: "json") {
+            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
+            
+            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+                guard let data = response.data else { return }
+
                 do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                     let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
                     completion(apiResponse)
                 } catch {
-                    print("Couldn't fetch json: \(error.localizedDescription)")
+                    print("Couldn't complete API request: \(error.localizedDescription)")
                 }
             }
+//            if let path = Bundle.main.path(forResource: "responseTest", ofType: "json") {
+//                do {
+//                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+//                    let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
+//                    completion(apiResponse)
+//                } catch {
+//                    print("Couldn't fetch json: \(error.localizedDescription)")
+//                }
+//            }
 
         }
     }

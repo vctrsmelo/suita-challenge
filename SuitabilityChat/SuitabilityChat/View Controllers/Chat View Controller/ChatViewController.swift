@@ -199,20 +199,47 @@ class ChatViewController: UIViewController {
             chatScrollView.setContentOffset(bottomOffset, animated: true)
         }
     }
+    
+    /// Returns the current user answer formatted according to userResponses received from API.
+    private func getUserAnswerFormatted(answer: String) -> String {
+        
+//        let response = ChatManager.shared.userResponses.first!
+//
+//        let reversedResponse = "\(response.reversed())"
+//        guard let startingIndex = response.index(of: "{"), let endingIndex = reversedResponse.index(of: "}") else {
+//            return "Message"
+//        }
+//
+        return answer
+        //        let inputPart = "\(userResponse[startingIndex ... endingIndex])"
+        
+        // separar os "subelementos" (ex: {answers.question_name})
+        
+        // para cada "subelemento", mapear o valor já informado dele (ex: no caso acima, precisa pegar o nome do usuário)
+        
+        // injetar o valor real de cada "subelemento" no local devido
+        
+        // retornar string
+        
+    }
 }
 
 extension ChatViewController: UserInputViewDelegate {
     
     func userDidAnswer(value: String) {
     
+        // hide keyboard
         view.endEditing(true)
         
-        let userMsg = UserMessageView(text: value, responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
+        //add user message bubble
+        let userMsg = UserMessageView(text: getUserAnswerFormatted(answer: value), responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
         self.chatStackView.addArrangedSubview(userMsg)
         
         adjustBottomConstraint(constant: userInputViewContainer.frame.height)
         
-        ChatManager.shared.getResponse(userAnswer: value) { apiResponse in
+        ChatManager.shared.addAnswer(userAnswer: value)
+        
+        ChatManager.shared.getResponse { apiResponse in
 
             if apiResponse.inputs.count > 0 {
                 self.messagesManager.sendMessages(apiResponse.messagesAsActions, expectedAnswer: .text(apiInputs: apiResponse.inputs))

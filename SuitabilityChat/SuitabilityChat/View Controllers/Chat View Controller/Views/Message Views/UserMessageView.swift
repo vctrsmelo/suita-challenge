@@ -34,7 +34,7 @@ class UserMessageView: UIView, MessageView {
     init(text: String, responseFormatting: String?, font: UIFont, delegate: MessageViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
     
-        let message = MessageAction.write((waitingTime: 0.0, text: getFancyText(text)))
+        let message = MessageAction.write((waitingTime: 0.0, text: text))
         
         setupView(message: message, font: font)
         self.messageTextView.messageViewDelegate = delegate
@@ -96,23 +96,4 @@ class UserMessageView: UIView, MessageView {
         
     }
     
-    
-    private func getFancyText(_ text: String) -> String {
-        
-        let reversedResponse = "\(text.reversed())"
-        guard let startingIndex = text.index(of: "{"), let endingIndex = reversedResponse.index(of: "}") else {
-            return nil
-        }
-    
-        let inputPart = "\(userResponse[startingIndex ... endingIndex])"
-        
-        // separar os "subelementos" (ex: {answers.question_name})
-        
-        // para cada "subelemento", mapear o valor já informado dele (ex: no caso acima, precisa pegar o nome do usuário)
-        
-        // injetar o valor real de cada "subelemento" no local devido
-        
-        // retornar string
-        
-    }
 }

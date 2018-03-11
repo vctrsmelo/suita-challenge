@@ -12,6 +12,7 @@
 		BE0315AB2054029900119C9E /* responseTest.json in Resources */ = {isa = PBXBuildFile; fileRef = BE0315AA2054029900119C9E /* responseTest.json */; };
 		BE0315AD20542B3C00119C9E /* MessageAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0315AC20542B3C00119C9E /* MessageAction.swift */; };
 		BE0315AF20545D5200119C9E /* MessagesViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0315AE20545D5200119C9E /* MessagesViewManager.swift */; };
+		BE0315B120557E8A00119C9E /* finalResponseTest.json in Resources */ = {isa = PBXBuildFile; fileRef = BE0315B020557E8A00119C9E /* finalResponseTest.json */; };
 		BE48711A204E3F4B0067BE83 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; };
 		BE48711B204E3F4C0067BE83 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE487109204E3F0D0067BE83 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE48711E204E486E0067BE83 /* APILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48711D204E486E0067BE83 /* APILabel.swift */; };
@@ -56,6 +57,7 @@
 		BE0315AA2054029900119C9E /* responseTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = responseTest.json; sourceTree = "<group>"; };
 		BE0315AC20542B3C00119C9E /* MessageAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAction.swift; sourceTree = "<group>"; };
 		BE0315AE20545D5200119C9E /* MessagesViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewManager.swift; sourceTree = "<group>"; };
+		BE0315B020557E8A00119C9E /* finalResponseTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = finalResponseTest.json; sourceTree = "<group>"; };
 		BE4870F5204E394F0067BE83 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BE487106204E3F0D0067BE83 /* .Alamofire.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .Alamofire.version; sourceTree = "<group>"; };
 		BE487108204E3F0D0067BE83 /* 0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "0695B7EE-7B31-3086-8D8F-265E6FB1626F.bcsymbolmap"; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				BEE21EE5204E2F68002464DE /* ChatManager.swift */,
 				EE93B0DC204F062800235DC2 /* MessageTextParser.swift */,
 				BE0315AA2054029900119C9E /* responseTest.json */,
+				BE0315B020557E8A00119C9E /* finalResponseTest.json */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0315AB2054029900119C9E /* responseTest.json in Resources */,
+				BE0315B120557E8A00119C9E /* finalResponseTest.json in Resources */,
 				BEE21ECD204E1B63002464DE /* LaunchScreen.storyboard in Resources */,
 				BEE21ECA204E1B63002464DE /* Assets.xcassets in Resources */,
 				BEE21EC8204E1B63002464DE /* Main.storyboard in Resources */,

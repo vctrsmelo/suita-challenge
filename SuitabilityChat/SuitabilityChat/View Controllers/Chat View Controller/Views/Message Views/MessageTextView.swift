@@ -27,6 +27,7 @@ class MessageTextView: UITextView {
 
         //if there are no sentences left, return
         guard let firstAction = messageActions.first else {
+            
             messageViewDelegate?.didFinishTyping()
             return
         }
