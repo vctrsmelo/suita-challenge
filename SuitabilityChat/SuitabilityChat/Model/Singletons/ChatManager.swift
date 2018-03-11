@@ -19,6 +19,7 @@ class ChatManager {
     
     /// The chat current state
     private(set) var currentId: String?
+    let finalId = "final"
 
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
@@ -72,6 +73,14 @@ class ChatManager {
             completion(response)
         }
     }
+    
+    func getFinalResponse(completion: @escaping (_ response: APIProfileResultResponse) -> Void) {
+        
+        APICommunicator.requestFinalResult { (response) in
+            completion(response)
+        }
+        
+    }
 }
 
 extension ChatManager {
@@ -84,7 +93,7 @@ extension ChatManager {
         
         static func request(completion: @escaping (_ response: APIResponse) -> Void) {
             
-            let url = (ChatManager.shared.currentId == "final") ? urlFinish : urlMessage
+            let url = urlMessage
             
             Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }
@@ -107,6 +116,35 @@ extension ChatManager {
 //            }
 
         }
+        
+        static func requestFinalResult(completion: @escaping (_ response: APIProfileResultResponse) -> Void) {
+            
+            let url = urlFinish
+            
+            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+                guard let data = response.data else { return }
+                
+                do {
+                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+                    
+                    let user = jsonResult!["user"] as? [String: Any]
+                    let profile = user!["investmentProfile"]! as? [String: Any]
+                    
+                    guard let riskTolerance = profile!["computedRiskTolerance"] as? Int, let profileType = profile!["computedProfileType"] as? String else {
+                        print("Couldn't fetch profile data from API")
+                        return
+                    }
+                    
+                    completion(APIProfileResultResponse(computedRiskTolerance: riskTolerance, computedProfileType: profileType))
+                
+                } catch {
+                    print("Couldn't complete API final request: \(error.localizedDescription)")
+                }
+                
+            }
+            
+        }
+        
     }
 
 }

@@ -68,6 +68,9 @@ class ChatViewController: UIViewController {
     // MARK: - View Setups
     
     private func setupView() {
+        
+        view.backgroundColor = UIColor.white
+        
         setupUserInputViews()
         setupScrollView()
         setupStackView()
@@ -89,7 +92,7 @@ class ChatViewController: UIViewController {
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView]))
         
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView][userInputViewContainer]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputViewContainer": userInputViewContainer]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[scrollView][userInputViewContainer]", options: .alignAllCenterX, metrics: nil, views: ["scrollView": chatScrollView, "userInputViewContainer": userInputViewContainer]))
     }
     
     private func setupStackView() {
@@ -313,6 +316,12 @@ extension ChatViewController: UserInputViewDelegate {
 }
 
 extension ChatViewController: MessagesDisplayManagerDelegate {
+    
+    func callFinishHandler() {
+        let finishViewController = FinishViewController()
+//        self.navigationController?.pushViewController(finishViewController, animated: true)
+        self.navigationController?.show(finishViewController, sender: nil)
+    }
     
     func addMessageToView(_ messageView: UIView) {
         guard let msgBot = messageView as? BotMessageView else {

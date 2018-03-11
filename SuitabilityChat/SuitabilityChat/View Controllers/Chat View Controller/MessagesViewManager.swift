@@ -16,6 +16,7 @@ enum InputType {
 protocol MessagesDisplayManagerDelegate: class {
     func addMessageToView(_ messageView: UIView)
     func needToGetAnswer(_ inputType: InputType)
+    func callFinishHandler()
 }
 
 /// Manage the state of messages being displayed to the user. It's responsabilities include send messages and ask when user need to input value.
@@ -53,7 +54,13 @@ class MessagesDisplayManager {
             messagesList = Array(messagesList.dropFirst())
             
         } else {
-            guard let expectedAnswer = expectedAnswer else { return }
+            guard let expectedAnswer = expectedAnswer else {
+
+                if ChatManager.shared.currentId == ChatManager.shared.finalId {
+                    delegate?.callFinishHandler()
+                }
+                return
+            }
             delegate?.needToGetAnswer(expectedAnswer)
         }
     }

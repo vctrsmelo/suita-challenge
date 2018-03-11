@@ -36,7 +36,7 @@ struct MessageTextParser {
     static func splitByTokens(string: String, tokens: [Character]) -> [String] {
     
         // parse the string character by character
-        // if the character is ^, adds next blank space to splitIndexes
+        // if the character is ^, adds next non integer character to splitIndexes
         // if the character is "<" or ">", adds it to splitIndexes
         // split the string by the indexes into splitIndexes
         // return the splitted string array
@@ -50,10 +50,10 @@ struct MessageTextParser {
             
             //if found time token
             if string[index] == "^" {
-                
-                //get next blank space or ending of string
+                index = string.index(after: index)
+                //get next non int character or end of string
 
-                while index < string.index(before: string.endIndex) && String(string[index]) != " " {
+                while index < string.index(before: string.endIndex) && String(string[index]).isInt {
                     
                     //increment index
                     index = string.index(after: index)
@@ -96,9 +96,10 @@ struct MessageTextParser {
             }
             
             splitIndexes = Array(splitIndexes.dropFirst())
-            var endingIndex = splitIndexes.first!
+        
+            var endingIndex = String(string[splitIndexes.first!]).isInt ? splitIndexes.first! : string.index(before: splitIndexes.first!)
             
-//            // avoid adding one character strings. Ex: "^100 <erase>" would add ["^100"," <","<erase>"]
+            // avoid adding one character strings.
             if firstIndex == string.index(before: endingIndex) {
                 continue
             }
@@ -143,3 +144,10 @@ struct MessageTextParser {
         
     }
 }
+
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
+    }
+}
+
