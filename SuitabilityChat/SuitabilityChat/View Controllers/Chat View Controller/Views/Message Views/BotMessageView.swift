@@ -66,11 +66,18 @@ class BotMessageView: UIView, MessageView {
         iconImageViewContainer = UIView()
         iconImageViewContainer.widthAnchor.constraint(equalToConstant: iconContainerWidth).isActive = true
         
-        iconImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        iconImageView.backgroundColor = UIColor.red
+        iconImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        iconImageView.image = #imageLiteral(resourceName: "warrenLogo")
         
         iconImageViewContainer.addSubview(iconImageView)
         stackView.addArrangedSubview(iconImageViewContainer)
+        
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        iconImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        iconImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        iconImageView.centerXAnchor.constraint(equalTo: iconImageViewContainer.centerXAnchor).isActive = true
+        iconImageView.topAnchor.constraint(equalTo: iconImageViewContainer.topAnchor, constant: 5).isActive = true
     }
     
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.

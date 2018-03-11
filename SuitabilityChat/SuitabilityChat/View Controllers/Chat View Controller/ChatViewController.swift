@@ -318,6 +318,7 @@ extension ChatViewController: UserInputViewDelegate {
 extension ChatViewController: MessagesDisplayManagerDelegate {
     
     func callFinishHandler() {
+        showLastMessage()
         let finishViewController = FinishViewController()
 //        self.navigationController?.pushViewController(finishViewController, animated: true)
         self.navigationController?.show(finishViewController, sender: nil)

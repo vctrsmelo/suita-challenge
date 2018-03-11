@@ -13,7 +13,7 @@ class UserMessageView: UIView, MessageView {
     // MARK: - Properties
     
     var iconImageViewContainer: UIView!
-    var iconImageView: UIImageView!
+    var iconLabel: UILabel!
     var messageTextView: MessageTextView!
     
     var textAlignment: NSTextAlignment {
@@ -71,11 +71,24 @@ class UserMessageView: UIView, MessageView {
         iconImageViewContainer = UIView()
         iconImageViewContainer.widthAnchor.constraint(equalToConstant: iconContainerWidth).isActive = true
         
-        iconImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        iconImageView.backgroundColor = UIColor.red
+        let userName: String? = ChatManager.shared.answers["question_name"]
         
-        iconImageViewContainer.addSubview(iconImageView)
+        iconLabel = UILabel()
+        iconLabel.text = (userName != nil && !userName!.isEmpty) ? String(describing: userName!.first!) : "U"
+        iconLabel.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.2509803922, blue: 0.4196078431, alpha: 1)
+        iconLabel.textAlignment = .center
+        iconLabel.font = UIFont.systemFont(ofSize: 12)
+        iconLabel.textColor = UIColor.white
+        
+        iconImageViewContainer.addSubview(iconLabel)
         stackView.addArrangedSubview(iconImageViewContainer)
+        
+        iconLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        iconLabel.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        iconLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        iconLabel.centerXAnchor.constraint(equalTo: iconImageViewContainer.centerXAnchor).isActive = true
+        iconLabel.topAnchor.constraint(equalTo: iconImageViewContainer.topAnchor, constant: 5).isActive = true
     }
     
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.

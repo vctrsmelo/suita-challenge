@@ -15,7 +15,6 @@ protocol MessageViewDelegate: class {
 protocol MessageView: class {
     
     var iconImageViewContainer: UIView! { get set }
-    var iconImageView: UIImageView! { get set }
     var messageTextView: MessageTextView! { get set }
     var stackView: UIStackView! { get set }
     var textAlignment: NSTextAlignment { get }
