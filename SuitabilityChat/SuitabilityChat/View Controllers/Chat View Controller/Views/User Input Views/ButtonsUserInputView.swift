@@ -13,7 +13,6 @@ final class ButtonsUserInputView: UIView, UserInputView {
     // MARK: - Properties
     
     var buttons: [(api: APIButton, view: UIButton)]!
-    
     var buttonsStackView: UIStackView!
     
     weak var delegate: UserInputViewDelegate?
@@ -54,7 +53,7 @@ final class ButtonsUserInputView: UIView, UserInputView {
     // MARK: - Views Setup
     
     private func setupView() {
-        self.backgroundColor = UIColor.purple
+        self.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.2509803922, blue: 0.4196078431, alpha: 1)
         
         setupStackView()
         setupButtons()

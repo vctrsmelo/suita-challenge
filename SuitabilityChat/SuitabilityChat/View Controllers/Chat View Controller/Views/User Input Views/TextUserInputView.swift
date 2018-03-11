@@ -56,7 +56,7 @@ final class TextUserInputView: UIView, UserInputView {
     // MARK: - View Setups
     
     private func setupView() {
-        self.backgroundColor = UIColor.green
+        self.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.2509803922, blue: 0.4196078431, alpha: 1)
         
         _zeroHeightConstraint = self.heightAnchor.constraint(equalToConstant: 0)
         _zeroHeightConstraint?.priority = .required
@@ -97,7 +97,7 @@ final class TextUserInputView: UIView, UserInputView {
             
             textFieldsStackView.addArrangedSubview(textField)
             textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.backgroundColor = UIColor.brown
+            textField.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             textField.keyboardType = getKeyboardType(type: textInputs[i].api.type, mask: textInputs[i].api.mask)
             
             views["textField\(i)"] = textField

@@ -77,8 +77,10 @@ class UserMessageView: UIView, MessageView {
         iconLabel.text = (userName != nil && !userName!.isEmpty) ? String(describing: userName!.first!) : "U"
         iconLabel.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.2509803922, blue: 0.4196078431, alpha: 1)
         iconLabel.textAlignment = .center
-        iconLabel.font = UIFont.systemFont(ofSize: 12)
+        iconLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         iconLabel.textColor = UIColor.white
+        iconLabel.layer.masksToBounds = true
+        iconLabel.layer.cornerRadius = 12
         
         iconImageViewContainer.addSubview(iconLabel)
         stackView.addArrangedSubview(iconImageViewContainer)
