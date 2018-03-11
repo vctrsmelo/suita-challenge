@@ -12,7 +12,7 @@ import Foundation
 
 struct MessageTextParser {
     
-    private static let eraseToken  = "erase"
+    private static let eraseToken  = "<erase>"
     
     /**
      Parse the parameter text, that is the message received from API request, to an array of tuples, where each tuple contains a first element that is the waiting time before start writing the second element, that is the sentence.
@@ -65,8 +65,9 @@ struct MessageTextParser {
                 continue
             }
             
-            if string[index] == "<" || string[index] == ">" {
+            if string[index] == "<" || string[index] == ">"{
                 splitIndexes.append(index)
+                
             }
             
             i += 1
@@ -82,11 +83,27 @@ struct MessageTextParser {
         //get the splitted strings
         while !(splitIndexes.count <= 1) {
             
-            let firstIndex = splitIndexes.first!
+            var firstIndex = splitIndexes.first!
             
             splitIndexes = Array(splitIndexes.dropFirst())
     
-            let endingIndex = splitIndexes.first!
+            var endingIndex = splitIndexes.first!
+            
+//            // avoid adding one character strings. Ex: "^100 <erase>" would add ["^100"," <","<erase>"]
+            if firstIndex == string.index(before: endingIndex) {
+                continue
+            }
+            
+            // logic to not add "<" and ">" into splittedString
+            if string[firstIndex] == ">" && firstIndex != string.index(before: string.endIndex) {
+                firstIndex = string.index(after: firstIndex)
+
+            }
+
+            if endingIndex != string.index(before: string.endIndex) && string[string.index(after: endingIndex)] == ">" {
+                endingIndex = string.index(after: endingIndex)
+                
+            }
             
             splittedString.append(String(string[firstIndex ... endingIndex]))
 
@@ -98,7 +115,7 @@ struct MessageTextParser {
     
     static private func getMessageAction(from messageString: String) -> MessageAction {
         
-        // detect if it is sentence or remove
+        // detect if it is sentence or erase action
         if messageString == eraseToken {
             return .eraseAll
         }

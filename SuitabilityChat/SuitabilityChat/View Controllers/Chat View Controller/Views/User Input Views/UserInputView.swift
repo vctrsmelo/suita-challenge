@@ -10,8 +10,13 @@ import UIKit
 
 protocol UserInputViewDelegate: class {
     
-    /// Called when user touches send button
-    func userDidAnswer(value: String)
+    /**
+    Called when user touches send button.
+     - Parameters:
+        - value: it is the saved value to be sent to API
+        - answer: the message that will be shown into chat.
+    */
+    func userDidAnswer(value: String, answer: String)
     
 }
 

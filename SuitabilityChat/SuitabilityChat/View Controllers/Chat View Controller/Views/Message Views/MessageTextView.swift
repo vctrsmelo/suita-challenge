@@ -51,12 +51,13 @@ class MessageTextView: UITextView {
     /// Write the sentences defined into parameter. When all sentences were writed, will call the completionHandler.
     private func typeWrite(sentence: Sentence, completionHandler: @escaping () -> Void) {
         
-        Timer.scheduledTimer(withTimeInterval: sentence.waitingTime/1000, repeats: false) { _ in
-            self.typeWriteSentence(sentence.text, completionHandler: {
-                self.text = "\(self.text!) "
+        self.typeWriteSentence(sentence.text, completionHandler: {
+            self.text = "\(self.text!) "
+        
+            Timer.scheduledTimer(withTimeInterval: sentence.waitingTime/1000, repeats: false) { _ in
                 completionHandler()
-            })
-        }
+            }
+        })
         
     }
     

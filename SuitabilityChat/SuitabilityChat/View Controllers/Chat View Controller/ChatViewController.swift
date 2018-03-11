@@ -226,13 +226,13 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: UserInputViewDelegate {
     
-    func userDidAnswer(value: String) {
+    func userDidAnswer(value: String, answer: String) {
     
         // hide keyboard
         view.endEditing(true)
         
         //add user message bubble
-        let userMsg = UserMessageView(text: getUserAnswerFormatted(answer: value), responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
+        let userMsg = UserMessageView(text: getUserAnswerFormatted(answer: answer), responseFormatting: nil, font: UIFont.systemFont(ofSize: 16))
         self.chatStackView.addArrangedSubview(userMsg)
         
         adjustBottomConstraint(constant: userInputViewContainer.frame.height)

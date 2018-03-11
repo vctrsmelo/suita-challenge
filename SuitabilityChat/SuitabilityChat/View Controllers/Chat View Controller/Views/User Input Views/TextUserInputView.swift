@@ -22,20 +22,6 @@ final class TextUserInputView: UIView, UserInputView {
     
     private var _zeroHeightConstraint: NSLayoutConstraint!
     
-    // overrides isHidden to, instead of default hide, remove the height.
-    // it's important for chat constraint in ChatViewController, that adjust it's size according to UserInputView top.
-    override var isHidden: Bool {
-        get {
-            return super.isHidden
-        }
-        set {
-            self.setNeedsDisplay()
-            self.setNeedsLayout()
-            
-            super.isHidden = newValue
-        }
-    }
-    
     weak var delegate: UserInputViewDelegate?
     
     // MARK: - View Life Cycle
@@ -56,7 +42,7 @@ final class TextUserInputView: UIView, UserInputView {
     // MARK: - Actions
     
     @objc private func sendButtonTouched(_ sender: UIButton) {
-
+        
         let token = " "
         
         // Define text as one string of all textField texts, concatenated by the token constant defined above.
@@ -64,7 +50,7 @@ final class TextUserInputView: UIView, UserInputView {
         let text = textInputs.map { return $0.textField.text ?? "" }.joined(separator: token)
         
         self.isHidden = true
-        delegate?.userDidAnswer(value: text)
+        delegate?.userDidAnswer(value: text, answer: text)
     }
     
     // MARK: - View Setups
@@ -147,6 +133,9 @@ final class TextUserInputView: UIView, UserInputView {
 
         let viewHeight = textFieldHeight*CGFloat(inputs.count)
         self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        
+        //remove old constraint for superview height and add the new one
+        superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
         superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
         
         setupView()

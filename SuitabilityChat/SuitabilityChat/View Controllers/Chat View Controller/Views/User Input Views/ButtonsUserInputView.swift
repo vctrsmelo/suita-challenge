@@ -18,27 +18,9 @@ final class ButtonsUserInputView: UIView, UserInputView {
     
     weak var delegate: UserInputViewDelegate?
     
-    //keep the height defined by the frame on init
-    private var _buttonHeight: CGFloat!
-    
-    // overrides isHidden to, instead of default hide, remove the height.
-    // it's important for chat constraint in ChatViewController, that adjust it's size according to UserInputView top.
-    override var isHidden: Bool {
-        get {
-            return super.isHidden
-        }
-        set {
-            
-            self.setNeedsDisplay()
-            self.setNeedsLayout()
-            
-            super.isHidden = newValue
-        }
-    }
-    
     // MARK: - View Life Cycle
     
-    ///should call init(height:,buttons:)
+    ///should call init()
     private override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -55,13 +37,18 @@ final class ButtonsUserInputView: UIView, UserInputView {
     
     @objc private func buttonTouched(_ sender: UIButton) {
         
-        guard let value = buttons.first(where: {$0.api.label.title == sender.titleLabel?.text })?.api.value else {
+        guard let api = buttons.first(where: {$0.api.label.title == sender.titleLabel?.text })?.api else {
             print("couldn't find button API to get value")
             return
         }
         
+        //remove the buttons subviews.
+        buttons.map { return $0.view }.forEach { $0.removeFromSuperview() }
+        setNeedsLayout()
+        setNeedsDisplay()
+        
         self.isHidden = true
-        delegate?.userDidAnswer(value: value)
+        delegate?.userDidAnswer(value: api.value, answer: api.label.title)
     }
     
     // MARK: - Views Setup
@@ -129,6 +116,9 @@ final class ButtonsUserInputView: UIView, UserInputView {
 
         let viewHeight = buttonHeight*CGFloat(buttons.count)
         self.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        
+        //remove old constraint for superview height and add the new one
+        superview?.constraints.filter { $0.firstAttribute == .height }.last?.isActive = false
         superview?.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
 
         setupView()
