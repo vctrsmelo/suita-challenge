@@ -81,12 +81,21 @@ struct MessageTextParser {
         }
         
         //get the splitted strings
-        while !(splitIndexes.count <= 1) {
+        while !(splitIndexes.count == 0) {
             
             var firstIndex = splitIndexes.first!
             
+            //it is last sentence (but not last character only)
+            if splitIndexes.count == 1 {
+                
+                if firstIndex != string.index(before: string.endIndex) {
+                    splittedString.append(String(string[firstIndex...]))
+                }
+                
+                break
+            }
+            
             splitIndexes = Array(splitIndexes.dropFirst())
-    
             var endingIndex = splitIndexes.first!
             
 //            // avoid adding one character strings. Ex: "^100 <erase>" would add ["^100"," <","<erase>"]
@@ -122,7 +131,7 @@ struct MessageTextParser {
         
         let splittedSentence = messageString.split(separator: "^", maxSplits: 1, omittingEmptySubsequences: false)
         
-        guard let waitingTime = TimeInterval(splittedSentence[1].trimmingCharacters(in: [" "])) else {
+        guard splittedSentence.count > 1, let waitingTime = TimeInterval(splittedSentence[1].trimmingCharacters(in: [" "])) else {
             
             //Does not exist waitTime
             let text = splittedSentence.joined(separator: " ")
