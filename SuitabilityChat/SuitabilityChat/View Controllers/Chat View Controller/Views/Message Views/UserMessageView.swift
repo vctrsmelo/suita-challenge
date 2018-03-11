@@ -93,7 +93,6 @@ class UserMessageView: UIView, MessageView {
     
     /// Adjust the position of stackView. It is called after the subviews have been added into the stack view.
     private func adjustStackView() {
-        
         let stackViewX = self.frame.width - stackViewWidth
         
         // update stack view according to the text length

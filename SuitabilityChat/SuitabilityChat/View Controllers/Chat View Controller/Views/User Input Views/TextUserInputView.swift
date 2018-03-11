@@ -64,6 +64,8 @@ final class TextUserInputView: UIView, UserInputView {
         setupSendButton()
         setupTextFieldsStackView()
         setupTextFields()
+        
+//        sendButton.isEnabled = false
 
     }
     
@@ -96,7 +98,7 @@ final class TextUserInputView: UIView, UserInputView {
             textFieldsStackView.addArrangedSubview(textField)
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.backgroundColor = UIColor.brown
-            textField.keyboardType = getKeyboardType(for: textInputs[i].api.type)
+            textField.keyboardType = getKeyboardType(type: textInputs[i].api.type, mask: textInputs[i].api.mask)
             
             views["textField\(i)"] = textField
             verticalVisualFormat.append("[textField\(i)(==\(_textFieldHeight ?? 50.0))]")
@@ -141,12 +143,22 @@ final class TextUserInputView: UIView, UserInputView {
         setupView()
     }
     
-    private func getKeyboardType(for type: String) -> UIKeyboardType {
+    /// Return the keyboard type according to type and mask data received from API
+    private func getKeyboardType(type: String, mask: String) -> UIKeyboardType {
         switch type {
         case "number": return UIKeyboardType.numberPad
-        case "string": return UIKeyboardType.default
+        case "string": return getKeyboardType(mask: mask)
         default: return UIKeyboardType.default
         }
     }
-
+    
+    /// Return the keyboard type according just to the mask.
+    private func getKeyboardType(mask: String) -> UIKeyboardType {
+        switch mask {
+        case "name": return UIKeyboardType.default
+        case "email": return UIKeyboardType.emailAddress
+        default: return UIKeyboardType.default
+        }
+    }
+    
 }
