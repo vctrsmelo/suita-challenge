@@ -1,6 +1,6 @@
 # Desafio Warren
 
-## Dependencias
+## Dependências
 * SwiftLint
 * Alamofire
 
