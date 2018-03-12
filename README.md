@@ -1,4 +1,9 @@
 # Desafio Warren
+
+## Dependencias
+* SwiftLint
+* Alamofire
+
 ## Arquitetura
 Foi utilizado MVC. O model se comunica com a API, enquanto o controller transforma os dados da API em dados legíveis pelo usuário, e a view apresenta esses dados de uma maneira interativa.
 
