@@ -1,0 +1,117 @@
+{
+    "user": {
+        "_id": "5aa547c30461ea000e25ebc5",
+        "createdAt": "2018-03-11T15:14:12.825Z",
+        "updatedAt": "2018-03-11T15:14:13.532Z",
+        "dash": "buildFirstPortfolio",
+        "status": "E-mail not verified, Register not valid yet",
+        "name": "Mr. Catra",
+        "email": "victordossantosmelo@gmail.com",
+        "clientType": {
+            "pink": true,
+            "black": false,
+            "partner": false,
+            "betaTester": false
+        },
+        "isDeleted": false,
+        "isBlocked": false,
+        "isEmailVerified": false,
+        "isPasswordSet": false,
+        "isSuitabilityStarted": true,
+        "isSuitabilityFinished": true,
+        "isPortfolioStarted": false,
+        "isPortfolioFinished": false,
+        "isPortfolioVisited": false,
+        "isRegisterStarted": false,
+        "isRegisterFinished": false,
+        "isRegisterValidated": false,
+        "isRegisterVerified": false,
+        "isRegisterRejected": false,
+        "isRegisterModified": false,
+        "isInvestStarted": false,
+        "isInvestFinished": false,
+        "isPreregistered": true,
+        "hasPortfolio": false,
+        "registerNotValidatedReason": "Accepted terms not valid, E-mail not verified, address not valid, document not valid, personalProfile not valid, investmentProfile not valid, bankAccounts not found",
+        "crmCommunicationType": "auto",
+        "acceptedTerms": false,
+        "acceptedTermsCount": 0,
+        "goWaitList": false,
+        "canCreateInvoice": true,
+        "notificationsConfig": [
+                                {
+                                "id": "user_config_transactions",
+                                "email": true,
+                                "push": true
+                                },
+                                {
+                                "id": "user_config_remember_monthly_investments",
+                                "email": true,
+                                "push": true
+                                },
+                                {
+                                "id": "user_config_daily_report",
+                                "push": false
+                                },
+                                {
+                                "id": "user_config_news",
+                                "push": true
+                                },
+                                {
+                                "id": "user_config_warren_communication",
+                                "email": true
+                                },
+                                {
+                                "id": "user_config_account_update",
+                                "email": true,
+                                "push": true
+                                }
+                                ],
+        "depositAcceptedCount": 0,
+        "waitlistUnlockedVia": "suitability",
+        "waitlistUnlockedAt": "2018-03-11T15:14:11.833Z",
+        "referralId": "R95El8",
+        "clientTheme": "pink",
+        "features": [
+                     "portfolio_shared"
+                     ],
+        "promotionalCode": null,
+        "verifiedByExternalInfo": false,
+        "address": {},
+        "document": {},
+        "personalProfile": {},
+        "investmentProfile": {
+            "_id": "5aa547c50461ea000e25ebca",
+            "customer": "5aa547c30461ea000e25ebc5",
+            "monthlyIncome": 500,
+            "computedRiskTolerance": 29,
+            "computedProfileType": "active2",
+            "isValid": false,
+            "isVerified": false,
+            "status": "deposit not set"
+        },
+        "suitability": {
+            "_id": "5aa547c50461ea000e25ebc7",
+            "customer": "5aa547c30461ea000e25ebc5",
+            "computedProfileType": "active2",
+            "question_name": "Mr. Catra",
+            "question_income": 500,
+            "question_age": 23,
+            "question_interest": "active",
+            "question_learning": "unknown",
+            "question_market": "active",
+            "question_preference": "active",
+            "question_read": "active",
+            "question_spend": "unknown",
+            "question_advice": "unknown",
+            "question_isretired": "unknown",
+            "question_lottery": "active",
+            "question_investment_experience": "passive"
+        },
+        "bankAccounts": [],
+        "configs": null
+    },
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWFhNTQ3YzMwNDYxZWEwMDBlMjVlYmM1IiwiYWNjZXNzVG9rZW5JZCI6IjVhYTU0N2M1MDQ2MWVhMDAwZTI1ZWJjOCIsImFjY2Vzc1Rva2VuSGFzaCI6ImZkODkwNWZmMDhmODg1MTFlMzY0ODI2ZTg3NGQxM2UxOGZjNzk5YjU3ZGZjOThjZjk3ODVjMjc4YmQyOTY0ODQiLCJpYXQiOjE1MjA3ODEyNTMsImV4cCI6MTUyMTM4NjA1M30.WVJxrMfjtZef-gW2rbJ40NtKcUe4ZtPxfdfMluoaJOo",
+    "refreshToken": "92eed1a88228a83102aebb099e7ecaa3defbab2f010913ccfac38f41cc9daacd",
+    "sameProfileCounter": 425
+}
