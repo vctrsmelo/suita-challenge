@@ -8,8 +8,7 @@
 
 import Foundation
 
-/// A struct with static methods relating to parse API texts.
-
+/// A struct with static methods relating to parse API messages received.
 struct MessageTextParser {
     
     private static let eraseToken  = "<erase>"
@@ -31,7 +30,7 @@ struct MessageTextParser {
         return messageActions
     }
     
-    /// Split the string by the tokens predetermined (^, < and >).
+    /// Split the string by the predefined tokens (^, < and >).
     static func splitByTokens(string: String) -> [String] {
     
         // parse the string character by character
@@ -130,6 +129,7 @@ struct MessageTextParser {
         return splitIndexes
     }
     
+    /// Transform messageString into MessageAction type.
     static private func getMessageAction(from messageString: String) -> MessageAction {
         
         // detect if it is sentence or erase action

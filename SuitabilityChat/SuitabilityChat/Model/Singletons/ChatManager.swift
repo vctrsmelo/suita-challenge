@@ -8,7 +8,7 @@
 
 import Alamofire
 
-/** A singleton class that keeps the chat information, including user's response and a state machine. It's accessed by API to get current state information.
+/** A singleton class that keeps the chat information, including user's response and a state machine. It is responsible to access API.
 */
 class ChatManager {
     
@@ -19,13 +19,16 @@ class ChatManager {
     
     /// The chat current state
     private(set) var currentId: String?
+
     let finalId = "final"
 
     /// The user's answer for each chat state.
     private(set) var answers: [String: String] = [:]
 
-    /// Keep the container for user response that comes from API. Need to be parsed
+    /// Keep the container for user response that comes from API. Need to be parsed.
     private(set) var userResponses: [String] = []
+    
+    // MARK: - Inits
     
     private init() { }
     
@@ -45,7 +48,6 @@ class ChatManager {
         guard let answerId = answerId else {
             guard let currentId = currentId else {
                 fatalError("[ChatManager] addAnswer(userAnswer:,answerId:) couldn't find chat ID")
-                return
             }
             
             answers[currentId] = userAnswer
@@ -62,7 +64,6 @@ class ChatManager {
         - completion: the response received from API according to userAnswer and current state.
     */
     func getResponse(completion: @escaping (_ response: APIResponse) -> Void) {
-        
         guard currentId != nil else {
             fatalError("Need to start chat before use getResponse")
         }
@@ -74,28 +75,28 @@ class ChatManager {
         }
     }
     
+    /// Get the final response from API. Used when all the questions were answered by the user.
     func getFinalResponse(completion: @escaping (_ response: APIProfileResultResponse) -> Void) {
-        
         APICommunicator.requestFinalResult { (response) in
             completion(response)
         }
-        
     }
 }
 
 extension ChatManager {
 
-    /// APICommunicator shall not be used out of ChatManager
+    /// APICommunicator shall not be used out of ChatManager.
     fileprivate struct APICommunicator {
         
         static private let urlMessage = "https://dev-api.oiwarren.com/api/v2/conversation/message"
         static private let urlFinish = "https://dev-api.oiwarren.com/api/v2/suitability/finish"
         
+        /// Request a response from API. Use APIRequest struct to send the data through POST.
         static func request(completion: @escaping (_ response: APIResponse) -> Void) {
             
             let url = urlMessage
             
-            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+            Alamofire.request(url, method: .post, parameters: APIRequest.parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }
 
                 do {
@@ -105,23 +106,14 @@ extension ChatManager {
                     print("Couldn't complete API request: \(error.localizedDescription)")
                 }
             }
-//            if let path = Bundle.main.path(forResource: "responseTest", ofType: "json") {
-//                do {
-//                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-//                    let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-//                    completion(apiResponse)
-//                } catch {
-//                    print("Couldn't fetch json: \(error.localizedDescription)")
-//                }
-//            }
-
         }
         
+        /// Request the final user profile from API, after all questions were answered. Use APIRequest struct to send the data through POST.
         static func requestFinalResult(completion: @escaping (_ response: APIProfileResultResponse) -> Void) {
             
             let url = urlFinish
             
-            Alamofire.request(url, method: .post, parameters: APIRequest().parameters, encoding: JSONEncoding.default).responseJSON { response in
+            Alamofire.request(url, method: .post, parameters: APIRequest.parameters, encoding: JSONEncoding.default).responseJSON { response in
                 guard let data = response.data else { return }
                 
                 do {
@@ -140,11 +132,7 @@ extension ChatManager {
                 } catch {
                     print("Couldn't complete API final request: \(error.localizedDescription)")
                 }
-                
             }
-            
         }
-        
     }
-
 }

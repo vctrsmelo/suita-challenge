@@ -10,7 +10,7 @@ import UIKit
 
 class MessageTextView: UITextView {
     
-    // MARK: - Properties for typewriting effect
+    // MARK: - Properties
     
     private var typedCharCount: Int = 0
     private var currentSentence: [String.Element] = []
@@ -21,6 +21,8 @@ class MessageTextView: UITextView {
     
     /// Keep the height of the bubble message, defined according to it's text content.
     var bubbleHeight: CGFloat = 0.0
+    
+    // MARK: -
     
     /// Write the message, adjusting the bot behavior to the messageActions.
     func typeWrite(messageActions: [MessageAction]) {

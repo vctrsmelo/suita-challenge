@@ -14,6 +14,8 @@ protocol MessageViewDelegate: class {
 
 protocol MessageView: class {
     
+    // MARK: - Properties
+    
     var iconImageViewContainer: UIView! { get set }
     var messageTextView: MessageTextView! { get set }
     var stackView: UIStackView! { get set }
@@ -21,7 +23,8 @@ protocol MessageView: class {
 }
 
 extension MessageView {
-    
+
+    // MARK: - Properties
     var messageBubbleWidth: CGFloat {
         return UIScreen.main.bounds.width - 80.0
     }
@@ -33,6 +36,8 @@ extension MessageView {
     var stackViewWidth: CGFloat {
         return messageBubbleWidth+iconContainerWidth
     }
+    
+    // MARK: - Methods
     
     /** Setup the text view, to adjust its height according to the content.
      - Parameters:

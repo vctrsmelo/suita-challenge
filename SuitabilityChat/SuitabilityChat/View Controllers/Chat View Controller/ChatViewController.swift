@@ -218,6 +218,8 @@ class ChatViewController: UIViewController {
         }
     }
     
+    // MARK: - User Answer Formatting Methods
+    
     /// Returns the current user answer formatted according to userResponses received from API.
     private func getUserAnswerFormatted(answer: String) -> String {
         
@@ -298,8 +300,9 @@ class ChatViewController: UIViewController {
         }
         
         return elementsKeys
-        
     }
+    
+    // MARK: -
 }
 
 extension ChatViewController: UserInputViewDelegate {
@@ -332,10 +335,10 @@ extension ChatViewController: UserInputViewDelegate {
 
 extension ChatViewController: MessagesDisplayManagerDelegate {
     
+    /// Called when need to present the profile result.
     func callFinishHandler() {
         showLastMessage()
         let finishViewController = FinishViewController()
-//        self.navigationController?.pushViewController(finishViewController, animated: true)
         self.navigationController?.show(finishViewController, sender: nil)
     }
     
@@ -356,6 +359,7 @@ extension ChatViewController: MessagesDisplayManagerDelegate {
         showLastMessage()
     }
     
+    /// Called when user need to answer a question
     func needToGetAnswer(_ inputType: InputType) {
         switch inputType {
         case .text(let inputs):

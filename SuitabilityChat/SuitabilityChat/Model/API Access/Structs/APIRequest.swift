@@ -1,5 +1,5 @@
 //
-//  APIPost.swift
+//  APIRequest.swift
 //  SuitabilityChat
 //
 //  Created by Victor Melo on 05/03/18.
@@ -7,27 +7,24 @@
 //
 //swiftlint:disable identifier_name
 
-import Foundation
-
-/// APIPost is the interface used to send data to API
+/// Interface used to send data to API through POST method.
 struct APIRequest: Codable {
     
-    let context = "suitability"
+    static let context = "suitability"
 
-    var id: String? {
+    static var id: String? {
         return ChatManager.shared.currentId
     }
     
-    var answers: [String: String] {
+    static var answers: [String: String] {
         return ChatManager.shared.answers
     }
     
-    var parameters: [String: Any] {
+    static var parameters: [String: Any] {
         return [
             "context": context,
             "id": id as Any,
             "answers": answers
         ]
     }
-    
 }

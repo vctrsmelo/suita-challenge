@@ -18,6 +18,7 @@ class FinishViewController: UIViewController {
     var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         
         ChatManager.shared.getFinalResponse { (result) in

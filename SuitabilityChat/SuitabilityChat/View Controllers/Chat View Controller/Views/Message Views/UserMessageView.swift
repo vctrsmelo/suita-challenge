@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserMessageView: UIView, MessageView {
+final class UserMessageView: UIView, MessageView {
     
     // MARK: - Properties
     
@@ -23,7 +23,7 @@ class UserMessageView: UIView, MessageView {
     /// horizontal stack view, used to add text bubble side by side with the icon image.
     var stackView: UIStackView!
     
-    // MARK: - View Life Cycle
+    // MARK: - Init
     
     /**
      - Parameters:

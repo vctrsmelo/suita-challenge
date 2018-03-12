@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BotMessageView: UIView, MessageView {
+final class BotMessageView: UIView, MessageView {
     
     // MARK: - Properties
     
@@ -17,13 +17,9 @@ class BotMessageView: UIView, MessageView {
     var messageTextView: MessageTextView!
     var stackView: UIStackView!
     
-    // MARK: - Properties
+    let textAlignment: NSTextAlignment = .left
     
-    var textAlignment: NSTextAlignment {
-        return .left
-    }
-    
-    // MARK: -
+    // MARK: - Init
     
     init(actions: [MessageAction], font: UIFont, delegate: MessageViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0))
