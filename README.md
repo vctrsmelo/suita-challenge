@@ -1,6 +1,11 @@
-# Desafio Warren
+# Suitability Chat Challenge
 
 ## In English
+
+### Challenge Goal
+This challenge was developed to create all the suitability flow presented in Warren Brasil app (https://itunes.apple.com/br/app/warren-brasil/id1114394063?mt=8). 
+
+When developing this challenge, I had no idea about how this flow was implemented.
 
 ### Dependencies
 * SwiftLint
